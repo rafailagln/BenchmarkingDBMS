@@ -1,4 +1,4 @@
-# DBMS_assignment
+# DBS_assignment
 This is a repo for Database Management Systems course assignment.
 
 
