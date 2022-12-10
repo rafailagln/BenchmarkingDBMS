@@ -44,56 +44,50 @@ User-Defined Functions in Relational Databases](https://www.vldb.org/pvldb/vol15
 
 ### Call 09/12
 
-* algorithms: https://github.com/tuplex/tuplex/blob/master/benchmarks/logs/runtuplex.py (this should be transformed)
-analysis on apache server's logs, got the IPs, resources etc. 
+#### Datasets
 
-* datasets:
+* **Weblogs**: Data from monitoring a Apache HTTP Server
+	* Data
+		1. Data from monitoring a website &rarr; [weblogs.small.csv](https://github.com/tuplex/tuplex/blob/master/tuplex/test/resources/weblogs.small.csv "weblogs.small.csv")
+		2. List of IPs that are concerned maliciously &rarr; [bad_ips_all.txt](https://github.com/tuplex/tuplex/blob/master/tuplex/test/resources/bad_ips_all.txt "bad_ips_all.txt")
+	* Query: [runtuplex.py](https://github.com/tuplex/tuplex/blob/master/benchmarks/logs/runtuplex.py "runtuplex.py") returns all the records of a file (e.g. weblogs.small.csv) that have a matching column (in our case the IP address) with another file. 
+	* Analyzing [runtuplex.py](https://github.com/tuplex/tuplex/blob/master/benchmarks/logs/runtuplex.py "runtuplex.py") ([runpyspark.py](https://github.com/tuplex/tuplex/blob/master/benchmarks/logs/runpyspark.py) is the exact same "query" with [runtuplex.py](https://github.com/tuplex/tuplex/blob/master/benchmarks/logs/runtuplex.py "runtuplex.py") on PySpark)
+		1. line 65-118: are functions which take one csv column, do some queries (this should be transformed in UDFs in every DB)
+		2. line 236: how the flows go, the sequence and applies filters 
+			pipeline_type (regex, strip, split_regex, split)
+		3. line 250: should be definitely run after 246
+		4. line 283: join on IPs (weblogs.small.csv & bad_ips_all.txt)
+		5. line 285: final select and create output file
+		6. you can change sequence, if this does not affect the result (if one function needs as input the result of previous function)
+		7. If you want to run: 
+			````
+			$ sudo apt update
+			$ sudo apt install python3-pip
+			$ pip install tuplex
+			$ wget https://raw.githubusercontent.com/tuplex/tuplex/master/benchmarks/logs/runtuplex.py https://raw.githubusercontent.com/tuplex/tuplex/master/tuplex/test/resources/pipelines/weblogs/ip_blacklist.csv https://raw.githubusercontent.com/tuplex/tuplex/master/tuplex/test/resources/pipelines/weblogs/logs.sample.txt
+			$ python3 runtuplex.py --path logs.sample.txt --ip_blacklist_path ip_blacklist.csv --pipeline_type split_regex 
+			```` 
+			The output file should only have 1 line 
+``1.1.209.108,01/Jan/2000:03:01:24 -0500,GET,/research/finance/,HTTP/1.0,304,0`` 
 
-    1a. [Weblogs tuplex](https://github.com/tuplex/tuplex/blob/master/tuplex/test/resources/weblogs.small.csv)
+* **Zillow**: Real estate data, records from apartments, adds
+	* Data: [zillow.csv](https://github.com/athenarc/YeSQL/blob/main/data/zillow.csv)
+	* Query: [zillow.sql](https://github.com/athenarc/YeSQL/blob/main/sql_queries/zillow.sql)
+	* UDFs: [zillow.py](https://github.com/athenarc/YeSQL/blob/main/udfs/zillow.py)
+	* we will need to transform UDFs for all DBs (not pyspark, dask)
+    * use zillow query as example
+    * create extension in order to support python based on documetion
 
-    Description: data from monitoring a website
-
-    1b. [Malicious IPs](https://github.com/tuplex/tuplex/blob/master/tuplex/test/resources/bad_ips_all.txt)
-    Description: 
-    list of IPs that are concerned malicious 
-
-    2. [zillow](https://github.com/athenarc/YeSQL/blob/main/data/zillow.csv)
-        + description: real estate data, records from apartments' adds
-        + query: [zillow.sql](https://github.com/athenarc/YeSQL/blob/main/sql_queries/zillow.sql)
-        + UDFS: [zillow.py](https://github.com/athenarc/YeSQL/blob/main/udfs/zillow.py)
-        + we will need to transform UDFs for all DBs (not pyspark, dask)
-        + use zillow query as example
-        + create extension in order to support python based on documetion
     
-* datasets are sample, we can generate sample data with a randomized way
+* Datasets are sample, we can generate sample data with a randomized way
 
-* Analyzing [runpyspark.py](https://github.com/tuplex/tuplex/blob/master/benchmarks/logs/runpyspark.py) file
-    - line 65-118: are functions which take one csv column, do some queries 
+#### TODO:
 
-    - line 236: how the flows go, the sequence and applies filters 
+* we should transform to SQL lines 235-252, 283-285 functions 65-118 should be executed as UDFs inside the DB and then called with SQL as UDFs ([runtuplex.py](https://github.com/tuplex/tuplex/blob/master/benchmarks/logs/runtuplex.py "runtuplex.py")). 
 
-    - you can change sequence, if this does not affect the result (if one function needs as input the result of prev function)
-
-    - line 250 should be definitely run after 256
-
-    - line 283 join on IPs from dataset 2 
-
-    - line 285 final select
-
-TODO:
-
-* we should transform to SQL lines 235-252, 283-285
-functions 65-118 should be executed as UDFs inside the DB and then called with SQL as UDFs. 
-
-* all should be done in one SQL query (SELECT FROM WHERE)
-FROM: table that are join 
-where: UDFS
-might be necessary to have subqueries
-seperate queries are not the most efficient solution -> nested queries 
+* all should be done in one SQL query (SELECT FROM WHERE) FROM: table that are join where: UDFS might be necessary to have subqueries seperate queries are not the most efficient solution -> nested queries
 
 * UDFs used will have the same body with this attached
 
 
-* vertica: we will not place the UDF in terminal, save in .py file and load the file 
-e.g. for vertica [PythonExampleAdd2Ints](https://www.vertica.com/docs/9.2.x/HTML/Content/Authoring/ExtendingVertica/UDx/ScalarFunctions/Python/PythonExampleAdd2Ints.html)
-
+* vertica: we will not place the UDF in terminal, save in .py file and load the file e.g. for vertica [PythonExampleAdd2Ints](https://www.vertica.com/docs/9.2.x/HTML/Content/Authoring/ExtendingVertica/UDx/ScalarFunctions/Python/PythonExampleAdd2Ints.htm)
