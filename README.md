@@ -68,15 +68,17 @@ User-Defined Functions in Relational Databases](https://www.vldb.org/pvldb/vol15
 			$ python3 runtuplex.py --path logs.sample.txt --ip_blacklist_path ip_blacklist.csv --pipeline_type split_regex 
 			```` 
 			The output file should only have 1 line 
-``1.1.209.108,01/Jan/2000:03:01:24 -0500,GET,/research/finance/,HTTP/1.0,304,0`` 
+`1.1.209.108,01/Jan/2000:03:01:24 -0500,GET,/research/finance/,HTTP/1.0,304,0`
 
 * **Zillow**: Real estate data, records from apartments, adds
 	* Data: [zillow.csv](https://github.com/athenarc/YeSQL/blob/main/data/zillow.csv)
 	* Query: [zillow.sql](https://github.com/athenarc/YeSQL/blob/main/sql_queries/zillow.sql)
 	* UDFs: [zillow.py](https://github.com/athenarc/YeSQL/blob/main/udfs/zillow.py)
-	* we will need to transform UDFs for all DBs (not pyspark, dask)
+	* ~~we will need to transform UDFs for all DBs (not pyspark, dask)~~
     * use zillow query as example
     * create extension in order to support python based on documetion
+    * (?) For Spark & Dask -> we have to create a python query similar to [runpyspark.py](https://github.com/tuplex/tuplex/blob/master/benchmarks/logs/runpyspark.py) and [rundask.py](https://github.com/tuplex/tuplex/blob/master/benchmarks/logs/rundask.py). Look [here](https://github.com/rafailagln/DBS_assignment/tree/main/examples) for examples.
+    * (?) For other DBs -> we have to implement the UDFs and execute the given query in every db. 
 
     
 * Datasets are sample, we can generate sample data with a randomized way
