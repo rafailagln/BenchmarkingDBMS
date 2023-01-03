@@ -1,11 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import math
 import re
 import dask.dataframe as dd
 
 # create a Dask DataFrame
-df = dd.read_csv('zillow.csv', header=0)
+df = dd.read_csv('C:\\Users\\30693\\OneDrive\\Documents\\jj\\zillow.csv', header=0)
 
 
 # define your UDFs
@@ -14,10 +13,6 @@ def extractprice_sell(val):
         return int(val[1:].replace(',', ''))
     except:
         return -1
-
-
-extractprice_sell.registered = True
-
 
 def extract_type(val):
     try:
@@ -30,9 +25,6 @@ def extract_type(val):
         return type
     except:
         return 'null'
-
-
-extract_type.registered = True
 
 def extractbd(val):
       try:
@@ -49,7 +41,6 @@ def extractbd(val):
         return int(r)
       except:
         return -1
-extractbd.registered = True
 
 def extractba(val):
       try:
@@ -68,8 +59,6 @@ def extractba(val):
       except:
         return -1
 
-extractba.registered = True
-
 def extractsqfeet(val):
       try:
         max_idx = val.find(' sqft')
@@ -87,8 +76,6 @@ def extractsqfeet(val):
       except:
         return -1
 
-extractsqfeet.registered = True
-
 def extractid(val):
   match = re.search("(\d+)_zpid/$",val)
   try:
@@ -96,20 +83,36 @@ def extractid(val):
   except:
       return  0
 
-extractid.registered = True
-
 def extractpcode(val):
       try:
         return '%05d' % int(val)
       except:
         return ''
-extractpcode.registered = True
 
 
 # apply your UDFs to the DataFrame and create new columns with the extracted data
-df = df.map_partitions(lambda df: \
-                       df.assign(price=df.price.apply(extractprice_sell)).assign(title=df.title.apply(extract_type)).assign(id=df.id.apply(extractid)).assign(code=df.code.apply(extractpcode)).assign(bedrooms=df.bedrooms.apply(extractbd)).assign(bathrooms=df.bathrooms.apply(extractba)).assign(sqfeet=df.sqfeet.apply(extractsqfeet)))
+df = df.map_partitions(
+    lambda df: 
+    df.assign(price=df.price.apply(extractprice_sell))
+    .assign(title=df.title.apply(extract_type))
+    .assign(id=df.url.apply(extractid))
+    .assign(code=df.postal_code.apply(extractpcode))
+    .assign(bedrooms=df["facts and features"].apply(extractbd))
+    .assign(bathrooms=df["facts and features"].apply(extractba))
+    .assign(sqfeet=df["facts and features"].apply(extractsqfeet))
+    )
+
+df = df[
+    (df.price.between(100000, 20000000)) 
+    & (df.bedrooms < 10) 
+    #& (df.offer.isin(['sale', 'rent', 'sold', 'forclosed']))
+    & (df.title == 'condo')
+    & (df.code.notnull())
+    & (df.sqfeet.notnull())
+    & (df.bathrooms.notnull())
+    & (df.bedrooms.notnull())
+    & (df.price.notnull())]
 
 # run your query on the DataFrame and specify both columns, then compute the results and display them
-result = df[['id','code','title','price','bedrooms','bathrooms','sqfeet']].compute()
+result = df[['price','title','code','bathrooms']].compute()
 print (result.head(20))
