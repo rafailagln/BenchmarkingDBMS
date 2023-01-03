@@ -8,7 +8,7 @@ from pyspark.sql.types import StringType
 spark = SparkSession.builder.appName('MyApp').getOrCreate()
 
 # read the CSV file as a DataFrame
-df = spark.read.csv('zillow.csv', header=True)
+df = spark.read.csv('C:\\Users\\30693\\OneDrive\\Documents\\jj\\zillow.csv', header=True)
 
 
 # define your UDFs
@@ -114,7 +114,7 @@ extract_price_udf = udf(extractprice_sell, returnType=StringType())
 extract_type_udf = udf(extract_type, returnType=StringType())
 extract_bedrooms_udf = udf(extractbd, returnType=StringType())
 extract_bathrooms_udf = udf(extractba, returnType=StringType())
-extract_sqtfeets_udf = udf(extractsqfeet, returnType=StringType())
+extract_sqtfeet_udf = udf(extractsqfeet, returnType=StringType())
 extract_id_udf = udf(extractid, returnType=StringType())
 extract_code_udf = udf(extractpcode, returnType=StringType())
 
@@ -123,11 +123,20 @@ df = df.withColumn('title', extract_type_udf('title'))
 df = df.withColumn('price', extract_price_udf('price'))
 df = df.withColumn('bedrooms', extract_bedrooms_udf('facts and features'))
 df = df.withColumn('bathrooms', extract_bathrooms_udf('facts and features'))
-df = df.withColumn('sqfeets', extract_sqtfeets_udf('facts and features'))
+df = df.withColumn('sqfeet', extract_sqtfeet_udf('facts and features'))
 df = df.withColumn('id', extract_id_udf('url'))
 df = df.withColumn('code', extract_code_udf('postal_code'))
 
+df = df.filter((
+    df.price.between(100000, 20000000)) 
+    & (df.bedrooms < 10)
+#    & (df.offer.isin('sale', 'rent', 'sold', 'forclosed')) 
+    & (df.title == 'condo') 
+    & (df.code.isNotNull()) 
+    & (df.sqfeet.isNotNull())
+    & (df.bathrooms.isNotNull())
+    & (df.bedrooms.isNotNull())
+    & (df.price.isNotNull()))
 
 # run your query on the DataFrame and specify both columns
-df.select('id','code','title', 'price', 'bedrooms', 'bathrooms','sqfeets').show()
-
+df.select('id','code','title', 'price', 'bedrooms', 'bathrooms','sqfeet').show()
