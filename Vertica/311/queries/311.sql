@@ -1,0 +1,1 @@
+SELECT DISTINCT fix_zip_codes(*) FROM "311"
