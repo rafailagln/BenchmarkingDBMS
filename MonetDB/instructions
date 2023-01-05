@@ -1,0 +1,56 @@
+# INSTAL MONETDB
+
+1) shell> lsb_release -cs 	==> take type
+
+2) shell> touch  /etc/apt/sources.list.d/monetdb.list
+
+3) add to this file the following (replace suite with the type from instruction 1)
+	deb https://dev.monetdb.org/downloads/deb/ suite monetdb
+	deb-src https://dev.monetdb.org/downloads/deb/ suite monetdb
+
+4) Install the MonetDB GPG public key: 
+	sudo wget --output-document=/etc/apt/trusted.gpg.d/monetdb.gpg https://dev.monetdb.org/downloads/MonetDB-GPG-KEY.gpg
+
+5) sudo apt-key finger
+
+6) Check that the output for the file /etc/apt/trusted.gpg.d/monetdb.gpg contains the correct fingerprint: 8289 A5F5 75C4 9F50 22F8 EE20 F654 63E2 DF0E 54F3.
+
+7) sudo apt update
+
+8) sudo apt install monetdb5-sql monetdb-client
+
+9) IF YOU WISH (and your system uses it), you can have systemd manage the MonetDB service. If you do, the databases will be in /var/monetdb5/dbfarm:
+	sudo systemctl enable monetdbd
+	sudo systemctl start monetdbd
+
+10) Add user: 
+	sudo usermod -a -G monetdb $USER
+
+11) log in and back 
+
+
+# VERIFY INSTALLATION
+
+1) Create and start a new farm where you can store different databases.
+	shell> monetdbd create /path/to/mydbfarm
+	shell> monetdbd start /path/to/mydbfarm
+
+2) Create and release a Database (default in maintenance mode)
+	shell> monetdb create mydb
+	shell> monetdb release mydb
+
+3) Connect to the database with the following credentials:
+	default user: monetdb
+	default password: monetdb
+	shell> mclient -u monetdb -d mydb
+
+
+# ADD set embedded_py=3
+
+1) shell> ps aux | grep monet ==> kill all processes
+
+2) shell> monetdbd start <path to dbfarm>
+
+3) shell> monetdb set embedded_py=3 <dbname>
+
+4) shell> monetdb start <dbname>
