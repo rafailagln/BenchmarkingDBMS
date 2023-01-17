@@ -33,7 +33,6 @@ with open("results.txt", "w") as file:
                    str(udfs.extractbd(result['facts and features'])) + '\t' +
                    str(result['city']) + '\t' +
                    str(result['state']) + '\t' +
-                   str(result['city']) + '\t' +
                    str(udfs.extract_offer(result['title'])) + '\t' +
                    str(udfs.extracttype(result['title'])) + '\t' +
                    str(udfs.extractpcode(result['postal_code'])) + '\t' +
