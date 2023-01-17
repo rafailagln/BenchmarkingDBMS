@@ -288,12 +288,12 @@ class extractpcode(vertica_sdk.ScalarFunction):
         server_interface.log("Validating webpage accessibility - UDx")
 
         while(True):
-            val = arg_reader.getString(0)
+            val = arg_reader.getInt(0)
             try:
-                res_writer.setString('%05d' % int(val))
+                res_writer.setInt('%05d' % int(val))
                 res_writer.next()
             except:
-                res_writer.setString('-1')
+                res_writer.setInt('-1')
                 res_writer.next()
             if not arg_reader.next():
                 # Stop processing when there are no more input rows.
@@ -308,11 +308,11 @@ class extractpcode_factory(vertica_sdk.ScalarFunctionFactory):
         return extractpcode()
 
     def getPrototype(self, srv_interface, arg_types, return_type):
-        arg_types.addVarchar()
-        return_type.addChar()
+        arg_types.addInt()
+        return_type.addInt()
 
     def getReturnType(self, srv_interface, arg_types, return_type):
-        return_type.addChar(10)
+        return_type.addInt()
 # ---------------------- END EXTRACT PCODE ----------------------
 
 
