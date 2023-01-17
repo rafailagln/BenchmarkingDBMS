@@ -171,7 +171,7 @@ FROM (
                extract_method(c1) as method, extract_endpoint(c1) as endpoint,
                extract_protocol(c1) as protocol, extract_response_code(c1) as response_code,
                extract_content_size(c1) as content_size
-        FROM "LogsSample"
+        FROM "weblogs"
         WHERE extract_endpoint(c1) != ''
     ) as df
 JOIN ip_blacklist as bad_ip_df ON df.ip = bad_ip_df."BadIPs";

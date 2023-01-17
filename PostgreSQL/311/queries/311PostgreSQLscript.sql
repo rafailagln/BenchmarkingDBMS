@@ -16,4 +16,4 @@ $$;
 alter function fix_zip_codes(varchar) owner to postgres;
 
 
-SELECT DISTINCT fix_zip_codes("Incident Zip") AS Incident_Zip FROM public."311";
+SELECT DISTINCT fix_zip_codes("Incident_Zip") AS Incident_Zip FROM public."311";

@@ -142,22 +142,22 @@ create temp table zillow_results on commit preserve rows as
             SELECT url, address, postal_code, bds, ba, city, state, offer, type1, sqfeet,
                 CASE WHEN offer = 'sale' THEN extractprice_sell(price) ELSE 0 END AS price
             FROM (
-                SELECT price, url, address, postal_code, bds, ba, city, state, offer, type1, extractsqfeet("facts and features") AS sqfeet
+                SELECT price, url, address, postal_code, bds, ba, city, state, offer, type1, extractsqfeet(facts_and_features) AS sqfeet
                 FROM (
-                    SELECT title, address, city, state, postal_code, price, "facts and features", type1, "real estate provider", url, bds,
+                    SELECT title, address, city, state, postal_code, price, facts_and_features, type1, real_estate_provider, url, bds,
                         CASE WHEN title LIKE '%sale%' THEN 'sale'
                              WHEN title LIKE '%sold%' THEN 'sold'
                              WHEN title LIKE '%rent%' THEN 'rent'
                              WHEN title LIKE '%forclose%' THEN 'forclosed' END  AS offer,
-                        extractba("facts and features") AS ba
+                        extractba(facts_and_features) AS ba
                     FROM (
-                        SELECT title, address, city, state, postal_code, price, "facts and features",
-                               "real estate provider", url, type1, extractbd("facts and features") AS bds
+                        SELECT title, address, city, state, postal_code, price, facts_and_features,
+                               real_estate_provider, url, type1, extractbd(facts_and_features) AS bds
                         FROM (
-                            SELECT title, address, city, state, postal_code, price, "facts and features", "real estate provider", url, type1
+                            SELECT title, address, city, state, postal_code, price, facts_and_features, real_estate_provider, url, type1
                             FROM (
                                 SELECT title, address, city, state, extractpcode(postal_code) AS postal_code, price,
-                                       "facts and features", "real estate provider", url, extracttype(title) AS type1
+                                       facts_and_features, real_estate_provider, url, extracttype(title) AS type1
                                 FROM (
                                     SELECT *
                                     FROM zillow
@@ -217,13 +217,13 @@ SELECT SUM(bathrooms) AS sum_ba,
 FROM
     (
         SELECT t.bedrooms,
-               extractba(t."facts and features") AS bathrooms,
-               extractsqfeet(t."facts and features") AS sqft,
+               extractba(t.facts_and_features) AS bathrooms,
+               extractsqfeet(t.facts_and_features) AS sqft,
                extractpcode(t.postal_code) AS zip_code,
                replace_o_a(strip(to_lower(t.url))) AS url,
                extracttype(t.title) AS offer
         FROM (
-            SELECT extractbd("facts and features") AS bedrooms,
+            SELECT extractbd(facts_and_features) AS bedrooms,
                    extractprice_sell(price) AS price_n, *
             FROM zillow
         ) AS t
