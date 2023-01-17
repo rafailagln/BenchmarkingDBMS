@@ -24,22 +24,22 @@ filtered_results = filter(lambda x: udfs.extractbd(x['facts and features']) > 0
                                     and udfs.extracttype(x['title']) == 'condo'
                           , results)
 
-# with open("results3.txt", "w") as file:
-for result in filtered_results:
-    print(str(udfs.extractba(result['facts and features'])) + '\t' +
-          str(result['url']) + '\t' +
-          # str(result['url']) + '\n' + todo: address missing field?
-          str(udfs.extractpcode(result['postal_code'])) + '\t' +
-          str(udfs.extractbd(result['facts and features'])) + '\t' +
-          str(result['city']) + '\t' +
-          str(result['state']) + '\t' +
-          str(result['city']) + '\t' +
-          str(udfs.extract_offer(result['title'])) + '\t' +
-          str(udfs.extracttype(result['title'])) + '\t' +
-          str(udfs.extractpcode(result['postal_code'])) + '\t' +
-          str(udfs.extractsqfeet(result['facts and features'])) + '\t' +
-          str(udfs.extractprice_sell(result['price'])) + '\n'
-          )
+with open("results.txt", "w") as file:
+    for result in filtered_results:
+        file.write(str(udfs.extractba(result['facts and features'])) + '\t' +
+                   str(result['url']) + '\t' +
+                   # str(result['url']) + '\n' + todo: address missing field?
+                   str(udfs.extractpcode(result['postal_code'])) + '\t' +
+                   str(udfs.extractbd(result['facts and features'])) + '\t' +
+                   str(result['city']) + '\t' +
+                   str(result['state']) + '\t' +
+                   str(result['city']) + '\t' +
+                   str(udfs.extract_offer(result['title'])) + '\t' +
+                   str(udfs.extracttype(result['title'])) + '\t' +
+                   str(udfs.extractpcode(result['postal_code'])) + '\t' +
+                   str(udfs.extractsqfeet(result['facts and features'])) + '\t' +
+                   str(udfs.extractprice_sell(result['price'])) + '\n'
+                   )
 
 end_time = time.perf_counter()
 print(f'Time to execute: {end_time - start_time:0.6f} seconds')
