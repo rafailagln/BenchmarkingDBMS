@@ -63,3 +63,6 @@ doc/*.cut
 
 # data 
 data/.DS_Store
+
+#python virtual env
+mongo/myvenv
