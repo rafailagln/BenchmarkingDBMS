@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION extract_client_id(x STRING) RETURNS STRING LANGUAGE P
 };
 
 
-CREATE OR REPLACE FUNCTION extract_content_size(x STRING) RETURNS STRING LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION extract_date(x STRING) RETURNS STRING LANGUAGE PYTHON {
     import re
     return [re.search(r"^.*\[([\w:/]+\s[+\-]\d{4})\]", i)[1] for i in x]
 };
