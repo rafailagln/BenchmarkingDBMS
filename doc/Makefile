@@ -1,10 +1,15 @@
-.SUFFIXES:.eps .pdf .gz .data .dot
+PAPER = main
+TEX = $(wildcard *.tex)
+BIB = bib.bib
 
-main.pdf: main.tex 
-	pdflatex -shell-escape main
-	bibtex main
-	pdflatex -shell-escape main
-	pdflatex -shell-escape main
+.PHONY: all clean
+.FORCE: 
+
+$(PAPER).pdf: clean $(TEX) $(BIB) 
+	pdflatex -shell-escape  $(PAPER)
+	bibtex  $(PAPER)
+	pdflatex -shell-escape  $(PAPER)
+	pdflatex -shell-escape  $(PAPER)
 
 clean:
-	rm -f main.aux main.pdf main.blg main.tdo main.thm main-blx.bib main.bbl main.dvi main.toc main.run.xml  *.log *.out *pyg
+	rm -f *.aux *.bbl *.blg *.log *.out $(PAPER).pdf *.fdb_latexmk *.tdo *.dvi *.toc *.run.xml *.fls *.thm *-blx.bib
