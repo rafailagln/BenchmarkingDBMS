@@ -1,0 +1,52 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macros for the titlepage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Creates the aueb titlepage
+\newcommand{\auebtitlepage}[3]{%
+  {
+    %set up various length
+    \ifx\titlepageleftcolumnwidth\undefined
+      \newlength{\titlepageleftcolumnwidth}
+      \newlength{\titlepagerightcolumnwidth}
+    \fi
+    \setlength{\titlepageleftcolumnwidth}{0.5\textwidth-\tabcolsep}
+    \setlength{\titlepagerightcolumnwidth}{\textwidth-12\tabcolsep-\titlepageleftcolumnwidth}
+    %create title page
+    \thispagestyle{empty}
+    \noindent%
+    \begin{tabular}{@{}ll@{}}
+      \parbox{\titlepageleftcolumnwidth}{
+        \includegraphics[width=0.65\paperwidth]{figures/aueb_dmst_logo}
+      } &
+      \parbox{\titlepagerightcolumnwidth}{\raggedleft\sf\small
+        #2
+      }\bigskip\\
+       #1 &
+      \parbox[t]{\titlepagerightcolumnwidth}{%
+      \bigskip
+        \fbox{\parbox{\titlepagerightcolumnwidth-2\fboxsep-2\fboxrule}{%
+          #3
+        }}
+      }\\
+    \end{tabular}
+    \vfill
+    \noindent{\footnotesize\emph{The content of this report is freely available, but publication (with reference) may only be pursued due to agreement with the author.}}
+    \clearpage
+  }
+}
+
+%Create project info
+\newcommand{\projectinfo}[8]{%
+  \parbox[t]{\titlepageleftcolumnwidth}{
+    \textbf{Title:}\\ #1\bigskip\par
+    \textbf{Theme:}\\ #2\bigskip\par
+    \textbf{Internship Period:}\\ #3\bigskip\par
+    \textbf{Student Id:}\\ #4\bigskip\par
+    \textbf{Academic Supervisors:}\\ #5\bigskip\par
+    \textbf{Supervisor:}\\ #6\bigskip\par
+    \textbf{Page Numbers:} \pageref{LastPage}\bigskip\par
+    \textbf{Date of Completion:}\\ #7
+  }
+}
+
+
