@@ -89,7 +89,7 @@ CREATE OR REPLACE FUNCTION extractsqfeet(x varchar(256)) RETURNS INTEGER LANGUAG
             if split_idx < 0:
                 split_idx = 0
             else:
-                split_idx += 4
+                split_idx += 5
             r = s[split_idx:]
             r = r.replace(',', '')
             array.append(int(r))

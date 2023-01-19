@@ -8,3 +8,6 @@ SELECT name, setting FROM pg_settings WHERE name = 'max_worker_processes'
                                         OR name = 'max_parallel_maintenance_workers';
 -- change at: /etc/postgresql/15/main/postgresql.conf
 -- sudo systemctl restart postgresql.service
+
+
+-- echo 1 > /proc/sys/vm/drop_caches ; echo 2 > /proc/sys/vm/drop_caches ; echo 3 > /proc/sys/vm/drop_caches

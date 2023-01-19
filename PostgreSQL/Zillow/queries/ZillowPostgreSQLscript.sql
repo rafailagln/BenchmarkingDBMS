@@ -100,7 +100,7 @@ $$
         if split_idx < 0:
             split_idx = 0
         else:
-            split_idx += 4
+            split_idx += 5
         r = s[split_idx:]
         r = r.replace(',', '')
         return int(r)
