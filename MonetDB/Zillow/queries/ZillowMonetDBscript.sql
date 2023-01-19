@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION extractba(x STRING) RETURNS INTEGER LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION extractba(x varchar(256)) RETURNS INTEGER LANGUAGE PYTHON {
     import math
     array = []
     for val in x:
@@ -21,7 +21,7 @@ CREATE OR REPLACE FUNCTION extractba(x STRING) RETURNS INTEGER LANGUAGE PYTHON {
 };
 
 
-CREATE OR REPLACE FUNCTION extractbd(x STRING) RETURNS INTEGER LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION extractbd(x varchar(256)) RETURNS INTEGER LANGUAGE PYTHON {
     array = []
     for val in x:
         try:
@@ -42,7 +42,7 @@ CREATE OR REPLACE FUNCTION extractbd(x STRING) RETURNS INTEGER LANGUAGE PYTHON {
 };
 
 
-CREATE OR REPLACE FUNCTION extractid(x STRING) RETURNS INTEGER LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION extractid(x varchar(256)) RETURNS INTEGER LANGUAGE PYTHON {
     import re
     array = []
     for val in x:
@@ -55,7 +55,7 @@ CREATE OR REPLACE FUNCTION extractid(x STRING) RETURNS INTEGER LANGUAGE PYTHON {
 };
 
 
-CREATE OR REPLACE FUNCTION extractpcode(x STRING) RETURNS STRING LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION extractpcode(x varchar(256)) RETURNS varchar(256) LANGUAGE PYTHON {
     array = []
     for val in x:
         try:
@@ -66,7 +66,7 @@ CREATE OR REPLACE FUNCTION extractpcode(x STRING) RETURNS STRING LANGUAGE PYTHON
 };
 
 
-CREATE OR REPLACE FUNCTION extractprice_sell(x STRING) RETURNS INTEGER LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION extractprice_sell(x varchar(256)) RETURNS INTEGER LANGUAGE PYTHON {
     array = []
     for val in x:
         try:
@@ -77,7 +77,7 @@ CREATE OR REPLACE FUNCTION extractprice_sell(x STRING) RETURNS INTEGER LANGUAGE 
 };
 
 
-CREATE OR REPLACE FUNCTION extractsqfeet(x STRING) RETURNS INTEGER LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION extractsqfeet(x varchar(256)) RETURNS INTEGER LANGUAGE PYTHON {
     array = []
     for val in x:
         try:
@@ -99,7 +99,7 @@ CREATE OR REPLACE FUNCTION extractsqfeet(x STRING) RETURNS INTEGER LANGUAGE PYTH
 };
 
 
-CREATE OR REPLACE FUNCTION extracttype(x STRING) RETURNS STRING LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION extracttype(x varchar(256)) RETURNS varchar(256) LANGUAGE PYTHON {
     array = []
     for val in x:
         try:
@@ -127,22 +127,22 @@ create temp table zillow_results as
             SELECT url, address, postal_code, bds, ba, city, state, offer, type1, sqfeet,
                 CASE WHEN offer = 'sale' THEN extractprice_sell(price) ELSE 0 END AS price
             FROM (
-                SELECT price, url, address, postal_code, bds, ba, city, state, offer, type1, extractsqfeet("facts and features") AS sqfeet
+                SELECT price, url, address, postal_code, bds, ba, city, state, offer, type1, extractsqfeet(facts_and_features) AS sqfeet
                     FROM (
-                        SELECT title, address, city, state, postal_code, price, "facts and features", type1, "real estate provider", url, bds,
+                        SELECT title, address, city, state, postal_code, price, facts_and_features, type1, real_estate_provider, url, bds,
                             CASE WHEN title LIKE '%sale%' THEN 'sale'
                                  WHEN title LIKE '%sold%' THEN 'sold'
                                  WHEN title LIKE '%rent%' THEN 'rent'
                                  WHEN title LIKE '%forclose%' THEN 'forclosed' END  AS offer,
-                            extractba("facts and features") AS ba
+                            extractba(facts_and_features) AS ba
                         FROM (
-                            SELECT title, address, city, state, postal_code, price, "facts and features",
-                                   "real estate provider", url, type1, extractbd("facts and features") AS bds
+                            SELECT title, address, city, state, postal_code, price, facts_and_features,
+                                   real_estate_provider, url, type1, extractbd(facts_and_features) AS bds
                             FROM (
-                                SELECT title, address, city, state, postal_code, price, "facts and features", "real estate provider", url, type1
+                                SELECT title, address, city, state, postal_code, price, facts_and_features, real_estate_provider, url, type1
                                 FROM (
                                     SELECT title, address, city, state, extractpcode(postal_code) AS postal_code, price,
-                                           "facts and features", "real estate provider", url, extracttype(title) AS type1
+                                           facts_and_features, real_estate_provider, url, extracttype(title) AS type1
                                     FROM (
                                         SELECT *
                                         FROM zillow
@@ -163,7 +163,7 @@ create temp table zillow_results as
 SELECT * FROM zillow_results;
 
 
-CREATE OR REPLACE FUNCTION to_lower(x STRING) RETURNS STRING LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION to_lower(x varchar(256)) RETURNS varchar(256) LANGUAGE PYTHON {
     import string
     array = []
     for val in x:
@@ -172,7 +172,7 @@ CREATE OR REPLACE FUNCTION to_lower(x STRING) RETURNS STRING LANGUAGE PYTHON {
 };
 
 
-CREATE OR REPLACE FUNCTION strip(x STRING) RETURNS STRING LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION strip(x varchar(256)) RETURNS varchar(256) LANGUAGE PYTHON {
     import string
     array = []
     for val in x:
@@ -181,7 +181,7 @@ CREATE OR REPLACE FUNCTION strip(x STRING) RETURNS STRING LANGUAGE PYTHON {
 };
 
 
-CREATE OR REPLACE FUNCTION replace_o_a(x STRING) RETURNS STRING LANGUAGE PYTHON {
+CREATE OR REPLACE FUNCTION replace_o_a(x varchar(256)) RETURNS varchar(256) LANGUAGE PYTHON {
     import string
     array = []
     for val in x:
@@ -198,13 +198,13 @@ SELECT SUM(bathrooms) AS sum_ba,
 FROM
     (
         SELECT t.bedrooms,
-               extractba(t."facts and features") AS bathrooms,
-               extractsqfeet(t."facts and features") AS sqft,
+               extractba(t.facts_and_features) AS bathrooms,
+               extractsqfeet(t.facts_and_features) AS sqft,
                extractpcode(t.postal_code) AS zip_code,
                replace_o_a(strip(to_lower(t.url))) AS url,
                extracttype(t.title) AS offer
         FROM (
-            SELECT extractbd("facts and features") AS bedrooms,
+            SELECT extractbd(facts_and_features) AS bedrooms,
                    extractprice_sell(price) AS price_n, *
             FROM zillow
         ) AS t

@@ -6,9 +6,6 @@ create table if not exists "311_2"
 INSERT INTO "311_2" ("Incident_Zip") SELECT "Incident_Zip" FROM "311";
 INSERT INTO "311_2" ("Incident_Zip") SELECT "Incident_Zip" FROM "311";
 
-SELECT COUNT(*) FROM "311";
-SELECT COUNT(*) FROM "311_2";
-
 create table if not exists "311_4"
 (
     "Incident_Zip" varchar(20)
