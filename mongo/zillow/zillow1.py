@@ -3,12 +3,12 @@ import time
 import udfs
 
 # Connect to the MongoDB server˜
-connectionString = 'mongodb://192.168.31.200:27017/'
-# connectionString = 'mongodb://localhost:27017/'
+# connectionString = 'mongodb://192.168.31.200:27017/'
+connectionString = 'mongodb://localhost:27017/'
 client = pymongo.MongoClient(connectionString)
 
 # Get the "assignment" database
-db = client["Assignment"]
+db = client["assignment"]
 
 # Get the "zillow" collection
 collection = db["zillow"]
@@ -18,9 +18,8 @@ start_time = time.perf_counter()
 results = collection.find()
 
 # Use the filter() function to filter the results
-filtered_results = filter(lambda x: udfs.extractbd(x['facts and features']) > 0
+filtered_results = filter(lambda x: udfs.extractbd(x['facts and features']) < 10
                                     and 100000 <= udfs.extractprice_sell(x['price']) <= 20000000
-                                    and udfs.extractbd(x['facts and features'] < '10')
                                     and udfs.extracttype(x['title']) == 'condo'
                           , results)
 
