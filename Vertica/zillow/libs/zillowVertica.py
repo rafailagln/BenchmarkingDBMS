@@ -6,7 +6,7 @@ import vertica_sdk
 class extractbd(vertica_sdk.ScalarFunction):
 
     """
-    Extract content size from apache server log
+    Extract bedrooms
     """
 
     def __init__(self):
@@ -17,7 +17,7 @@ class extractbd(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting bedrooms - UDx")
 
         while(True):
             val = arg_reader.getString(0)
@@ -32,10 +32,10 @@ class extractbd(vertica_sdk.ScalarFunction):
                 else:
                     split_idx += 2
                 r = s[split_idx:]
-                res_writer.setString(r)
+                res_writer.setInt(int(r))
                 res_writer.next()
             except:
-                res_writer.setString('-1')
+                res_writer.setInt(-1)
                 res_writer.next()
             if not arg_reader.next():
                 # Stop processing when there are no more input rows.
@@ -51,10 +51,10 @@ class extractbd_factory(vertica_sdk.ScalarFunctionFactory):
 
     def getPrototype(self, srv_interface, arg_types, return_type):
         arg_types.addVarchar()
-        return_type.addChar()
+        return_type.addInt()
 
     def getReturnType(self, srv_interface, arg_types, return_type):
-        return_type.addChar(4)
+        return_type.addInt()
 # ---------------------- END EXTRACT BEDROOMS ----------------------
 
 
@@ -63,7 +63,7 @@ class extractbd_factory(vertica_sdk.ScalarFunctionFactory):
 class extractba(vertica_sdk.ScalarFunction):
 
     """
-    Extract content size from apache server log
+    Extract bathrooms
     """
 
     def __init__(self):
@@ -74,7 +74,7 @@ class extractba(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting bathrooms - UDx")
 
         while(True):
             val = arg_reader.getString(0)
@@ -90,10 +90,10 @@ class extractba(vertica_sdk.ScalarFunction):
                     split_idx += 2
                 r = s[split_idx:]
                 ba = math.ceil(2.0 * float(r)) / 2.0
-                res_writer.setString(ba)
+                res_writer.setInt(int(ba))
                 res_writer.next()
             except:
-                res_writer.setString('-1')
+                res_writer.setInt(-1)
                 res_writer.next()
             if not arg_reader.next():
                 # Stop processing when there are no more input rows.
@@ -109,10 +109,10 @@ class extractba_factory(vertica_sdk.ScalarFunctionFactory):
 
     def getPrototype(self, srv_interface, arg_types, return_type):
         arg_types.addVarchar()
-        return_type.addChar()
+        return_type.addInt()
 
     def getReturnType(self, srv_interface, arg_types, return_type):
-        return_type.addChar(4)
+        return_type.addInt()
 # ---------------------- END EXTRACT BATHROOMS ----------------------
 
 
@@ -121,7 +121,7 @@ class extractba_factory(vertica_sdk.ScalarFunctionFactory):
 class extractsqfeet(vertica_sdk.ScalarFunction):
 
     """
-    Extract content size from apache server log
+    Extract square feet
     """
 
     def __init__(self):
@@ -132,7 +132,7 @@ class extractsqfeet(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting square feet - UDx")
 
         while(True):
             val = arg_reader.getString(0)
@@ -148,10 +148,10 @@ class extractsqfeet(vertica_sdk.ScalarFunction):
                     split_idx += 5
                 r = s[split_idx:]
                 r = r.replace(',', '')
-                res_writer.setString(r)
+                res_writer.setInt(int(r))
                 res_writer.next()
             except:
-                res_writer.setString('-1')
+                res_writer.setInt(-1)
                 res_writer.next()
             if not arg_reader.next():
                 # Stop processing when there are no more input rows.
@@ -167,10 +167,10 @@ class extractsqfeet_factory(vertica_sdk.ScalarFunctionFactory):
 
     def getPrototype(self, srv_interface, arg_types, return_type):
         arg_types.addVarchar()
-        return_type.addChar()
+        return_type.addInt()
 
     def getReturnType(self, srv_interface, arg_types, return_type):
-        return_type.addChar(10)
+        return_type.addInt()
 # ---------------------- END EXTRACT SQFEET ----------------------
 
 
@@ -179,7 +179,7 @@ class extractsqfeet_factory(vertica_sdk.ScalarFunctionFactory):
 class extractprice_sell(vertica_sdk.ScalarFunction):
 
     """
-    Extract content size from apache server log
+    Extract price sell
     """
 
     def __init__(self):
@@ -190,15 +190,15 @@ class extractprice_sell(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting price sell - UDx")
 
         while(True):
             val = arg_reader.getString(0)
             try:
-                res_writer.setString(val[1:].replace(',', ''))
+                res_writer.setInt(int(val[1:].replace(',', '')))
                 res_writer.next()
             except:
-                res_writer.setString('-1')
+                res_writer.setInt(-1)
                 res_writer.next()
             if not arg_reader.next():
                 # Stop processing when there are no more input rows.
@@ -214,10 +214,10 @@ class extractprice_sell_factory(vertica_sdk.ScalarFunctionFactory):
 
     def getPrototype(self, srv_interface, arg_types, return_type):
         arg_types.addVarchar()
-        return_type.addChar()
+        return_type.addInt()
 
     def getReturnType(self, srv_interface, arg_types, return_type):
-        return_type.addChar(10)
+        return_type.addInt()
 # ---------------------- END EXTRACT PRICE SELL ----------------------
 
 
@@ -226,7 +226,7 @@ class extractprice_sell_factory(vertica_sdk.ScalarFunctionFactory):
 class extractid(vertica_sdk.ScalarFunction):
 
     """
-    Extract content size from apache server log
+    Extract id
     """
 
     def __init__(self):
@@ -237,7 +237,7 @@ class extractid(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting id - UDx")
 
         while(True):
             val = arg_reader.getString(0)
@@ -274,7 +274,7 @@ class extractid_factory(vertica_sdk.ScalarFunctionFactory):
 class extractpcode(vertica_sdk.ScalarFunction):
 
     """
-    Extract content size from apache server log
+    Extract postal code
     """
 
     def __init__(self):
@@ -285,15 +285,15 @@ class extractpcode(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting postal code - UDx")
 
         while(True):
             val = arg_reader.getInt(0)
             try:
-                res_writer.setInt('%05d' % int(val))
+                res_writer.setString('%05d' % val)
                 res_writer.next()
             except:
-                res_writer.setInt('-1')
+                res_writer.setString('')
                 res_writer.next()
             if not arg_reader.next():
                 # Stop processing when there are no more input rows.
@@ -309,10 +309,10 @@ class extractpcode_factory(vertica_sdk.ScalarFunctionFactory):
 
     def getPrototype(self, srv_interface, arg_types, return_type):
         arg_types.addInt()
-        return_type.addInt()
+        return_type.addChar()
 
     def getReturnType(self, srv_interface, arg_types, return_type):
-        return_type.addInt()
+        return_type.addChar(10)
 # ---------------------- END EXTRACT PCODE ----------------------
 
 
@@ -321,7 +321,7 @@ class extractpcode_factory(vertica_sdk.ScalarFunctionFactory):
 class extracttype(vertica_sdk.ScalarFunction):
 
     """
-    Extract content size from apache server log
+    Extract type
     """
 
     def __init__(self):
@@ -332,7 +332,7 @@ class extracttype(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting type - UDx")
 
         while(True):
             val = arg_reader.getString(0)

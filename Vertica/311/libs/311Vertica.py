@@ -4,7 +4,7 @@ import vertica_sdk
 class fix_zip_codes(vertica_sdk.ScalarFunction):
 
     """
-    Extract content size from apache server log
+    Fix zip codes
     """
 
     def __init__(self):
@@ -15,7 +15,7 @@ class fix_zip_codes(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Fixing zipcode - UDx")
 
         while(True):
             zips = arg_reader.getString(0)

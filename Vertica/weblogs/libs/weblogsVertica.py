@@ -17,7 +17,7 @@ class extract_ip(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting ip - UDx")
 
         while(True):
             logline = arg_reader.getString(0)
@@ -64,7 +64,7 @@ class extract_client_id(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting client id - UDx")
 
         while(True):
             logline = arg_reader.getString(0)
@@ -111,7 +111,7 @@ class extract_user_id(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting user id - UDx")
 
         while(True):
             logline = arg_reader.getString(0)
@@ -158,7 +158,7 @@ class extract_date(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting date - UDx")
 
         while(True):
             logline = arg_reader.getString(0)
@@ -205,7 +205,7 @@ class extract_method(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting method - UDx")
 
         while(True):
             logline = arg_reader.getString(0)
@@ -252,7 +252,7 @@ class extract_endpoint(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting endpoint - UDx")
 
         while(True):
             logline = arg_reader.getString(0)
@@ -299,7 +299,7 @@ class extract_protocol(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting protocol - UDx")
 
         while(True):
             logline = arg_reader.getString(0)
@@ -346,16 +346,16 @@ class extract_response_code(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting response code - UDx")
 
         while(True):
             logline = arg_reader.getString(0)
             match = re.search(r'^.*" (\d{3}) ', logline)
             if match:
-                res_writer.setString(match[1])
+                res_writer.setInt(int(match[1]))
                 res_writer.next()
             else:
-                res_writer.setString('')
+                res_writer.setInt(-1)
                 res_writer.next()
             if not arg_reader.next():
                 # Stop processing when there are no more input rows.
@@ -371,10 +371,10 @@ class extract_response_code_factory(vertica_sdk.ScalarFunctionFactory):
 
     def getPrototype(self, srv_interface, arg_types, return_type):
         arg_types.addVarchar()
-        return_type.addChar()
+        return_type.addInt()
 
     def getReturnType(self, srv_interface, arg_types, return_type):
-        return_type.addChar(3)
+        return_type.addInt()
 # ---------------------- END EXTRACT RESPONSE CODE ----------------------
 
 
@@ -393,16 +393,16 @@ class extract_content_size(vertica_sdk.ScalarFunction):
 
     def processBlock(self, server_interface, arg_reader, res_writer):
         # Writes a string to the UDx log file.
-        server_interface.log("Validating webpage accessibility - UDx")
+        server_interface.log("Extracting content size - UDx")
 
         while(True):
             logline = arg_reader.getString(0)
             match = re.search(r'^.*" \d{3} (\S+)', logline)
             if match:
-                res_writer.setString(match[1])
+                res_writer.setInt(0 if match[1] == '-' else int(match[1]))
                 res_writer.next()
             else:
-                res_writer.setString('')
+                res_writer.setInt(-1)
                 res_writer.next()
             if not arg_reader.next():
                 # Stop processing when there are no more input rows.
@@ -418,8 +418,8 @@ class extract_content_size_factory(vertica_sdk.ScalarFunctionFactory):
 
     def getPrototype(self, srv_interface, arg_types, return_type):
         arg_types.addVarchar()
-        return_type.addChar()
+        return_type.addInt()
 
     def getReturnType(self, srv_interface, arg_types, return_type):
-        return_type.addChar(5)
+        return_type.addInt()
 # ---------------------- END EXTRACT CONTENT SIZE ----------------------
