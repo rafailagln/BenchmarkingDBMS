@@ -1,0 +1,5 @@
+-- monetdb stop DBS_Assignment
+-- monetdb set nthreads=2 DBS_Assignment	//1, 2, 4
+-- monetdb set optpipe=sequential_pipe DBS_Assignment //default_pipe -- check with query "select optimizer;"
+-- monetdb get all DBS_Assignment
+-- monetdb start DBS_Assignment
