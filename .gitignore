@@ -11,7 +11,7 @@ doc/**/*.fot
 doc/**/*.cb
 doc/**/*.cb2
 doc/**/*.lb
-doc/**/*..thm
+doc/**/*.thm
 
 ## Intermediate documents:
 doc/**/*.dvi
