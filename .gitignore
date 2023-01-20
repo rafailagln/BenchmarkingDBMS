@@ -1,68 +1,73 @@
 ## Core latex/pdflatex auxiliary files:
-doc/*.aux
-doc/*.lof
-doc/*.log
-doc/*.lot
-doc/*.fls
-doc/*.out
-doc/*.toc
-doc/*.fmt
-doc/*.fot
-doc/*.cb
-doc/*.cb2
-doc/*.lb
+doc/**/*.aux
+doc/**/*.lof
+doc/**/*.log
+doc/**/*.lot
+doc/**/*.fls
+doc/**/*.out
+doc/**/*.toc
+doc/**/*.fmt
+doc/**/*.fot
+doc/**/*.cb
+doc/**/*.cb2
+doc/**/*.lb
+doc/**/*..thm
 
 ## Intermediate documents:
-doc/*.dvi
-doc/*.xdv
-doc/*-converted-to.*
+doc/**/*.dvi
+doc/**/*.xdv
+doc/**/*-converted-to.*
 # these rules might exclude image files for figures etc.
-# doc/*.ps
-# doc/*.eps
-# doc/*.pdf
+# doc/**/*.ps
+# doc/**/*.eps
+# doc/**/*.pdf
 
 ## Generated if empty string is given at "Please type another file name for output:"
-doc/*.pdf
+doc/**/*.pdf
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
-doc/*.bbl
-doc/*.bcf
-doc/*.blg
-doc/*-blx.aux
-doc/*-blx.bib
-doc/*.run.xml
+doc/**/*.bbl
+doc/**/*.bcf
+doc/**/*.blg
+doc/**/*-blx.aux
+doc/**/*-blx.bib
+doc/**/*.run.xml
 
 ## Build tool auxiliary files:
-doc/*.fdb_latexmk
-doc/*.synctex
-doc/*.synctex(busy)
-doc/*.synctex.gz
-doc/*.synctex.gz(busy)
-doc/*.pdfsync
+doc/**/*.fdb_latexmk
+doc/**/*.synctex
+doc/**/*.synctex(busy)
+doc/**/*.synctex.gz
+doc/**/*.synctex.gz(busy)
+doc/**/*.pdfsync
 
 ## Build tool directories for auxiliary files
 # latexrun
-doc/latex.out/
+doc/**/latex.out/
 
 ## Auxiliary and intermediate files from other packages:
 # algorithms
-doc/*.alg
-doc/*.loa
+doc/**/*.alg
+doc/**/*.loa
 
 # beamer
-doc/*.nav
-doc/*.pre
-doc/*.snm
-doc/*.vrb
+doc/**/*.nav
+doc/**/*.pre
+doc/**/*.snm
+doc/**/*.vrb
 
 # changes
-doc/*.soc
+doc/**/*.soc
 
 # comment
-doc/*.cut
+doc/**/*.cut
 
 # data 
-data/.DS_Store
+*/.DS_Store
+.DS_Store
 
 #python virtual env
-mongo/myvenv
+mongo/**/myvenv
+
+# hidden dirs
+.idea/*
