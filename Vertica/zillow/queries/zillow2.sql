@@ -13,9 +13,7 @@ FROM
                extracttype(t.title) AS offer
         FROM (
             SELECT extractbd(facts_and_features) AS bedrooms,
-                   -- Added replace + -> "" because values like this "$699,900+"
-                   -- exists and the udf only parsed it to 699900+
-                   replace(extractprice_sell(price), '+', '') AS price_n, *
+                   extractprice_sell(price) AS price_n, *
             -- Added NOT LIKE '%None%' because extractsqfeet when facts and features
             -- has None in bedrooms count not convert it to float
             FROM zillow where facts_and_features NOT LIKE '%None%'
