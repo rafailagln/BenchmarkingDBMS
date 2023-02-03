@@ -1,0 +1,16 @@
+\section{Vertica}
+\label{sec:vertica}
+
+HP Vertica was explicitly designed for analytic workloads rather than for transactional workloads. HP
+Vertica’s free versions (HP Vertica Community Edition) are the Enterprise Edition (ver. 6.0) and Analytics Platform
+(currently ver. 9.1) available for download.
+% in the form of a virtual machine (https://www.vertica.com/log-in/) on which operating system CentOS (64bit version) is preinstalled.
+The Vertica DB physically organises table data into projections, which are sorted subsets of the attributes of a
+table. In practice, most applications have one super projection (containing every column of the anchoring
+table) and zero to three narrow, non-super projections. Each projection has a specific sort order on which the data
+is totally sorted. HP Vertica uses Read Optimized Store (ROS) and Write Optimized Store (WOS). Data in the ROS
+is physically stored in multiple ROS containers on a standard file system. Each ROS container logically
+contains some number of complete tuples sorted by the projection's sort order, stored as a pair of files per column.
+HP Vertica is a true column store - column files may be independently retrieved as the storage is physically
+separate. By dividing each on-disk structure into logical regions at runtime and processing the regions in parallel,
+HP Vertica achieves high performance. 

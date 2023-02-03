@@ -2,8 +2,23 @@
 \label{sec:postgres}
 
 
-PostgreSQL is an open-source relational database management system (RD BMS) that is known for its robustness, flexibility, and scalability. It is often considered a powerful alternative to other popular RDBMSs such as MySQL and Oracle, and is used by a wide range of organizations, from small businesses to large enterprise companies. It is also a row-based database systems.
+% PostgreSQL is an open-source relational database management system (RD BMS) that is known for its robustness, flexibility, and scalability. It is often considered a powerful alternative to other popular RDBMSs such as MySQL and Oracle, and is used by a wide range of organizations, from small businesses to large enterprise companies. It is also a row-based database systems.
 
-It supports the use of Python as a procedural language. This means that users can create and use Python User-Defined Functions (UDFs) within their PostgreSQL database. UDFs are custom functions that can be written in Python and used to perform a wide variety of tasks, such as data validation, data manipulation, and complex calculations. These functions can be called just like built-in PostgreSQL functions, making it easy to extend the functionality of the database. By using Python UDFs in PostgreSQL, developers can take advantage of the powerful data manipulation capabilities of Python while still utilizing the robust and reliable features of PostgreSQL.
+% It supports the use of Python as a procedural language. This means that users can create and use Python User-Defined Functions (UDFs) within their PostgreSQL database. UDFs are custom functions that can be written in Python and used to perform a wide variety of tasks, such as data validation, data manipulation, and complex calculations. These functions can be called just like built-in PostgreSQL functions, making it easy to extend the functionality of the database. By using Python UDFs in PostgreSQL, developers can take advantage of the powerful data manipulation capabilities of Python while still utilizing the robust and reliable features of PostgreSQL.
 
-In this work, when converting the UDFs to a suitable format for the database, not many changes were needed as PostgreSQL is smart enough to recognize that the data being entered is in array format and it executed the UDFs for each of the values of the table given to it.
+% In this work, when converting the UDFs to a suitable format for the database, not many changes were needed as PostgreSQL is smart enough to recognize that the data being entered is in array format and it executed the UDFs for each of the values of the table given to it.
+
+According to PostgreSQL is an object-relational system for database management and is based on
+PostgreSQL version 4.2 that was developed at the University of California at Berkeley IT department.
+PostgreSQL has developed many concepts that have become available only in some commercial database
+systems much later. PostgreSQL is an open-source successor of the original Berkeley code. It supports a
+large part of the SQL standard and offers many modern features, such as:
+\begin{itemize}
+    \item Complex queries.
+    \item External keys.
+    \item Triggers.
+    \item Transaction Integrity.
+    \item Multi-version concurrency control.
+\end{itemize}
+Because of its liberal license PostgreSQL can be used, modified and distributed completely free for any purpose
+(private, academic or commercial).
