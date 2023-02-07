@@ -22,7 +22,7 @@ For our experiments we used a server with Intel i5-3470 with 3.20GHz speed. It h
 			nodes near coords style={rotate=45,xshift=5,font=\normalfont\tiny},  
 			legend style={at={(0.45,0.95)}, anchor=north east},
 			enlarge x limits=0.2] 
-			\addplot+ coordinates {(x1, 0.705) (x2, 0.1378) (x4, 0.2508) (x8, 0.5398) (x16, 0.953) (x32, 1.8502)}; 
+			\addplot+ coordinates {(x1, 0.0894) (x2, 0.1378) (x4, 0.2508) (x8, 0.5398) (x16, 0.953) (x32, 1.8502)}; 
 			\addplot+ coordinates {(x1, 0.163) (x2, 0.2172) (x4, 0.3294) (x8, 0.55) (x16, 0.995) (x32, 1.8902)}; 
 			\legend{Cold cache, Hot cache}
 		\end{axis} 
@@ -74,8 +74,24 @@ For our experiments we used a server with Intel i5-3470 with 3.20GHz speed. It h
 	\label{fig:vertica311cache}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
-	Pending Mongo
-	\captionof{figure}{Another figure}
+	\scalebox{0.75}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			ybar,
+			symbolic x coords={x1, x2, x4, x8, x16, x32}, 
+			xtick=data,
+			ylabel=Time (ms),
+			enlargelimits=0.1,
+			nodes near coords,
+			nodes near coords style={rotate=45,xshift=5,font=\normalfont\tiny},  
+			legend style={at={(0.45,0.95)}, anchor=north east},
+			enlarge x limits=0.2] 
+			\addplot+ coordinates {(x1, 0.0789392) (x2, 0.1538836) (x4, 0.2966276) (x8, 0.5766666) (x16, 1.1406332) (x32, 2.2763508)}; 
+			\addplot+ coordinates {(x1, 0.0761492) (x2, 0.1512134) (x4, 0.2916526) (x8, 0.5691348) (x16, 1.1322738) (x32, 2.2464764)}; 
+			\legend{Cold cache, Hot cache}
+		\end{axis} 
+	\end{tikzpicture}}
+	\captionof{figure}{Mongo - 311 (Cold/Hot cache)}
 	\label{fig:mongo311cache}
 \end{minipage}
 \end{figure}
@@ -222,8 +238,24 @@ For our experiments we used a server with Intel i5-3470 with 3.20GHz speed. It h
 	\label{fig:verticaWeblogsCache}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
-	Pending Mongo
-	\captionof{figure}{Another figure}
+	\scalebox{0.75}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			ybar,
+			symbolic x coords={x1, x2, x4, x8, x16, x32}, 
+			xtick=data,
+			ylabel=Time (ms),
+			enlargelimits=0.1,
+			nodes near coords,
+			nodes near coords style={rotate=45,xshift=5,font=\normalfont\tiny},  
+			legend style={at={(0.45,0.95)}, anchor=north east},
+			enlarge x limits=0.2] 
+			\addplot+ coordinates {(x1, 0.6868898) (x2, 1.3799392) (x4, 2.8625126) (x8, 5.6655924) (x16, 11.283492) (x32, 22.2838622)}; 
+			\addplot+ coordinates {(x1, 0.677313) (x2, 1.3711552) (x4, 2.8386086) (x8, 5.6778428) (x16, 11.2072838) (x32, 22.3317652)}; 
+			\legend{Cold cache, Hot cache}
+		\end{axis} 
+	\end{tikzpicture}}
+	\captionof{figure}{Mongo - Weblogs (Cold/Hot cache)}
 	\label{fig:mongoWeblogsCache}
 \end{minipage}
 \end{figure}
@@ -370,8 +402,24 @@ For our experiments we used a server with Intel i5-3470 with 3.20GHz speed. It h
 	\label{fig:verticaZillow1Cache}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
-	Pending Mongo
-	\captionof{figure}{Another figure}
+	\scalebox{0.75}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			ybar,
+			symbolic x coords={x1, x2, x4, x8, x16, x32}, 
+			xtick=data,
+			ylabel=Time (ms),
+			enlargelimits=0.1,
+			nodes near coords,
+			nodes near coords style={rotate=45,xshift=5,font=\normalfont\tiny},  
+			legend style={at={(0.45,0.95)}, anchor=north east},
+			enlarge x limits=0.2] 
+			\addplot+ coordinates {(x1, 0.7531588) (x2, 1.5182998) (x4, 3.0915568) (x8, 6.0448594) (x16, 11.9256292) (x32, 23.745275)}; 
+			\addplot+ coordinates {(x1, 0.7451276) (x2, 1.5568334) (x4, 3.0537014) (x8, 6.4407102) (x16, 12.1257258) (x32, 24.5975472)}; 
+			\legend{Cold cache, Hot cache}
+		\end{axis} 
+	\end{tikzpicture}}
+	\captionof{figure}{Mongo - Zillow 1 (Cold/Hot cache)}
 	\label{fig:mongoZillow1Cache}
 \end{minipage}
 \end{figure}
@@ -518,8 +566,24 @@ For our experiments we used a server with Intel i5-3470 with 3.20GHz speed. It h
 	\label{fig:verticaZillow2Cache}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
-	Pending Mongo
-	\captionof{figure}{Another figure}
+	\scalebox{0.75}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			ybar,
+			symbolic x coords={x1, x2, x4, x8, x16, x32}, 
+			xtick=data,
+			ylabel=Time (ms),
+			enlargelimits=0.1,
+			nodes near coords,
+			nodes near coords style={rotate=45,xshift=5,font=\normalfont\tiny},  
+			legend style={at={(0.45,0.95)}, anchor=north east},
+			enlarge x limits=0.2] 
+			\addplot+ coordinates {(x1, 3.7367452) (x2, 7.4575392) (x4, 14.9448966) (x8, 30.5411994) (x16, 61.312647) (x32, 124.5240324)}; 
+			\addplot+ coordinates {(x1, 3.7440264) (x2, 7.4828976) (x4, 14.7901182) (x8, 30.6640318) (x16, 61.4363946) (x32, 122.2530776)}; 
+			\legend{Cold cache, Hot cache}
+		\end{axis} 
+	\end{tikzpicture}}
+	\captionof{figure}{Mongo - Zillow 2 (Cold/Hot cache)}
 	\label{fig:mongoZillow2Cache}
 \end{minipage}
 \end{figure}
