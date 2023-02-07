@@ -1,4 +1,4 @@
-\documentclass[12pt,twoside,a4paper]{report}
+\documentclass[12pt,a4paper]{report}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Language, Encoding and Fonts
 % http://en.wikibooks.org/wiki/LaTeX/Internationalization
@@ -16,7 +16,7 @@
 % an select the desired input encoding.
 \usepackage{xpatch}
 
-\xpretocmd{\part}{\setcounter{section}{0}}{}{}
+%\xpretocmd{\part}{\setcounter{section}{0}}{}{}
 \usepackage[utf8]{inputenc}
 
 % Make latex understand and use the typographic
@@ -77,7 +77,7 @@
 % Modify how \chapter, \section, etc. look
 % The titlesec package is very configureable
 \usepackage{titlesec}
-\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+%\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
 \titleformat*{\section}{\normalfont\Large\bfseries}
 \titleformat*{\subsection}{\normalfont\large\bfseries}
 \titleformat*{\subsubsection}{\normalfont\normalsize\bfseries}
@@ -116,7 +116,7 @@
   bibencoding=utf8
   ]{biblatex}
 \addbibresource{bib}
-\AtBeginBibliography{\tiny}
+\AtBeginBibliography{\small}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Misc
@@ -177,7 +177,7 @@
 
 
 
-\renewcommand*{\theHsection}{\theHchapter.\the\value{section}}
+%\renewcommand*{\theHsection}{\theHchapter.\the\value{section}}
 
 % Plot charts
 \usepackage{pgfplots} 
