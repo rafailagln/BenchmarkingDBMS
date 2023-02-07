@@ -3,7 +3,6 @@ import time
 import udfs
 
 # Connect to the MongoDB server˜
-# connectionString = 'mongodb://192.168.31.200:27017/'
 connectionString = 'mongodb://localhost:27017/'
 client = pymongo.MongoClient(connectionString)
 
@@ -27,7 +26,7 @@ with open("results.txt", "w") as file:
     for result in filtered_results:
         file.write(str(udfs.extractba(result['facts and features'])) + '\t' +
                    str(result['url']) + '\t' +
-                   # str(result['url']) + '\n' + todo: address missing field?
+                   str(result['address']) + '\t' +
                    str(udfs.extractpcode(result['postal_code'])) + '\t' +
                    str(udfs.extractbd(result['facts and features'])) + '\t' +
                    str(result['city']) + '\t' +

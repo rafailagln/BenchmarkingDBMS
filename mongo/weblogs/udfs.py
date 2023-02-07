@@ -63,3 +63,10 @@ def extract_content_size(x):
         return 0 if match[1] == '-' else int(match[1])
     else:
         return -1
+
+def extract_date(x):
+    match = re.search(r"^.*\[([\w:/]+\s[+\-]\d{4})\]", x)
+    if match:
+        return match[1]
+    else:
+        return ''
