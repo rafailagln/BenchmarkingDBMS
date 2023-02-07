@@ -5,8 +5,7 @@ import udfs
 import extra_udfs
 
 # Connect to the MongoDB server˜
-connectionString = 'mongodb://192.168.31.200:27017/'
-# connectionString = 'mongodb://localhost:27017/'
+connectionString = 'mongodb://localhost:27017/'
 client = pymongo.MongoClient(connectionString)
 
 # Get the "assignment" database
@@ -22,7 +21,6 @@ results = collection.find()
 # Load dataframe
 df = pd.DataFrame(list(results))
 
-# Replace '+' with ''
 df['price'] = df.apply(lambda x: udfs.extractprice_sell(x['price']), axis=1)
 df['price'] = df['price'].replace('+', '')
 
@@ -48,8 +46,6 @@ grouped_df = df.groupby(['bedrooms']).agg(
 grouped_df.rename(
     columns={'bathrooms': 'sum_ba', 'sqft': 'sum_sqft', 'url': 'urls', 'offer': 'offers', 'zip_code': 'zip_codes'},
     inplace=True)
-
-# print(grouped_df)
 
 grouped_df.to_csv('results2.csv')
 
