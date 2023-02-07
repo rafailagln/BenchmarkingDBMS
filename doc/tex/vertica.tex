@@ -1,16 +1,24 @@
 \section{Vertica}
 \label{sec:vertica}
 
-HP Vertica was explicitly designed for analytic workloads rather than for transactional workloads. HP
-Vertica’s free versions (HP Vertica Community Edition) are the Enterprise Edition (ver. 6.0) and Analytics Platform
-(currently ver. 9.1) available for download.
+In 2005, Mike Stonebraker and colleagues published a paper
+outlining a formal database system, called C-store.~\cite{SABC05} 
+Stonebraker formed a company "Vertica" to build a commercial 
+implementation of C-Store. Vertica was acquired by HP in 2011.
+% C-Store and Vertica became pioneers of a new wave of systems that 
+% departed significantly from the traditional RDBMS architecture.
+% Vertica became the poster child for a “NewSQL” database.
+%Subsequent to the release of the C-Store model, several other significant column-based systems entered the market, including InfoBright, VectorWise, and MonetDB. 
+HP Vertica was explicitly designed for analytic workloads rather than
+for transactional workloads. 
+HP Vertica’s free versions (HP Vertica Community Edition) are the Enterprise Edition (ver. 6.0) and Analytics Platform (currently ver. 12.0) available for download.
 % in the form of a virtual machine (https://www.vertica.com/log-in/) on which operating system CentOS (64bit version) is preinstalled.
-The Vertica DB physically organises table data into projections, which are sorted subsets of the attributes of a
-table. In practice, most applications have one super projection (containing every column of the anchoring
-table) and zero to three narrow, non-super projections. Each projection has a specific sort order on which the data
-is totally sorted. HP Vertica uses Read Optimized Store (ROS) and Write Optimized Store (WOS). Data in the ROS
-is physically stored in multiple ROS containers on a standard file system. Each ROS container logically
-contains some number of complete tuples sorted by the projection's sort order, stored as a pair of files per column.
-HP Vertica is a true column store - column files may be independently retrieved as the storage is physically
-separate. By dividing each on-disk structure into logical regions at runtime and processing the regions in parallel,
-HP Vertica achieves high performance. 
+The Vertica DB physically organises table data into projections, which are sorted subsets of the attributes of a table. 
+More specifically, most applications have one super projection and zero to three narrow, non-super projections. 
+Each projection has a specific sort order on which the data 
+is totally sorted. 
+HP Vertica uses Read Optimized Store (ROS) and Write Optimized Store (WOS). 
+Data in the ROS is physically stored in multiple ROS containers on a standard file system. 
+Each ROS container logically contains some number of complete tuples sorted by the projection's sort order, stored as a pair of files per column. 
+HP Vertica is a true column store - column files may be independently retrieved as the storage is physically separate. 
+By dividing each on-disk structure into logical regions at runtime and processing the regions in parallel, HP Vertica achieves high performance.~\cite{Harr15}
