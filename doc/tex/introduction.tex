@@ -1,22 +1,108 @@
 \section{Introduction}
 \label{sec:intro}
 
-%TODO 
-% Scope of assignment: Utilize python UDFs
 % Necessity of such comparison 
-% Definition of UDF
-% Summary table for 4DBS
-% Difference of SQL and noSQL 
-% Difference of row Vs. column based
-% Structure of this report 
+Comparing different database management systems (DBMS) is essential in today's fast-paced technological world. 
+With the increasing demand for data storage, retrieval, and management, it's crucial to choose the right DBMS 
+that fits your specific business requirements. A comparison of different DBMSs can help you determine which 
+one provides the best performance, scalability, security, and cost-effectiveness. 
+This ensures that you are able to store and manage your data effectively, enabling you to make informed 
+business decisions. 
+Furthermore, as technology advances, new DBMSs emerge, and older systems become obsolete, 
+regular comparison and evaluation are necessary to keep your business up-to-date with the latest 
+technology.
 
-This work aims to study and benchmark four widely-used 
-big data systems based on their performance in handling
-complex queries. More specifically, the four systems
-that were selected for the benchmarking are MonetDB, 
-Postgres, Vertica, and MongoDB. The evaluation is 
-based on their perfomance on running queries, which
-include User-Defined Functions (UDFs).
+% Definition of UDF
+As the most popular language for querying relational data, SQL provides a convenient and efficient
+mechanism for interacting with data stored in relational databases. Beyond providing the familiar
+relational algebra operators, SQL also allows programmers to perform computations on data through 
+SQL's highly optimized built-in functions as well as through \textit{user-defined functions} (UDFs)~\cite{ZC08}.
+
+
+% Summary table for 4DBS
+\begin{table}[!ht]
+    \caption{Information for DBMS}
+    \label{tab:alldbs}
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    \textbf{}                    & \textbf{MonetDB}       & \textbf{MongoDB}                                                                                       & \textbf{PostgreSQL}                                                            & \textbf{Vertica}                                                                                               \\ \hline
+    \textbf{DB model}        & Relational DBMS        & Document store                                                                                         & Relational DBMS                                                                & Relational DBMS                                                                                                \\ \hline
+    \textbf{Developer}               & MonetDB BV             & MongoDB, Inc                                                                                           & \begin{tabular}[c]{@{}c@{}}PostgreSQL Global \\ Development Group\end{tabular} & Micro Focus                                                                                                    \\ \hline
+    \textbf{Initial release}         & 2004                   & 2009                                                                                                   & 1989                                                                           & 2005                                                                                                           \\ \hline
+    \textbf{Current release}         & Jul2021-SP2, July 2021 & 6.0.1, August 2022                                                                                     & 15.1, November 2022                                                            & 11.1, February 2022                                                                                            \\ \hline
+    \textbf{License}                 & Open Source            & Open Source                                                                                            & Open Source                                                                    & commercial                                                                                                     \\ \hline
+    \textbf{Implemented} & C                      & C++                                                                                                    & C                                                                              & C++                                                                                                            \\ \hline
+    \textbf{Data scheme}             & yes                    & schema-free                                                                                            & yes                                                                            & \begin{tabular}[c]{@{}c@{}}yes, but unstructured \\ data can be stored in \\ specific Flex-Tables\end{tabular} \\ \hline
+    \textbf{Transaction}    & ACID                   & \begin{tabular}[c]{@{}c@{}}Multi-document ACID \\ Transactions with \\ snapshot isolation\end{tabular} & ACID                                                                           & ACID                                                                                                           \\ \hline
+    \textbf{Concurrency}             & yes                    & yes                                                                                                    & yes                                                                            & yes                                                                                                            \\ \hline
+    \textbf{Durability}              & yes                    & yes                                                                                                    & yes                                                                            & yes                                                                                                            \\ \hline
+    \end{tabular}}
+\end{table}
+
+% Scope of assignment: Utilize python UDFs
+This work aims to study and benchmark four widely-used big data systems based on their performance in handling
+complex queries. More specifically, the four systems that were selected for the benchmarking are MonetDB, 
+Postgres, Vertica, and MongoDB. An analytical table of some basic information for each DBMS is presented
+in table~\ref{tab:alldbs}. The evaluation is based on their performance on running queries, which include UDFs.
+
+
+% Difference of SQL and noSQL
+\subsubsection{SQL vs NOSQL DBMS}
+SQL (Structured Query Language) and NoSQL (Not Only SQL) are two types of database management systems that are widely used today. 
+SQL databases are relational databases that store data in tables with defined relationships and adhere to a strict structure. 
+On the other hand, NoSQL databases are non-relational databases that store data in various formats including documents, 
+key-value pairs, and graph structures~\cite{M0M14}.
+SQL databases are best suited for structured data with well-defined relationships, such as financial data and customer information. 
+They are highly efficient for complex queries and transactions, and offer robust security features. 
+On the other hand, NoSQL databases are best suited for handling large amounts of unstructured or semi-structured data, 
+such as social media posts and online customer reviews. 
+They are highly scalable, making them ideal for big data applications.
+
+The choice between SQL and NoSQL depends on the specific requirements of your project and the nature of your data.
+ While SQL databases offer reliability and security, NoSQL databases provide scalability and flexibility. 
+ Both have their own strengths and weaknesses, and the decision of which to use should be based on the specific needs of your application.
+
+ % Difference of row Vs. column based
+\subsubsection{Row vs Column based databases}
+Column-oriented database systems (column-stores) have attracted
+a lot of attention in the past few years. Column-stores, in a
+nutshell, store each database table column separately, with
+attribute values belonging to the same column stored
+contiguously, compressed, and densely packed, as opposed to
+traditional database systems that store entire records (rows) one
+after the other. Reading a subset of a table's columns becomes
+faster, at the potential expense of excessive disk-head seeking
+from column to column for scattered reads or updates~\cite{ABH09}.
+
+Column-based databases have several advantages and disadvantages. 
+One of the main advantages is improved storage efficiency and reduced disk I/O, 
+as column-based databases only store the data needed for a particular query, 
+rather than reading entire rows~\cite{BHSB14}. 
+This results in faster query performance and reduced data processing times. 
+Column-based databases are also well-suited for large scale data analysis and can handle massive amounts of data with ease. 
+However, column-based databases can be challenging to implement and maintain, as they require specialized software and hardware. 
+Additionally, they are not as flexible as row-based databases, and updating a single value can require rewriting an entire column. 
+While column-based databases provide excellent performance for analytical queries, 
+they may not be the best choice for transactional systems 
+where fast write speeds and the ability to update individual values are essential.
+
+Correspondingly, row-based databases have other pros and cons. 
+Starting with their flexibility, as row-based databases allow for easy updates of individual values and fast write speeds.
+This makes them ideal for transactional systems where frequent updates and real-time data retrieval is essential. 
+Row-based databases also tend to be easier to implement and maintain, 
+as they use a more familiar and straightforward data storage model. 
+Nevertheless, row-based databases can be less efficient than column-based databases when it comes 
+to large scale data analysis. 
+This is because row-based databases must read entire rows of data, 
+even if only a small portion of the data is needed for a particular query. 
+This can result in slower query performance and increased data processing times, 
+especially for large datasets. 
+Lastly, row-based databases may not be as scalable as column-based databases, 
+and can struggle to handle massive amounts of data~\cite{BHSB14}..
+
+% Structure of this report 
 
 The report begins by providing background information 
 for every system, as well as, an overview 
