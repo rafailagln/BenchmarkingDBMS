@@ -89,9 +89,31 @@ INSERT INTO zillow_32 (title, address, city, state, postal_code, price, facts_an
 SELECT title, address, city, state, postal_code, price, facts_and_features, real_estate_provider, url FROM zillow_16;
 
 
+create table if not exists zillow_128
+(
+    title                varchar(256),
+    address              varchar(256),
+    city                 varchar(256),
+    state                varchar(256),
+    postal_code          INTEGER,
+    price                varchar(256),
+    facts_and_features   varchar(256),
+    real_estate_provider varchar(256),
+    url                  varchar(256)
+);
+
+INSERT INTO zillow_128 (title, address, city, state, postal_code, price, facts_and_features, real_estate_provider, url)
+SELECT title, address, city, state, postal_code, price, facts_and_features, real_estate_provider, url FROM zillow_32;
+INSERT INTO zillow_128 (title, address, city, state, postal_code, price, facts_and_features, real_estate_provider, url)
+SELECT title, address, city, state, postal_code, price, facts_and_features, real_estate_provider, url FROM zillow_32;
+INSERT INTO zillow_128 (title, address, city, state, postal_code, price, facts_and_features, real_estate_provider, url)
+SELECT title, address, city, state, postal_code, price, facts_and_features, real_estate_provider, url FROM zillow_32;
+
+
 SELECT COUNT(*) from zillow;
 SELECT COUNT(*) from zillow_2;
 SELECT COUNT(*) from zillow_4;
 SELECT COUNT(*) from zillow_8;
 SELECT COUNT(*) from zillow_16;
 SELECT COUNT(*) from zillow_32;
+SELECT COUNT(*) FROM "zillow_128";

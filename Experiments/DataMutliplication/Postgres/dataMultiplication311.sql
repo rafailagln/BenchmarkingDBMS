@@ -33,6 +33,15 @@ CREATE TABLE "311_32" (
 INSERT INTO "311_32" ("Incident_Zip") SELECT "Incident_Zip" FROM "311_16";
 INSERT INTO "311_32" ("Incident_Zip") SELECT "Incident_Zip" FROM "311_16";
 
+CREATE TABLE "311_128" (
+    "Incident_Zip" varchar
+);
+
+INSERT INTO "311_128" ("Incident_Zip") SELECT "Incident_Zip" FROM "311_32";
+INSERT INTO "311_128" ("Incident_Zip") SELECT "Incident_Zip" FROM "311_32";
+INSERT INTO "311_128" ("Incident_Zip") SELECT "Incident_Zip" FROM "311_32";
+INSERT INTO "311_128" ("Incident_Zip") SELECT "Incident_Zip" FROM "311_32";
+
 
 SELECT COUNT(*) FROM "311";
 SELECT COUNT(*) FROM "311_2";
@@ -40,3 +49,4 @@ SELECT COUNT(*) FROM "311_4";
 SELECT COUNT(*) FROM "311_8";
 SELECT COUNT(*) FROM "311_16";
 SELECT COUNT(*) FROM "311_32";
+SELECT COUNT(*) FROM "311_128";

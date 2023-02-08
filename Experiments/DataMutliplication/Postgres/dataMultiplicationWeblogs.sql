@@ -33,6 +33,14 @@ CREATE TABLE "weblogs_32" (
 INSERT INTO "weblogs_32" ("c1") SELECT "c1" FROM "weblogs_16";
 INSERT INTO "weblogs_32" ("c1") SELECT "c1" FROM "weblogs_16";
 
+CREATE TABLE "weblogs_128" (
+    "c1" varchar
+);
+
+INSERT INTO "weblogs_128" ("c1") SELECT "c1" FROM "weblogs_32";
+INSERT INTO "weblogs_128" ("c1") SELECT "c1" FROM "weblogs_32";
+INSERT INTO "weblogs_128" ("c1") SELECT "c1" FROM "weblogs_32";
+INSERT INTO "weblogs_128" ("c1") SELECT "c1" FROM "weblogs_32";
 
 
 SELECT COUNT(*) FROM "weblogs";
@@ -41,3 +49,4 @@ SELECT COUNT(*) FROM "weblogs_4";
 SELECT COUNT(*) FROM "weblogs_8";
 SELECT COUNT(*) FROM "weblogs_16";
 SELECT COUNT(*) FROM "weblogs_32";
+SELECT COUNT(*) FROM "weblogs_128";
