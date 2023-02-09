@@ -105,7 +105,7 @@ For our experiments we used a server with Intel i5-3470 with 3.20GHz speed. It h
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.3198) (x8, 2.325) (x32, 8.5554) (x128, 31.7244)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.356) (x8, 2.1926) (x32, 8.7202) (x128, 32.5684)};
 \legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
-PostgreSQL 1 thread, PostgreSQL 2 thread, PostgreSQL 4 thread}
+PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 \end{axis}
 \end{tikzpicture}
 	\caption{311 (Parallelism)}
@@ -125,7 +125,7 @@ PostgreSQL 1 thread, PostgreSQL 2 thread, PostgreSQL 4 thread}
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.2476) (x8, 1.7818) (x32, 6.7178) (x128, 26.367)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.2432) (x8, 1.6964) (x32, 6.6638) (x128, 25.8148)};
 \legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
-PostgreSQL 1 thread, PostgreSQL 2 thread, PostgreSQL 4 thread}
+PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 \end{axis}
 \end{tikzpicture}
 	\caption{Weblogs (Parallelism)}
@@ -147,7 +147,7 @@ PostgreSQL 1 thread, PostgreSQL 2 thread, PostgreSQL 4 thread}
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.1578) (x8, 8.6272) (x32, 33.4664) (x128, 132.8554)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.1584) (x8, 8.3448) (x32, 32.577) (x128, 133.2398)};
 \legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
-PostgreSQL 1 thread, PostgreSQL 2 thread, PostgreSQL 4 thread}
+PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 \end{axis}
 \end{tikzpicture}
 	\caption{Zillow1 (Parallelism)}
@@ -167,7 +167,7 @@ PostgreSQL 1 thread, PostgreSQL 2 thread, PostgreSQL 4 thread}
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.6276) (x8, 12.6266) (x32, 49.7454) (x128, 205.8864)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.6186) (x8, 12.5826) (x32, 49.3152) (x128, 200.7306)};
 \legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
-PostgreSQL 1 thread, PostgreSQL 2 thread, PostgreSQL 4 thread}
+PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 \end{axis}
 \end{tikzpicture}
 	\caption{Zillow2 (Parallelism)}
