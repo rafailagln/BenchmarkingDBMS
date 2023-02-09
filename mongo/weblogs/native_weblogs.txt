@@ -12,13 +12,13 @@ db.weblogs.aggregate( [
    } },
    { $project: { _id: 1,
     ip: "$regexip.match",
-    client_id: "$regexclientid.captures",
-    user_id: "$regexuserid.captures" ,
+    client_id: {$arrayElemAt: ["$regexclientid.captures", 0]},
+    user_id: {$arrayElemAt: ["$regexuserid.captures", 0]} ,
     method: "$regexmethod.match",
-    protocol: "$regexprotocol.captures",
-    endpoint: "$regexendpoint.captures",
+    protocol: {$arrayElemAt: ["$regexprotocol.captures", 0]},
+    endpoint: {$arrayElemAt: ["$regexendpoint.captures", 0 ]},
     response_code: "$regexresponsecode.match",
-    date: "$regexdate.captures"}},
+    date: {$arrayElemAt: ["$regexdate.captures", 0]}}},
   {
     $out: "weblogs_temp"
   }
