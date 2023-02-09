@@ -182,4 +182,30 @@
 
 % Plot charts
 \usepackage{pgfplots} 
-\pgfplotsset{width=8cm, height=8cm,compat=1.9}
+\pgfplotsset{compat=1.9,
+	width = 13cm,
+	height = 8cm,
+	ybar,
+	xtick=data,
+	x tick label style={font=\normalfont\tiny},
+	y tick label style={font=\normalfont\tiny},
+	y label style={font=\normalfont\tiny},
+	legend style={font=\normalfont\tiny},
+	ylabel=Time (sec),
+	nodes near coords,
+	nodes near coords style={
+	rotate=45,
+	xshift=5,
+	font=\fontsize{5}{4}\selectfont,
+	/pgf/number format/.cd,fixed,fixed zerofill,
+	precision=3},
+	ymin=0}
+
+\definecolor{color1}{HTML}{FFB81C}
+\definecolor{color2}{HTML}{C69214}
+\definecolor{color3}{HTML}{F68D2E}
+\definecolor{color4}{HTML}{B46A55}
+\definecolor{color5}{HTML}{A4343A}
+\definecolor{color6}{HTML}{565294}
+\definecolor{color7}{HTML}{4F758B}
+\definecolor{color8}{HTML}{285C4D}
