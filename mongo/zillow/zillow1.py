@@ -1,6 +1,7 @@
 import pymongo
 import time
 import udfs
+import pandas as pd
 
 # Connect to the MongoDB server˜
 connectionString = 'mongodb://localhost:27017/'
@@ -16,27 +17,28 @@ start_time = time.perf_counter()
 
 results = collection.find()
 
-# Use the filter() function to filter the results
-filtered_results = filter(lambda x: udfs.extractbd(x['facts and features']) < 10
-                                    and 100000 <= udfs.extractprice_sell(x['price']) <= 20000000
-                                    and udfs.extracttype(x['title']) == 'condo'
-                          , results)
+# Load dataframe
+df = pd.DataFrame(list(results))
 
-with open("results.txt", "w") as file:
-    for result in filtered_results:
-        file.write(str(udfs.extractba(result['facts and features'])) + '\t' +
-                   str(result['url']) + '\t' +
-                   str(result['address']) + '\t' +
-                   str(udfs.extractpcode(result['postal_code'])) + '\t' +
-                   str(udfs.extractbd(result['facts and features'])) + '\t' +
-                   str(result['city']) + '\t' +
-                   str(result['state']) + '\t' +
-                   str(udfs.extract_offer(result['title'])) + '\t' +
-                   str(udfs.extracttype(result['title'])) + '\t' +
-                   str(udfs.extractpcode(result['postal_code'])) + '\t' +
-                   str(udfs.extractsqfeet(result['facts and features'])) + '\t' +
-                   str(udfs.extractprice_sell(result['price'])) + '\n'
-                   )
+df['price'] = df.apply(lambda x: udfs.extractprice_sell(x['price']), axis=1)
+df['price'] = df['price'].replace('+', '')
+
+# extract bedrooms, bathrooms, sqft, zip_code, url, offer from the dataframe
+df['bedrooms'] = df.apply(lambda x: udfs.extractbd(x['facts and features']), axis=1)
+df['bathrooms'] = df.apply(lambda x: udfs.extractba(x['facts and features']), axis=1)
+df['sqft'] = df.apply(lambda x: udfs.extractsqfeet(x['facts and features']), axis=1)
+df['zip_code'] = df.apply(lambda x: udfs.extractpcode(x['postal_code']), axis=1)
+df['offer'] = df.apply(lambda x: udfs.extracttype(x['title']), axis=1)
+
+# Filter the dataframe using the WHERE clause
+df = df[(df['bedrooms'].astype(int) < 10)
+        & (df['price'].astype(int) > 100000)
+        & (df['price'].astype(int) < 20000000)
+        & ("None" not in df['facts and features'])
+        & (df['title'] == 'condo')]
+
+
+df.to_csv('results.txt')
 
 end_time = time.perf_counter()
 print(f'Time to execute: {end_time - start_time:0.6f} seconds')
