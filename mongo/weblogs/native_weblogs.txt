@@ -1,0 +1,49 @@
+# filtering the initial collection
+db.weblogs.aggregate( [
+   { $addFields: {
+      "regexip": { $regexFind: { input: "$column1", regex: /(^\S+)/, options: "i" } },
+      "regexclientid": { $regexFind: { input: "$column1", regex: /^\S+ (\S+) \S+ / } },
+      "regexuserid": { $regexFind: { input: "$column1", regex: /^\S+ \S+ (\S+) / } },
+      "regexmethod": { $regexFind: { input: "$column1", regex: /"\S+/ } },
+      "regexendpoint": { $regexFind: { input: "$column1", regex: /"\S+ (\S+)\s*\S*\s*"/ } },
+      "regexprotocol": { $regexFind: { input: "$column1", regex: /"\S+ \S+\s*(\S*)\s*"/ } },
+      "regexresponsecode": { $regexFind: { input: "$column1", regex: / (\d{3}) / } },
+      "regexdate": { $regexFind: { input: "$column1", regex: /\[([\w:\/]+\s)[+\-]\d{4}\]/ } },
+   } },
+   { $project: { _id: 1,
+    ip: "$regexip.match",
+    client_id: "$regexclientid.captures",
+    user_id: "$regexuserid.captures" ,
+    method: "$regexmethod.match",
+    protocol: "$regexprotocol.captures",
+    endpoint: "$regexendpoint.captures",
+    response_code: "$regexresponsecode.match",
+    date: "$regexdate.captures"}},
+  {
+    $out: "weblogs_temp"
+  }
+])
+
+# create view for joined results
+db.createView( "weblogs_final", "weblogs_temp", [
+   {
+      $lookup:
+         {
+            from: "bad_ips",
+            localField: "ip",
+            foreignField: "BadIPs",
+            as: "badIps_f"
+         }
+   },
+   {
+      $project:
+         {
+           _id: 0,
+           ip: 1,
+           protocol: 1,
+           BadIPs: "$badIps_f.BadIPs"
+
+         }
+   },
+     { $unwind: "$BadIPs" }
+] )
