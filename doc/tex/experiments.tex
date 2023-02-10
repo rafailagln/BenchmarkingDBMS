@@ -14,6 +14,16 @@ About storage, it has an SSD drive with 120 GB capacity.
 
 \subsection{Results}
 
+In this chapter, we will present the experiments we conducted for each DBMS and analyze them. 
+We chose to examine the behavior of systems with hot and cold cache memory and with the use of parallelism. 
+Particularly in MongoDB, we deemed it worth comparing the performance of the Database in running UDFs using 
+Pandas in Python and natively in MongoEngine (using regular expressions).
+
+We also need to mention that measurements were made with different data volumes, 
+from x1 to x128 (comparing cache until x32) from the initial size of the data, doubling each time the data (i.e., we have x1, x2, x4, ..., x128). 
+In the following charts to better present the results and more clearly, we chose not to place all the measurements 
+(however, all measurements are available for checking). Finally, each measurement is the average of 5 reputations.
+
 \subsubsection{Cache}
 
 \begin{figure}[!ht]
@@ -117,8 +127,23 @@ This lock is necessary because CPython's memory management is not thread-safe, m
 The impact of the GIL is not noticeable for developers running single-threaded programs, 
 but it can be a performance bottleneck in CPU-bound and multi-threaded code. Suppose we want to write a program that needs to use multiple threads 
 for maximum performance. In that case, we may consider using an alternative implementation of Python, such as Jython or IronPython, 
-which do not have a GIL or use multiple processes instead of threads.
+which do not have a GIL or use multiple processes instead of threads.\\\\
 
+{\bfseries PostgreSQL}\\
+
+Starting with PostgreSQL, we should mention that it implements parallelism at the process level. 
+This means that it could theoretically utilize the capabilities of Python for parallelism (as we mentioned at the beginning of the chapter) 
+since Python also implements parallelism at the process level. The parameters that we need to take into consideration in order to 
+implement/activate parallelism are:
+\begin{enumerate}
+	\item $max\_worker\_processes$: the maximum number of background processes that the system can support.
+	\item $max\_parallel\_workers\_per\_gather$: the maximum number of workers that can be started by a single Gather or Gather Merge node
+	\item $max\_parallel\_workers$: the maximum number of workers that the system can support for parallel queries
+	\item $max\_parallel\_maintenance\_workers$: the maximum number of parallel workers that a single utility command can start
+\end{enumerate}
+Also, the $dynamic\_shared\_memory\_type$ parameter should be enabled with the appropriate value, depending on the system that the DBMS is running on.
+
+Below, we see the diagrams that show the results we had running the queries on 1, 2 and 4 cores.
 
 \begin{figure}[!ht]
 \begin{tikzpicture}
@@ -231,4 +256,7 @@ PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 	\caption{Zillow2 (Parallelism)}
 	\label{fig:Zillow2Parallelism}
 \end{figure}
+
+
+{\bfseries MonetDB}
 	
