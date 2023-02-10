@@ -80,4 +80,6 @@ grouped_df.to_csv('results2.csv')
 
 time6 = time.perf_counter()
 
-print(f'Time to write to file: {time6 - time5:0.6f} seconds')
+print(f'Time to write to file: {time6 - time5:0.6f} seconds\n')
+print(f'Total time to execute (single-core): {(time2 - time1)+(time3-time2)+(time5-time4)+(time6-time5):0.6f} seconds')
+print(f'Total time to execute (multi-core): {(time2 - time1)+(time4-time3)+(time5-time4)+(time6-time5):0.6f} seconds')
