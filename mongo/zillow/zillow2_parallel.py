@@ -35,7 +35,7 @@ client = pymongo.MongoClient(connectionString)
 db = client["assignment"]
 
 # Get the "zillow" collection
-collection = db["zillow_8x"]
+collection = db["zillow"]
 
 time1 = time.perf_counter()
 
@@ -45,10 +45,19 @@ results = collection.find()
 df = pd.DataFrame(list(results))
 
 time2 = time.perf_counter()
+
+print(f'Time to get all collection: {time2 - time1:0.6f} seconds')
+
 df = applyUdfs(df)
+
 time3 = time.perf_counter()
+print(f'Time to execute udfs (single-core): {time3 - time2:0.6f} seconds')
+
 df = parallelize_dataframe(df, applyUdfs)
+
 time4 = time.perf_counter()
+print(f'Time to execute udfs (multi-core): {time4 - time3:0.6f} seconds')
+
 # Filter the dataframe using the WHERE clause
 df = df[(df['bedrooms'].astype(int) < 10)
         & (df['price'].astype(int) > 100000)
@@ -65,11 +74,10 @@ grouped_df.rename(
     inplace=True)
 time5 = time.perf_counter()
 
+print(f'Time to filter and group data: {time5 - time4:0.6f} seconds')
+
 grouped_df.to_csv('results2.csv')
 
 time6 = time.perf_counter()
-print(f'Time to get all collection: {time2 - time1:0.6f} seconds')
-print(f'Time to execute udfs (single-core): {time3 - time2:0.6f} seconds')
-print(f'Time to execute udfs (multi-core): {time4 - time3:0.6f} seconds')
-print(f'Time to filter and group data: {time5 - time4:0.6f} seconds')
+
 print(f'Time to write to file: {time6 - time5:0.6f} seconds')
