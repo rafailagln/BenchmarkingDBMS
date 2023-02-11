@@ -37,6 +37,11 @@
 % load a colour package
 \usepackage{xcolor}
 \definecolor{aaublue}{RGB}{33,26,82}% dark blue
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
 % The standard graphics inclusion package
 \usepackage{graphicx}
 % Set up how figure and table captions are displayed
@@ -210,3 +215,30 @@
 \definecolor{color6}{HTML}{565294}
 \definecolor{color7}{HTML}{4F758B}
 \definecolor{color8}{HTML}{285C4D}
+
+% -- Basic formatting
+\setlength{\parindent}{8pt}
+\usepackage{indentfirst}
+
+
+% Definig a custom style for listings:
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codepurple},
+    %keywordstyle=\color{NavyBlue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize\bfseries,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+% -- Setting up the custom style:
+\lstset{style=mystyle}
