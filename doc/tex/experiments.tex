@@ -160,7 +160,7 @@ and to what extent they are explained by the increased machine power, or to what
 to make such changes.
 
 Additionally, we consider it important to note that Python, for security reasons, allows only one thread to hold control of the Python interpreter. 
-This is known as the Python Global Interpreter Lock or GIL. This is a mechanism in CPython, the default and most widely used implementation of the 
+This is known as the Python Global Interpreter Lock or GIL~\cite{PythonGIL}. This is a mechanism in CPython, the default and most widely used implementation of the 
 Python programming language, to ensure that only one thread executes Python bytecodes at a time. 
 This lock is necessary because CPython's memory management is not thread-safe, meaning only one thread can be in a state of execution at any time. 
 The impact of the GIL is not noticeable for developers running single-threaded programs, 
@@ -262,6 +262,18 @@ Below, we see the diagrams that show the results we had running the queries on 1
 	\end{figure}	
 
 \paragraph{MonetDB}
+
+Compared to PostgreSQL, MonetDB implements parallelism at thread level. 
+That is, for the same process, it generates many threads that operate on the same memory, having common global variables, heap, and code. 
+This is in contrast to what Python provides us, where UDFs are implemented. 
+As we will see in the charts, MonetDB cannot leverage parallelism enough to give us satisfactory results. 
+Also, in the charts it shows that we tried parallelism at both thread level and database-pipeline level.
+
+Regarding the thread-level parallelization, we modified the number of nthreads through the database configuration, using the \emph{monetdb set nthreads=x <dbname>} command. 
+As for the pipeline method mentioned earlier, MonetDB internally implements a type of pipeline to give a speedup in processing the data. 
+The user has the option to disable it with the \emph{monetdb set optpipe=sequential\_pipe <dbname>} command. 
+We thought it would be interesting to see how such an option affects the speed of our results. 
+In the following charts, in the sequential pipeline, we used 4 threads which is the default option of MonetDB.
 
 \begin{figure}[!ht]
 	\begin{minipage}{.5\textwidth}
