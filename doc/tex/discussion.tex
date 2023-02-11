@@ -2,4 +2,22 @@
 \label{sec:discussion}
 
 %TODO
-% Issues there was a better way to do it natively (add refrences to prove this)
+% Figures 1-4: 
+% * column based faster (+Vertica and monetdb measurements outperforms others)
+% * no significant improvements in hot and cold as expected (+citation)
+% * queries: 
+%     - zillow1: many nested calls
+%     - Weblogs: join 
+%     - zillow2, 311 aggregated
+% * size of data differences: linear increase
+% * postgres parallelism: no difference independently the query 
+%     + reasons: query plan execution, #data, hardware
+% * monetdb: same
+% * vertica, only zillow2 (many aggregations), followed by weblogs which has join
+%     - no difference on nested queries
+% * mongodb: 
+%     - 311 distinct -> logically no difference, same 250 to applyUDF -> 
+%     - weblogs, zillow1, zillow2: applyUDF and every time splits data in more partitions 
+%         (-) implementation has no safeguard on how many cores will be utilized
+%     - native mongo much better (i.e. weblogs)
+
