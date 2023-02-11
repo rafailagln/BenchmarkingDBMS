@@ -27,7 +27,7 @@ Thus, we need to make a loop to pass through all the data. In traditional row-ba
 
 \subsection{Results}
 
-In this chapter, we will present the experiments we conducted for each DBMS and analyze them. 
+In this section, we will present the experiments we conducted for each DBMS and analyze them. 
 We chose to examine the behavior of systems with hot and cold cache memory and with the use of parallelism. 
 Particularly in MongoDB, we deemed it worth comparing the performance of the Database in running UDFs using 
 Pandas in Python and natively in MongoEngine (using regular expressions).
@@ -38,6 +38,32 @@ In the following charts to better present the results and more clearly, we chose
 (however, all measurements are available for checking). Finally, each measurement is the average of 5 reputations.
 
 \subsubsection{Cache}
+Reading data from disk is still much slower than reading from memories. In
+order to maintain the overall speed of the system, memory is used to cache the most
+recent read data, so next time when the same data is requested; the system will read
+directly from memory instead of disks~\cite{Smit82}. 
+To check the caching effects of the systems, every query in each DBS executed in both warm and cold cache. 
+The reason for this experiment is to observe the performance of the storage systems for the environments 
+with an initial state or limited memory that do not utilize the caching effect fully. 
+First, cold cache is an environment where data and indexes do not reside in the memory, i.e., queries have
+never been executed. 
+Second, warm cache is an environment where data and indexes
+reside in the memory by executing the same query prior to conducting the experiment. 
+For cold cache we dropped the file systems caches using
+\begin{lstlisting}[language=bash]
+	echo 1 > sudo /proc/sys/vm/drop_caches
+	echo 2 > sudo /proc/sys/vm/drop_caches
+	echo 3 > sudo /proc/sys/vm/drop_caches
+\end{lstlisting} 
+before each query is performed on OS level. 
+This command frees page caches in the Linux system. 
+
+We should not expect any DBS processes to show large memory use, due to the significant small size of our datasets;
+our biggest file consists of approximately 6,400,000 records, corresponds to 1.36GB. Eventually, 
+warm and cold cache differences are almost insignificant. 
+
+% You should not expect postgres processes to show large memory use, even if the whole database is cached in RAM.
+% That is because PostgreSQL relies on buffered reads from the operating system buffer cache. In simplified terms, when PostgreSQL does a read(), the OS looks to see whether the requested blocks are cached in the "free" RAM that it uses for disk cache. If the block is in cache, the OS returns it almost instantly. If the block is not in cache the OS reads it from disk, adds it to the disk cache, and returns the block. Subsequent reads will fetch it from the cache unless it's displaced from the cache by other blocks.
 
 \begin{figure}[!ht]
 \begin{tikzpicture}
