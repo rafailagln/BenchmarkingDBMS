@@ -3,7 +3,8 @@
 
 \subsection{Experimental Setup}
 For our experiments, we used a server with Intel i5-3470 with 3.20GHz speed. It has 4 sockets with 1 thread per socket. 
-It has also 128 KiB L1d, 128 KiB L1i, 1MiB L2 and 6MiB L3 cache. Due to the CPU architecture, we decided in our experiments to use 1-2-4 cores/threads, 
+It has also 128 KiB L1d, 128 KiB L1i, 1MiB L2 and 6MiB L3 cache. Due to the CPU architecture, 
+we decided in our experiments to use 1-2-4 cores/threads, 
 to test parallelization, because it does not support more threads per CPU.
 
 Regarding the memory, it has 8GB DDR3 RAM. Specifically, it has 2 dims of 4 GB each with a speed of 1333 MHz and a width of 64 bits. 
@@ -11,18 +12,66 @@ About storage, it has an SSD drive with 120 GB capacity.
 
 \subsection{Setup DBS for experiments}
 \subsubsection{PostgreSQL}
-In order to run Python UDFs in PostgreSQL, we need to install the PL/Python procedural language by running the command \emph{CREATE EXTENSION plpython 3u;} as a superuser in the PostgreSQL shell. 
-This language allows us to write functions in Python and call them within PostgreSQL queries. After this, we are able to run normal Python UDFs in PostgreSQL. 
-Because PostgreSQL is a row-based database, it feeds one row of data into each function call, so there is no need for any special changes to the Python code (such as the addition of iteration).
+In order to run Python UDFs in PostgreSQL, we need to install the PL\/Python 
+procedural language by running the command \emph{CREATE EXTENSION plpython
+3u;} as a superuser in the PostgreSQL shell. 
+This language allows us to write functions in Python and call them within
+PostgreSQL queries. After this, we are able to run normal Python UDFs in
+PostgreSQL. 
+Because PostgreSQL is a row-based database, it feeds one row of data into 
+each function call, so there is no need for any special changes to the 
+Python code (such as the addition of iteration).
 
 \subsubsection{MonetDB}
-In order to run Python-implemented UDFs in MonetDB, we need to modify the configuration of the database using the command \emph{monetdb set embedded\_py=3 <dbname>}. 
-It should be noted that this is done for each database individually within the DBMS. Because MonetDB is a column-based database, each UDF accepts data in the form of a table. 
-Thus, we need to make a loop to pass through all the data. In traditional row-based databases, this is not necessary, as it is done automatically by the respective DBMS.
+In order to run Python-implemented UDFs in MonetDB, we need to modify the 
+configuration of the database using the command 
+\emph{monetdb set embedded\_py=3 <dbname>}. 
+It should be noted that this is done for each database individually within
+the DBMS. Because MonetDB is a column-based database, each UDF accepts data
+in the form of a table. 
+Thus, we need to make a loop to pass through all the data. In traditional
+row-based databases, this is not necessary, as it is done automatically by the respective DBMS.
 
 
 \subsubsection{Vertica}
+Python UDFs in Vertica were implemented by following the steps below. 
+\begin{enumerate}
+	\item Install \emph{vertica\_sdk} library in the .py file
+	\item Write your Python function: The Python function should take 
+	one or more inputs and return a single value, using two classes, namely
+	function's class, fuction's factory class
+	\item Compile the Python function: The \emph{vertica\_sdk} library provides 
+	a udf decorator that you can use to compile your Python function into a shared library
+	\item Load the shared library into Vertica: You can use the 
+	\emph{CREATE OR REPLACE LIBRARY} statement  to load the shared library into Vertica, 
+	specifying at the end the programming language (i.e \emph{LANGUAGE Python})
+	The function name and return type must be specified as part of this statement.
+	\item Create all python functions by using the command \emph{CREATE OR REPLACE FUNCTION}
+	followed by UDF's name, programming language, name of factory class and library~\ref{lst:verticaUDF} 
+\end{enumerate}
+\begin{lstlisting}[language=sh, caption={Example of UDF in Vertica},label={lst:verticaUDF}] 
+	CREATE OR REPLACE FUNCTION extract_ip 
+	AS LANGUAGE 'Python' NAME 'extract_ip_factory' 
+	LIBRARY weblogslib fenced;
+\end{lstlisting}
+
 \subsubsection{MongoDB}
+MongoDB is a NoSQL database and does not support executing Python functions
+natively. 
+However, you can execute JavaScript functions within MongoDB using the 
+\emph {function} 
+method, which allows you to run JavaScript code directly on the database server.
+So our first alternative to run a Python function in MongoDB was to
+translate it into JavaScript and then run it using \emph{function}. 
+Nevertheless, that way has some limitations and is generally discouraged in production environments, 
+as it can have security implications and can block the server for other operations while it's running. 
+If you need to run complex logic in MongoDB, 
+it's usually better to implement it outside of the database and interact with MongoDB 
+using the appropriate drivers and APIs.
+We used PyMongo, the Python driver for MongoDB~\footnote{\url{https://api.mongodb.com/python/current/}},
+to interact with a MongoDB database from your Python code. 
+With PyMongo, you can execute operations like reading, writing, and updating documents, 
+creating and managing collections, and running aggregation pipelines.
 
 
 \subsection{Results}
@@ -33,7 +82,8 @@ Particularly in MongoDB, we deemed it worth comparing the performance of the Dat
 Pandas in Python and natively in MongoEngine (using regular expressions).
 
 We also need to mention that measurements were made with different data volumes, 
-from x1 to x128 (comparing cache until x32) from the initial size of the data, doubling each time the data (i.e., we have x1, x2, x4, ..., x128). 
+from x1 to x128 (comparing cache until x32) from the initial size of the data, 
+doubling each time the data (i.e., we have x1, x2, x4, ..., x128). 
 In the following charts to better present the results and more clearly, we chose not to place all the measurements 
 (however, all measurements are available for checking). Finally, each measurement is the average of 5 reputations.
 
@@ -63,7 +113,11 @@ our biggest file consists of approximately 6,400,000 records, corresponds to 1.3
 warm and cold cache differences are almost insignificant. 
 
 % You should not expect postgres processes to show large memory use, even if the whole database is cached in RAM.
-% That is because PostgreSQL relies on buffered reads from the operating system buffer cache. In simplified terms, when PostgreSQL does a read(), the OS looks to see whether the requested blocks are cached in the "free" RAM that it uses for disk cache. If the block is in cache, the OS returns it almost instantly. If the block is not in cache the OS reads it from disk, adds it to the disk cache, and returns the block. Subsequent reads will fetch it from the cache unless it's displaced from the cache by other blocks.
+% That is because PostgreSQL relies on buffered reads from the operating system buffer cache. 
+% In simplified terms, when PostgreSQL does a read(), the OS looks to see whether the requested blocks are 
+% cached in the "free" RAM that it uses for disk cache. If the block is in cache, the OS returns it almost instantly. 
+% If the block is not in cache the OS reads it from disk, adds it to the disk cache, and returns the block.
+% Subsequent reads will fetch it from the cache unless it's displaced from the cache by other blocks.
 
 \begin{figure}[!ht]
 \begin{tikzpicture}
@@ -160,29 +214,36 @@ and to what extent they are explained by the increased machine power, or to what
 to make such changes.
 
 Additionally, we consider it important to note that Python, for security reasons, allows only one thread to hold control of the Python interpreter. 
-This is known as the Python Global Interpreter Lock or GIL~\cite{PythonGIL}. This is a mechanism in CPython, the default and most widely used implementation of the 
+This is known as the Python Global Interpreter Lock or GIL~\cite{PythonGIL}. This is a mechanism in CPython, 
+the default and most widely used implementation of the 
 Python programming language, to ensure that only one thread executes Python bytecodes at a time. 
 This lock is necessary because CPython's memory management is not thread-safe, meaning only one thread can be in a state of execution at any time. 
 The impact of the GIL is not noticeable for developers running single-threaded programs, 
 but it can be a performance bottleneck in CPU-bound and multi-threaded code. Suppose we want to write a program that needs to use multiple threads 
 for maximum performance. In that case, we may consider using an alternative implementation of Python, such as Jython or IronPython, 
-which do not have a GIL or use multiple processes instead of threads.\\\\
+which do not have a GIL or use multiple processes instead of threads.
 
-\paragraph{PostgreSQL}
-
-Starting with PostgreSQL, we should mention that it implements parallelism at the process level. 
-This means that it could theoretically utilize the capabilities of Python for parallelism (as we mentioned at the beginning of the chapter) 
-since Python also implements parallelism at the process level. The parameters that we need to take into consideration in order to 
-implement/activate parallelism are:
+\paragraph{PostgreSQL} implements parallelism at the process level. 
+This means that it could theoretically utilize the capabilities of Python 
+for parallelism (as we mentioned at the beginning of the chapter) 
+since Python also implements parallelism at the process level. The
+parameters that we need to take into consideration in order to 
+implement\/activate parallelism are:
 \begin{enumerate}
-	\item $max\_worker\_processes$: the maximum number of background processes that the system can support.
-	\item $max\_parallel\_workers\_per\_gather$: the maximum number of workers that can be started by a single Gather or Gather Merge node
-	\item $max\_parallel\_workers$: the maximum number of workers that the system can support for parallel queries
-	\item $max\_parallel\_maintenance\_workers$: the maximum number of parallel workers that a single utility command can start
+	\item $max\_worker\_processes$: the maximum number of background 
+	processes that the system can support.
+	\item $max\_parallel\_workers\_per\_gather$: the maximum number of 
+	workers that can be started by a single Gather or Gather Merge node
+	\item $max\_parallel\_workers$: the maximum number of workers that the 
+	system can support for parallel queries
+	\item $max\_parallel\_maintenance\_workers$: the maximum number of 
+	parallel workers that a single utility command can start
 \end{enumerate}
-Also, the $dynamic\_shared\_memory\_type$ parameter should be enabled with the appropriate value, depending on the system that the DBMS is running on.
+Also, the $dynamic\_shared\_memory\_type$ parameter should be enabled with
+the appropriate value, depending on the system that the DBMS is running on.
 
-Below, we see the diagrams that show the results we had running the queries on 1, 2, and 4 cores.
+Below, we see the diagrams that show the results we had running the queries 
+on 1, 2, and 4 cores.
 
 \begin{figure}[!ht]
 	\begin{minipage}{.5\textwidth}
@@ -261,19 +322,27 @@ Below, we see the diagrams that show the results we had running the queries on 1
 	\end{minipage}
 	\end{figure}	
 
-\paragraph{MonetDB}
-
-Compared to PostgreSQL, MonetDB implements parallelism at thread level. 
-That is, for the same process, it generates many threads that operate on the same memory, having common global variables, heap, and code. 
+\paragraph{MonetDB}, on the other hand, implements parallelism at thread 
+level. 
+That is, for the same process, it generates many threads that operate on 
+the same memory, having common global variables, heap, and code. 
 This is in contrast to what Python provides us, where UDFs are implemented. 
-As we will see in the charts, MonetDB cannot leverage parallelism enough to give us satisfactory results. 
-Also, in the charts it shows that we tried parallelism at both thread level and database-pipeline level.
+As we will see in the charts, MonetDB cannot leverage parallelism enough to
+give us satisfactory results. 
+Also, in the charts it shows that we tried parallelism at both thread level 
+and database-pipeline level.
 
-Regarding the thread-level parallelization, we modified the number of nthreads through the database configuration, using the \emph{monetdb set nthreads=x <dbname>} command. 
-As for the pipeline method mentioned earlier, MonetDB internally implements a type of pipeline to give a speedup in processing the data. 
-The user has the option to disable it with the \emph{monetdb set optpipe=sequential\_pipe <dbname>} command. 
-We thought it would be interesting to see how such an option affects the speed of our results. 
-In the following charts, in the sequential pipeline, we used 4 threads which is the default option of MonetDB.
+Regarding the thread-level parallelization, we modified the number of 
+nthreads through the database configuration, using the 
+\emph{monetdb set nthreads=x <dbname>} command. 
+As for the pipeline method mentioned earlier, MonetDB internally implements
+a type of pipeline to give a speedup in processing the data. 
+The user has the option to disable it with the 
+\emph{monetdb set optpipe=sequential\_pipe <dbname>} command. 
+We thought it would be interesting to see how such an option affects the 
+speed of our results. 
+In the following charts, in the sequential pipeline, we used 4 threads 
+which is the default option of MonetDB.
 
 \begin{figure}[!ht]
 	\begin{minipage}{.5\textwidth}
