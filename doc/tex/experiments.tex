@@ -9,7 +9,20 @@ to test parallelization, because it does not support more threads per CPU.
 Regarding the memory, it has 8GB DDR3 RAM. Specifically, it has 2 dims of 4 GB each with a speed of 1333 MHz and a width of 64 bits. 
 About storage, it has an SSD drive with 120 GB capacity.
 
+\subsection{Setup DBS for experiments}
+\subsubsection{PostgreSQL}
+In order to run Python UDFs in PostgreSQL, we need to install the PL/Python procedural language by running the command \emph{CREATE EXTENSION plpython 3u;} as a superuser in the PostgreSQL shell. 
+This language allows us to write functions in Python and call them within PostgreSQL queries. After this, we are able to run normal Python UDFs in PostgreSQL. 
+Because PostgreSQL is a row-based database, it feeds one row of data into each function call, so there is no need for any special changes to the Python code (such as the addition of iteration).
 
+\subsubsection{MonetDB}
+In order to run Python-implemented UDFs in MonetDB, we need to modify the configuration of the database using the command \emph{monetdb set embedded\_py=3 <dbname>}. 
+It should be noted that this is done for each database individually within the DBMS. Because MonetDB is a column-based database, each UDF accepts data in the form of a table. 
+Thus, we need to make a loop to pass through all the data. In traditional row-based databases, this is not necessary, as it is done automatically by the respective DBMS.
+
+
+\subsubsection{Vertica}
+\subsubsection{MongoDB}
 
 
 \subsection{Results}
@@ -143,7 +156,7 @@ implement/activate parallelism are:
 \end{enumerate}
 Also, the $dynamic\_shared\_memory\_type$ parameter should be enabled with the appropriate value, depending on the system that the DBMS is running on.
 
-Below, we see the diagrams that show the results we had running the queries on 1, 2 and 4 cores.
+Below, we see the diagrams that show the results we had running the queries on 1, 2, and 4 cores.
 
 \begin{figure}[!ht]
 \begin{tikzpicture}
@@ -152,20 +165,13 @@ Below, we see the diagrams that show the results we had running the queries on 1
 	enlarge x limits=0.18,
 	legend style={at={(0.31,0.95)}, anchor=north east}
 ]
-% \addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.161) (x8, 0.547) (x32, 1.9026) (x128, 7.4264)};
-% \addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1622) (x8, 0.5508) (x32, 1.8896) (x128, 7.3956)};
-% \addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.163) (x8, 0.55) (x32, 1.8902) (x128, 7.417)};
-% \addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1608) (x8, 0.5416) (x32, 1.8808) (x128, 7.3984)};
-% \addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.3176) (x8, 2.1764) (x32, 8.5206) (x128, 32.5684)};
-% \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.3198) (x8, 2.325) (x32, 8.5554) (x128, 31.7244)};
-% \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.356) (x8, 2.1926) (x32, 8.7202) (x128, 32.5684)};
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.161) (x8, 0.547) (x32, 1.9026) };
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1622) (x8, 0.5508) (x32, 1.8896) };
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.163) (x8, 0.55) (x32, 1.8902) };
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1608) (x8, 0.5416) (x32, 1.8808) };
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.3176) (x8, 2.1764) (x32, 8.5206) };
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.3198) (x8, 2.325) (x32, 8.5554) };
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.356) (x8, 2.1926) (x32, 8.7202) };
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.161) (x8, 0.547) (x32, 1.9026) (x128, 7.4264)};
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1622) (x8, 0.5508) (x32, 1.8896) (x128, 7.3956)};
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.163) (x8, 0.55) (x32, 1.8902) (x128, 7.417)};
+\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1608) (x8, 0.5416) (x32, 1.8808) (x128, 7.3984)};
+\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.3176) (x8, 2.1764) (x32, 8.5206) (x128, 32.5684)};
+\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.3198) (x8, 2.325) (x32, 8.5554) (x128, 31.7244)};
+\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.356) (x8, 2.1926) (x32, 8.7202) (x128, 32.5684)};
 \legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
 PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 \end{axis}
@@ -175,24 +181,17 @@ PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 
 \begin{tikzpicture}
 \begin{axis}[
-	symbolic x coords={x1, x8, x32},
+	symbolic x coords={x1, x8, x32, x128},
 	enlarge x limits=0.18,
 	legend style={at={(0.31,0.95)}, anchor=north east}
 ]
-% \addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.146) (x8, 0.6052) (x32, 2.2292) (x128, 9.328)};
-% \addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1464) (x8, 0.6046) (x32, 2.2208) (x128, 9.6558)};
-% \addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.1456) (x8, 0.6044) (x32, 2.2192) (x128, 9.4814)};
-% \addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1464) (x8, 0.6022) (x32, 2.1796) (x128, 9.1778)};
-% \addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.2494) (x8, 1.7006) (x32, 6.6864) (x128, 25.4232)};
-% \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.2476) (x8, 1.7818) (x32, 6.7178) (x128, 26.367)};
-% \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.2432) (x8, 1.6964) (x32, 6.6638) (x128, 25.8148)};
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.146) (x8, 0.6052) (x32, 2.2292) };
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1464) (x8, 0.6046) (x32, 2.2208) };
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.1456) (x8, 0.6044) (x32, 2.2192) };
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1464) (x8, 0.6022) (x32, 2.1796) };
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.2494) (x8, 1.7006) (x32, 6.6864) };
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.2476) (x8, 1.7818) (x32, 6.7178) };
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.2432) (x8, 1.6964) (x32, 6.6638) };
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.146) (x8, 0.6052) (x32, 2.2292) (x128, 9.328)};
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1464) (x8, 0.6046) (x32, 2.2208) (x128, 9.6558)};
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.1456) (x8, 0.6044) (x32, 2.2192) (x128, 9.4814)};
+\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1464) (x8, 0.6022) (x32, 2.1796) (x128, 9.1778)};
+\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.2494) (x8, 1.7006) (x32, 6.6864) (x128, 25.4232)};
+\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.2476) (x8, 1.7818) (x32, 6.7178) (x128, 26.367)};
+\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.2432) (x8, 1.6964) (x32, 6.6638) (x128, 25.8148)};
 \legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
 PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 \end{axis}
@@ -204,24 +203,17 @@ PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 \begin{figure}[!ht]
 \begin{tikzpicture}
 \begin{axis}[
-	symbolic x coords={x1, x8, x32},
+	symbolic x coords={x1, x8, x32, x128},
 	enlarge x limits=0.18,
 	legend style={at={(0.31,0.95)}, anchor=north east}
 ]
-% \addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.3454) (x8, 1.9884) (x32, 7.9144) (x128, 31.263)};
-% \addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.3622) (x8, 2.0036) (x32, 7.6228) (x128, 30.8102)};
-% \addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.3582) (x8, 1.9938) (x32, 7.6168) (x128, 30.754)};
-% \addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.339) (x8, 1.9946) (x32, 7.6994) (x128, 30.8414)};
-% \addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.1708) (x8, 8.6078) (x32, 33.6204) (x128, 132.1814)};
-% \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.1578) (x8, 8.6272) (x32, 33.4664) (x128, 132.8554)};
-% \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.1584) (x8, 8.3448) (x32, 32.577) (x128, 133.2398)};
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.3454) (x8, 1.9884) (x32, 7.9144) };
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.3622) (x8, 2.0036) (x32, 7.6228) };
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.3582) (x8, 1.9938) (x32, 7.6168) };
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.339) (x8, 1.9946) (x32, 7.6994) };
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.1708) (x8, 8.6078) (x32, 33.6204) };
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.1578) (x8, 8.6272) (x32, 33.4664) };
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.1584) (x8, 8.3448) (x32, 32.577) };
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.3454) (x8, 1.9884) (x32, 7.9144) (x128, 31.263)};
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.3622) (x8, 2.0036) (x32, 7.6228) (x128, 30.8102)};
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.3582) (x8, 1.9938) (x32, 7.6168) (x128, 30.754)};
+\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.339) (x8, 1.9946) (x32, 7.6994) (x128, 30.8414)};
+\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.1708) (x8, 8.6078) (x32, 33.6204) (x128, 132.1814)};
+\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.1578) (x8, 8.6272) (x32, 33.4664) (x128, 132.8554)};
+\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.1584) (x8, 8.3448) (x32, 32.577) (x128, 133.2398)};
 \legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
 PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 \end{axis}
@@ -231,24 +223,17 @@ PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 
 \begin{tikzpicture}
 \begin{axis}[
-	symbolic x coords={x1, x8, x32},
+	symbolic x coords={x1, x8, x32, x128},
 	enlarge x limits=0.18,
 	legend style={at={(0.31,0.95)}, anchor=north east}
 ]
-% \addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.5304) (x8, 3.8512) (x32, 15.1888) (x128, 62.946)};
-% \addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.5506) (x8, 3.86) (x32, 15.2562) (x128, 62.6158)};
-% \addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.5362) (x8, 3.8562) (x32, 15.167) (x128, 63.015)};
-% \addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.539) (x8, 3.8672) (x32, 15.1864) (x128, 62.7628)};
-% \addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.7136) (x8, 13.0884) (x32, 51.5364) (x128, 202.3072)};
-% \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.6276) (x8, 12.6266) (x32, 49.7454) (x128, 205.8864)};
-% \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.6186) (x8, 12.5826) (x32, 49.3152) (x128, 200.7306)};
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.5304) (x8, 3.8512) (x32, 15.1888) };
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.5506) (x8, 3.86) (x32, 15.2562) };
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.5362) (x8, 3.8562) (x32, 15.167) };
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.539) (x8, 3.8672) (x32, 15.1864) };
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.7136) (x8, 13.0884) (x32, 51.5364) };
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.6276) (x8, 12.6266) (x32, 49.7454) };
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.6186) (x8, 12.5826) (x32, 49.3152) };
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.5304) (x8, 3.8512) (x32, 15.1888) (x128, 62.946)};
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.5506) (x8, 3.86) (x32, 15.2562) (x128, 62.6158)};
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.5362) (x8, 3.8562) (x32, 15.167) (x128, 63.015)};
+\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.539) (x8, 3.8672) (x32, 15.1864) (x128, 62.7628)};
+\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.7136) (x8, 13.0884) (x32, 51.5364) (x128, 202.3072)};
+\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.6276) (x8, 12.6266) (x32, 49.7454) (x128, 205.8864)};
+\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.6186) (x8, 12.5826) (x32, 49.3152) (x128, 200.7306)};
 \legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
 PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 \end{axis}
@@ -259,4 +244,10 @@ PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 
 
 {\bfseries MonetDB}
+
+
+{\bfseries Vertica}
+
+
+{\bfseries MongoDB}
 	

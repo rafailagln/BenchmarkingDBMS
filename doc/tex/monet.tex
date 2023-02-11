@@ -12,5 +12,3 @@ MonetDB also supports multiple languages, including Python, making it easy to in
 
 Python support means that the user can implement their own functions in the base using Python. 
 It can then execute the queries appropriately by calling them as if they were built-in MonetDB functions.
-
-Because MonetDB is a column-based database, each function takes the data as a pandas array and thus is taken into each UDF. For this reason, in the implementation of the UDF we iterate for each value of the table, so as to go through all the data. As we will see below (in PostgreSQL) traditional databases that are row-based do not have this problem.
