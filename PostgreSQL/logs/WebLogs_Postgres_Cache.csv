@@ -1,0 +1,16 @@
+Data Size,Rep1,Rep2,Rep3,Rep4,Rep5,AVG,,,,,
+x1,0.252,0.251,0.251,0.253,0.251,0.2516,Hot faster,,,,
+x2,0.494,0.473,0.473,0.476,0.474,0.478,Hot faster,DIRTY CACHE,,,
+x4,0.93,0.915,0.91,0.907,0.91,0.9144,Hot faster,max_parallel_maintenance_workers,2,,
+x8,1.795,1.756,1.751,1.749,1.754,1.761,Hot faster,max_parallel_workers,8,,comment
+x16,3.587,3.562,3.479,3.476,3.556,3.532,Cold faster,max_parallel_workers_per_gather,2,,
+x32,7.108,7.071,7.052,7.086,7.077,7.0788,Cold faster,max_worker_processes,8,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+Data Size,Rep1,Rep2,Rep3,Rep4,Rep5,AVG,,,,,
+x1,0.272,0.249,0.25,0.248,0.25,0.2538,,,,,
+x2,0.498,0.476,0.486,0.481,0.475,0.4832,,CLEAN CACHE,,,
+x4,0.94,0.908,0.912,0.904,0.912,0.9152,,max_parallel_maintenance_workers,2,,
+x8,1.796,1.763,1.756,1.758,1.769,1.7684,,max_parallel_workers,8,,comment
+x16,3.447,3.41,3.432,3.455,3.456,3.44,,max_parallel_workers_per_gather,2,,
+x32,6.759,6.762,6.837,6.739,6.75,6.7694,,max_worker_processes,8,,
