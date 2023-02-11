@@ -42,18 +42,18 @@ In the following charts to better present the results and more clearly, we chose
 \begin{figure}[!ht]
 \begin{tikzpicture}
 \begin{axis}[
-	symbolic x coords={x1, x8, x32},
+	symbolic x coords={x1, x16, x32},
 	enlarge x limits=0.25,
 	legend style={at={(0.25,0.96)}, anchor=north east}
 ]
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.0894) (x8, 0.5398) (x32, 1.8502)};
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.163) (x8, 0.55) (x32, 1.8902)};
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.0789392) (x8, 0.5766666) (x32, 2.2763508)};
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.0761492) (x8, 0.5691348) (x32, 2.2464764)};
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.3174) (x8, 2.1204) (x32, 8.3862)};
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.3136) (x8, 2.0708) (x32, 8.2184)};
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.3408) (x8, 1.4064) (x32, 4.8236)};
-\addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 0.3514) (x8, 1.3822) (x32, 4.8488)};
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.0894) (x16, 0.953) (x32, 1.8502)};
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.163) (x16, 0.995) (x32, 1.8902)};
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.0907822) (x16, 1.1996344) (x32, 2.3687442)};
+\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.0934848) (x16, 1.2112494) (x32, 2.3839544)};
+\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.3174) (x16, 4.2282) (x32, 8.3862)};
+\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.3136) (x16, 4.1932) (x32, 8.2184)};
+\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.3408) (x16, 2.5616) (x32, 4.8236)};
+\addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 0.3514) (x16, 2.5368) (x32, 4.8488)};
 \legend{Monet cold, Monet hot, Mongo cold, Mongo hot, PostgreSQL cold, PostgreSQL hot, Vertica cold, Vertica hot}
 \end{axis}
 \end{tikzpicture}
@@ -62,18 +62,18 @@ In the following charts to better present the results and more clearly, we chose
 
 \begin{tikzpicture}
 \begin{axis}[
-	symbolic x coords={x1, x8, x32},
+	symbolic x coords={x1, x16, x32},
 	enlarge x limits=0.25,
 	legend style={at={(0.25,0.96)}, anchor=north east}
 ]
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.0916) (x8, 0.6466) (x32, 2.3126)};
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1456) (x8, 0.6044) (x32, 2.2192)};
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.677313) (x8, 5.6778428) (x32, 22.3317652)};
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.6868898) (x8, 5.6655924) (x32, 22.2838622)};
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.2538) (x8, 1.7684) (x32, 6.7694)};
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.2516) (x8, 1.761) (x32, 7.0788)};
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.4508) (x8, 2.5364) (x32, 6.0396)};
-\addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 1.4228) (x8, 2.4654) (x32, 6.3762)};
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.0916) (x16, 1.2374) (x32, 2.3126)};
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1456) (x16, 1.1384) (x32, 2.2192)};
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.677313) (x16, 11.2072838) (x32, 22.3317652)};
+\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.6868898) (x16, 11.283492) (x32, 22.2838622)};
+\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.2538) (x16, 3.44) (x32, 6.7694)};
+\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.2516) (x16, 3.532) (x32, 7.0788)};
+\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.4508) (x16, 3.7988) (x32, 6.0396)};
+\addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 1.4228) (x16, 3.7426) (x32, 6.3762)};
 \legend{Monet cold, Monet hot, Mongo cold, Mongo hot, PostgreSQL cold, PostgreSQL hot, Vertica cold, Vertica hot}
 \end{axis}
 \end{tikzpicture}
@@ -84,18 +84,18 @@ In the following charts to better present the results and more clearly, we chose
 \begin{figure}[!ht]
 \begin{tikzpicture}
 \begin{axis}[
-	symbolic x coords={x1, x8, x32},
+	symbolic x coords={x1, x16, x32},
 	enlarge x limits=0.25,
 	legend style={at={(0.25,0.96)}, anchor=north east}
 ]
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.3462) (x8, 1.9726) (x32, 7.4704)};
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.3582) (x8, 1.9938) (x32, 7.6168)};
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.7531588) (x8, 6.0448594) (x32, 23.745275)};
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.7451276) (x8, 6.4407102) (x32, 24.5975472)};
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.2028) (x8, 8.9658) (x32, 34.9936)};
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.1228) (x8, 8.3) (x32, 32.262)};
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.6754) (x8, 0.6784) (x32, 0.7644)};
-\addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 0.6742) (x8, 0.7272) (x32, 0.765)};
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.3462) (x16, 3.7882) (x32, 7.4704)};
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.3582) (x16, 3.8824) (x32, 7.6168)};
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 3.1553452) (x16, 53.32206) (x32, 108.055524)};
+\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 3.2449956) (x16, 52.5604554) (x32, 107.6443716)};
+\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.2028) (x16, 17.9406) (x32, 34.9936)};
+\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.1228) (x16, 16.4402) (x32, 32.262)};
+\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.6754) (x16, 0.7314) (x32, 0.7644)};
+\addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 0.6742) (x16, 0.7704) (x32, 0.765)};
 \legend{Monet cold, Monet hot, Mongo cold, Mongo hot, PostgreSQL cold, PostgreSQL hot, Vertica cold, Vertica hot}
 \end{axis}
 \end{tikzpicture}
@@ -104,18 +104,18 @@ In the following charts to better present the results and more clearly, we chose
 
 \begin{tikzpicture}
 \begin{axis}[
-	symbolic x coords={x1, x8, x32},
+	symbolic x coords={x1, x16, x32},
 	enlarge x limits=0.25,
 	legend style={at={(0.25,0.96)}, anchor=north east}
 ]
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.5458) (x8, 3.882) (x32, 15.477)};
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.5362) (x8, 3.8562) (x32, 15.167)};
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 3.7440264) (x8, 30.6640318) (x32, 122.2530776)};
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 3.7367452) (x8, 30.5411994) (x32, 124.5240324)};
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.7184) (x8, 13.1098) (x32, 51.1124)};
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.6854) (x8, 12.8202) (x32, 50.4318)};
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 2.419) (x8, 10.7408) (x32, 28.8634)};
-\addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 2.4372) (x8, 10.733) (x32, 28.7596)};
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.5458) (x16, 7.6736) (x32, 15.477)};
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.5362) (x16, 7.6634) (x32, 15.167)};
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 3.7440264) (x16, 61.4363946) (x32, 122.2530776)};
+\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 3.7367452) (x16, 61.312647) (x32, 124.5240324)};
+\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.7184) (x16, 26.139) (x32, 51.1124)};
+\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.6854) (x16, 25.5984) (x32, 50.4318)};
+\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 2.419) (x16, 14.8176) (x32, 28.8634)};
+\addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 2.4372) (x16, 14.9642) (x32, 28.7596)};
 \legend{Monet cold, Monet hot, Mongo cold, Mongo hot, PostgreSQL cold, PostgreSQL hot, Vertica cold, Vertica hot}
 \end{axis}
 \end{tikzpicture}
@@ -142,7 +142,7 @@ but it can be a performance bottleneck in CPU-bound and multi-threaded code. Sup
 for maximum performance. In that case, we may consider using an alternative implementation of Python, such as Jython or IronPython, 
 which do not have a GIL or use multiple processes instead of threads.\\\\
 
-{\bfseries PostgreSQL}\\
+\paragraph{PostgreSQL}
 
 Starting with PostgreSQL, we should mention that it implements parallelism at the process level. 
 This means that it could theoretically utilize the capabilities of Python for parallelism (as we mentioned at the beginning of the chapter) 
@@ -159,95 +159,321 @@ Also, the $dynamic\_shared\_memory\_type$ parameter should be enabled with the a
 Below, we see the diagrams that show the results we had running the queries on 1, 2, and 4 cores.
 
 \begin{figure}[!ht]
-\begin{tikzpicture}
-\begin{axis}[
-	symbolic x coords={x1, x8, x32, x128},
-	enlarge x limits=0.18,
-	legend style={at={(0.31,0.95)}, anchor=north east}
-]
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.161) (x8, 0.547) (x32, 1.9026) (x128, 7.4264)};
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1622) (x8, 0.5508) (x32, 1.8896) (x128, 7.3956)};
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.163) (x8, 0.55) (x32, 1.8902) (x128, 7.417)};
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1608) (x8, 0.5416) (x32, 1.8808) (x128, 7.3984)};
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.3176) (x8, 2.1764) (x32, 8.5206) (x128, 32.5684)};
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.3198) (x8, 2.325) (x32, 8.5554) (x128, 31.7244)};
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.356) (x8, 2.1926) (x32, 8.7202) (x128, 32.5684)};
-\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
-PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
-\end{axis}
-\end{tikzpicture}
-	\caption{311 (Parallelism)}
-	\label{fig:311Parallelism}
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x32, x128},
+		enlarge x limits=0.18,
+		legend style={at={(0.64,0.93)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.3176) (x32, 8.5206) (x128, 32.5684) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.3198) (x32, 8.5554) (x128, 31.7244) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.356) (x32, 8.7202) (x128, 32.5684) };
+	\legend{PostgreSQL 1 process, PostgreSQL 1 process, PostgreSQL 1 process}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{PostgreSQL - 311 (Parallelism)}
+		\label{fig:311ParallelismPostgreSQL}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x32, x128},
+		enlarge x limits=0.18,
+		legend style={at={(0.64,0.93)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.2494) (x32, 6.6864) (x128, 25.4232) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.2476) (x32, 6.7178) (x128, 26.367) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.2432) (x32, 6.6638) (x128, 25.8148) };
+	\legend{PostgreSQL 1 process, PostgreSQL 1 process, PostgreSQL 1 process}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{PostgreSQL - Weblogs (Parallelism)}
+		\label{fig:WeblogsParallelismPostgreSQL}
+	\end{minipage}
+	\end{figure}
+	\begin{figure}[!ht]
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x32, x128},
+		enlarge x limits=0.18,
+		legend style={at={(0.64,0.93)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 1.1708) (x32, 33.6204) (x128, 132.1814) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 1.1578) (x32, 33.4664) (x128, 132.8554) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 1.1584) (x32, 32.577) (x128, 133.2398) };
+	\legend{PostgreSQL 1 process, PostgreSQL 1 process, PostgreSQL 1 process}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{PostgreSQL - Zillow1 (Parallelism)}
+		\label{fig:Zillow1ParallelismPostgreSQL}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x32, x128},
+		enlarge x limits=0.18,
+		legend style={at={(0.64,0.93)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 2.0954) (x32, 41.0024) (x128, 161.8368) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 2.257) (x32, 28.473) (x128, 111.4684) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 2.048) (x32, 28.8494) (x128, 115.4764) };
+	\legend{PostgreSQL 1 process, PostgreSQL 1 process, PostgreSQL 1 process}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{PostgreSQL - Zillow2 (Parallelism)}
+		\label{fig:Zillow2ParallelismPostgreSQL}
+	\end{minipage}
+	\end{figure}	
 
-\begin{tikzpicture}
-\begin{axis}[
-	symbolic x coords={x1, x8, x32, x128},
-	enlarge x limits=0.18,
-	legend style={at={(0.31,0.95)}, anchor=north east}
-]
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.146) (x8, 0.6052) (x32, 2.2292) (x128, 9.328)};
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1464) (x8, 0.6046) (x32, 2.2208) (x128, 9.6558)};
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.1456) (x8, 0.6044) (x32, 2.2192) (x128, 9.4814)};
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1464) (x8, 0.6022) (x32, 2.1796) (x128, 9.1778)};
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 0.2494) (x8, 1.7006) (x32, 6.6864) (x128, 25.4232)};
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.2476) (x8, 1.7818) (x32, 6.7178) (x128, 26.367)};
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.2432) (x8, 1.6964) (x32, 6.6638) (x128, 25.8148)};
-\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
-PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
-\end{axis}
-\end{tikzpicture}
-	\caption{Weblogs (Parallelism)}
-	\label{fig:WeblogsParallelism}
-\end{figure}
+\paragraph{MonetDB}
 
 \begin{figure}[!ht]
-\begin{tikzpicture}
-\begin{axis}[
-	symbolic x coords={x1, x8, x32, x128},
-	enlarge x limits=0.18,
-	legend style={at={(0.31,0.95)}, anchor=north east}
-]
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.3454) (x8, 1.9884) (x32, 7.9144) (x128, 31.263)};
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.3622) (x8, 2.0036) (x32, 7.6228) (x128, 30.8102)};
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.3582) (x8, 1.9938) (x32, 7.6168) (x128, 30.754)};
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.339) (x8, 1.9946) (x32, 7.6994) (x128, 30.8414)};
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.1708) (x8, 8.6078) (x32, 33.6204) (x128, 132.1814)};
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.1578) (x8, 8.6272) (x32, 33.4664) (x128, 132.8554)};
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.1584) (x8, 8.3448) (x32, 32.577) (x128, 133.2398)};
-\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
-PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
-\end{axis}
-\end{tikzpicture}
-	\caption{Zillow1 (Parallelism)}
-	\label{fig:Zillow1Parallelism}
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x32, x128},
+		enlarge x limits=0.25,
+		legend style={at={(0.51,0.95)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.161) (x32, 1.9026) (x128, 7.4264) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1622) (x32, 1.8896) (x128, 7.3956) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.163) (x32, 1.8902) (x128, 7.417) };
+	\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1608) (x32, 1.8808) (x128, 7.3984) };
+	\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Seq Pipe}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{Monet - 311 (Parallelism)}
+		\label{fig:311ParallelismMonet}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x32, x128},
+		enlarge x limits=0.25,
+		legend style={at={(0.51,0.95)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.146) (x32, 2.2292) (x128, 9.328) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1464) (x32, 2.2208) (x128, 9.6558) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.1456) (x32, 2.2192) (x128, 9.4814) };
+	\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1464) (x32, 2.1796) (x128, 9.1778) };
+	\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Seq Pipe}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{Monet - Weblogs (Parallelism)}
+		\label{fig:WeblogsParallelismMonet}
+	\end{minipage}
+	\end{figure}
+	\begin{figure}[!ht]
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x32, x128},
+		enlarge x limits=0.25,
+		legend style={at={(0.51,0.95)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.3454) (x32, 7.9144) (x128, 31.263) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.3622) (x32, 7.6228) (x128, 30.8102) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.3582) (x32, 7.6168) (x128, 30.754) };
+	\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.339) (x32, 7.6994) (x128, 30.8414) };
+	\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Seq Pipe}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{Monet - Zillow1 (Parallelism)}
+		\label{fig:Zillow1ParallelismMonet}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x32, x128},
+		enlarge x limits=0.25,
+		legend style={at={(0.51,0.95)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.5304) (x32, 15.1888) (x128, 62.946) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.5506) (x32, 15.2562) (x128, 62.6158) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.5362) (x32, 15.167) (x128, 63.015) };
+	\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.539) (x32, 15.1864) (x128, 62.7628) };
+	\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Seq Pipe}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{Monet - Zillow2 (Parallelism)}
+		\label{fig:Zillow2ParallelismMonet}
+	\end{minipage}
+	\end{figure}
 
-\begin{tikzpicture}
-\begin{axis}[
-	symbolic x coords={x1, x8, x32, x128},
-	enlarge x limits=0.18,
-	legend style={at={(0.31,0.95)}, anchor=north east}
-]
-\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.5304) (x8, 3.8512) (x32, 15.1888) (x128, 62.946)};
-\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.5506) (x8, 3.86) (x32, 15.2562) (x128, 62.6158)};
-\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.5362) (x8, 3.8562) (x32, 15.167) (x128, 63.015)};
-\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.539) (x8, 3.8672) (x32, 15.1864) (x128, 62.7628)};
-\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x1, 1.7136) (x8, 13.0884) (x32, 51.5364) (x128, 202.3072)};
-\addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.6276) (x8, 12.6266) (x32, 49.7454) (x128, 205.8864)};
-\addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.6186) (x8, 12.5826) (x32, 49.3152) (x128, 200.7306)};
-\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Sequential pipe,
-PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
-\end{axis}
-\end{tikzpicture}
-	\caption{Zillow2 (Parallelism)}
-	\label{fig:Zillow2Parallelism}
-\end{figure}
+\paragraph{Vertica}
 
+\begin{figure}[!ht]
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x16, x32},
+		enlarge x limits=0.18,
+		legend style={at={(0.4,0.95)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.3334) (x16, 2.5006) (x32, 4.7736) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.35) (x16, 2.4584) (x32, 4.7226) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.3272) (x16, 2.4998) (x32, 4.7522) };
+	\legend{Vertica P1, Vertica P2, Vertica P4}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{Vertica - 311 (Parallelism)}
+		\label{fig:311ParallelismVertica}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x16, x32},
+		enlarge x limits=0.18,
+		legend style={at={(0.4,0.95)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 1.3702) (x16, 3.855) (x32, 6.3892) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 1.3554) (x16, 3.9134) (x32, 6.5084) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 1.3434) (x16, 3.6574) (x32, 6.1112) };
+	\legend{Vertica P1, Vertica P2, Vertica P4}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{Vertica - Weblogs (Parallelism)}
+		\label{fig:WeblogsParallelismVertica}
+	\end{minipage}
+	\end{figure}
+	\begin{figure}[!ht]
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x32, x128},
+		enlarge x limits=0.18,
+		enlarge y limits=5.7,
+		ymin=0.7,
+		legend style={at={(0.4,0.95)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.7416) (x32, 0.656) (x128, 0.7076) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.6944) (x32, 0.7126) (x128, 0.7512) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.6816) (x32, 0.714) (x128, 0.823) };
+	\legend{Vertica P1, Vertica P2, Vertica P4}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{Vertica - Zillow1 (Parallelism)}
+		\label{fig:Zillow1ParallelismVertica}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+	\begin{tikzpicture}
+	\begin{axis}[
+		symbolic x coords={x1, x32, x128},
+		enlarge x limits=0.18,
+		legend style={at={(0.4,0.95)}, anchor=north east},
+		width = 7cm,
+		height = 7cm
+	]
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 2.0954) (x32, 41.0024) (x128, 161.8368) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 2.257) (x32, 28.473) (x128, 111.4684) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 2.048) (x32, 28.8494) (x128, 115.4764) };
+	\legend{Vertica P1, Vertica P2, Vertica P4}
+	\end{axis}
+	\end{tikzpicture}
+		\caption{Vertica - Zillow2 (Parallelism)}
+		\label{fig:Zillow2ParallelismVertica}
+	\end{minipage}
+	\end{figure}
 
-{\bfseries MonetDB}
-
-
-{\bfseries Vertica}
-
-
-{\bfseries MongoDB}
+\paragraph{MongoDB}
 	
+\begin{figure}[!ht]
+\begin{minipage}{.5\textwidth}
+\begin{tikzpicture}
+\begin{axis}[
+	symbolic x coords={x1, x16, x32},
+	enlarge x limits=0.18,
+	legend style={at={(0.47,0.95)}, anchor=north east},
+	width = 7cm,
+	height = 7cm
+]
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.0934848) (x16, 1.2112494) (x32, 2.3839544) };
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1075664) (x16, 1.2260764) (x32, 2.4011928) };
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.113517) (x16, 1.215507) (x32, 2.3902328) };
+\legend{Mongo 1 Core, Mongo 2 Core, Mongo 4 Core}
+\end{axis}
+\end{tikzpicture}
+	\caption{Mongo - 311 (Parallelism)}
+	\label{fig:311ParallelismMongo}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\begin{tikzpicture}
+\begin{axis}[
+	symbolic x coords={x1, x16, x32},
+	enlarge x limits=0.18,
+	legend style={at={(0.47,0.95)}, anchor=north east},
+	width = 7cm,
+	height = 7cm
+]
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 0.6939822) (x16, 11.303007) (x32, 22.288301) };
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.564085) (x16, 9.0017266) (x32, 17.6031448) };
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.48111) (x16, 7.5024536) (x32, 14.4992794) };
+\legend{Mongo 1 Core, Mongo 2 Core, Mongo 4 Core}
+\end{axis}
+\end{tikzpicture}
+	\caption{Mongo - Weblogs (Parallelism)}
+	\label{fig:WeblogsParallelismMongo}
+\end{minipage}
+\end{figure}
+\begin{figure}[!ht]
+\begin{minipage}{.5\textwidth}
+\begin{tikzpicture}
+\begin{axis}[
+	symbolic x coords={x1, x16, x32},
+	enlarge x limits=0.18,
+	legend style={at={(0.47,0.95)}, anchor=north east},
+	width = 7cm,
+	height = 7cm
+]
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 3.2449956) (x16, 52.5604554) (x32, 107.6443716) };
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 2.3943826) (x16, 38.790527) (x32, 100.0086542) };
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 1.5410532) (x16, 25.9415926) (x32, 79.4014554) };
+\legend{Mongo 1 Core, Mongo 2 Core, Mongo 4 Core}
+\end{axis}
+\end{tikzpicture}
+	\caption{Mongo - Zillow1 (Parallelism)}
+	\label{fig:Zillow1ParallelismMongo}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\begin{tikzpicture}
+\begin{axis}[
+	symbolic x coords={x1, x16, x32},
+	enlarge x limits=0.18,
+	legend style={at={(0.47,0.95)}, anchor=north east},
+	width = 7cm,
+	height = 7cm
+]
+\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 3.7367452) (x16, 61.8848998) (x32, 124.1408488) };
+\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 2.6603464) (x16, 43.2579538) (x32, 110.1501846) };
+\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 1.7257306) (x16, 29.2115762) (x32, 76.596979) };
+\legend{Mongo 1 Core, Mongo 2 Core, Mongo 4 Core}
+\end{axis}
+\end{tikzpicture}
+	\caption{Mongo - Zillow2 (Parallelism)}
+	\label{fig:Zillow2ParallelismMongo}
+\end{minipage}
+\end{figure}
