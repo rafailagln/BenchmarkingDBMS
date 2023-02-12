@@ -481,14 +481,7 @@ final answer, resulting in a "massively parallel processing" (MPP) architecture.
 Vertica to efficiently handle large data volumes and complex queries in a scalable manner. In the experiments 
 conducted, we created three resource pools as depicted in table~\ref{tab:vertBenchProfiles}. 
 Further information regarding the resource pools can be found in Vertica 
-documentation~\footnote{\url{https://www.vertica.com/docs/12.0.x/HTML/Content/Authoring/SQLReferenceManual/SystemTables/CATALOG/RESOURCE_POOLS.htm}}
-
-In most queries, we did not observe a significant improvement to assert that parallelism aided in performance. 
-Queries containing multiple nested SELECT statements without aggregation functions and JOINS(Figure~\ref{fig:Zillow1ParallelismVertica}) 
-appear to remain unaffected to the data volume, and queries containing JOINS (Figure~\ref{fig:WeblogsParallelismVertica}) 
-do not seem to benefit as well.
-However, in (Figure~\ref{fig:Zillow2ParallelismVertica}), 
-we see a significant improvement due to the multiple aggregation functions that are executed in parallel.
+documentation.~\footnote{\url{https://www.vertica.com/docs/12.0.x/HTML/Content/Authoring/SQLReferenceManual/SystemTables/CATALOG/RESOURCE_POOLS.htm}}
 
 There is a possibility that we could see differences in all queries with larger data. 
 As we see in Figure~\ref{fig:Zillow1ParallelismVertica}, the difference increases when we increase the volume. 
