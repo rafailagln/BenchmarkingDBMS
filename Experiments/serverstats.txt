@@ -1,3 +1,4 @@
+CPU:
 Architecture:                    x86_64
 CPU op-mode(s):                  32-bit, 64-bit
 Address sizes:                   36 bits physical, 48 bits virtual
@@ -33,3 +34,37 @@ Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and __user
 Vulnerability Spectre v2:        Mitigation; Retpolines, IBPB conditional, IBRS_FW, STIBP disabled, RSB filling, PBRSB-eIBRS Not affected
 Vulnerability Srbds:             Vulnerable: No microcode
 Vulnerability Tsx async abort:   Not affected
+
+Hard Drive:
+description: ATA Disk
+    product: PNY CS1311 120GB
+    physical id: 0
+    bus info: scsi@0:0.0.0
+    logical name: /dev/sda
+    version: 1122
+    serial: PNY4016219343010160A
+    size: 111GiB (120GB)
+    apabilities: gpt-1.00 partitioned partitioned:gpt
+    configuration: ansiversion=5 guid=0aa378b9-e70e-4833-9671-f9739a3ff2de logicalsectorsize=512 sectorsize=512
+
+RAM:
+*-bank:0
+    description: DIMM DDR3 Synchronous 1333 MHz (0.8 ns)
+    product: JM1333KLN-4G
+    vendor: Transcend
+    physical id: 0
+    serial: 0008D9F8
+    slot: DIMM1
+    size: 4GiB
+    width: 64 bits
+    clock: 1333MHz (0.8ns)
+*-bank:1
+    description: DIMM DDR3 Synchronous 1333 MHz (0.8 ns)
+    product: HMT351U6EFR8C-PB
+    vendor: Hynix/Hyundai
+    physical id: 1
+    serial: 295EC474
+    slot: DIMM3
+    size: 4GiB
+    width: 64 bits
+    clock: 1333MHz (0.8ns)
