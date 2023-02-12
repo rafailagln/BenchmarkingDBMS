@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{report}
+\documentclass[12pt,a4paper, hidelinks]{report}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Language, Encoding and Fonts
 % http://en.wikibooks.org/wiki/LaTeX/Internationalization
@@ -15,7 +15,7 @@
 % encoding of your files by selecting "save as"
 % an select the desired input encoding.
 \usepackage{xpatch}
-
+\usepackage{showframe}
 %\xpretocmd{\part}{\setcounter{section}{0}}{}{}
 \setcounter{secnumdepth}{4}
 \usepackage[utf8]{inputenc}
@@ -171,8 +171,10 @@
 	filecolor=black,%
 	linkcolor=black,% you should probably change this to black before printing
 	urlcolor=black,%
-	pdfstartview=FitH%
+	pdfstartview=FitH,%
+	breaklinks = true %for links in footnotes
 }
+
 \usepackage{enumitem}
 \usepackage{adjustbox}
 \usepackage{listings}
