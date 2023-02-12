@@ -24,8 +24,8 @@
 
 % OK * column based faster (+Vertica and monetdb measurements outperforms others)
 In this section, we will discuss the results of the Evaluation and attempt to interpret and 
-understand them. Initially, as shown in figures~\ref{fig:311Cache},\ref{fig:WeblogsCache}
-,\ref{fig:Zillow1Cache},\ref{fig:Zillow2Cache}, column-based databases such as MonetDB and 
+understand them. Initially, as shown in figures~\ref{fig:311Cache}, \ref{fig:WeblogsCache},
+\ref{fig:Zillow1Cache}, \ref{fig:Zillow2Cache}, column-based databases such as MonetDB and 
 Vertica, provide much better results compared to the row-based PostgreSQL and the NoSQL 
 database MongoDB. This is quite logical as a result of the Vectorization of column-based 
 databases, as they perform fewer function calls. That is, they make fewer calls to Python UDFs, 
@@ -88,8 +88,8 @@ functions (SUM, COUNT, and GROUP BY).
 % * no significant improvements in hot and cold as expected (+citation)
 Starting with the experiments, we concluded that a basic parameter that needed to be examined 
 in the DBMSs we compare is the cache memory, as the reading of data and disk speed play an 
-important role in modern systems. As we see in figures~\ref{fig:311Cache},\ref{fig:WeblogsCache},
-\ref{fig:Zillow1Cache},\ref{fig:Zillow2Cache}, the difference between cold and warm 
+important role in modern systems. As we see in figures~\ref{fig:311Cache}, \ref{fig:WeblogsCache},
+\ref{fig:Zillow1Cache}, \ref{fig:Zillow2Cache}, the difference between cold and warm 
 cache memory is not significant and we cannot extract reliable conclusions about its efficiency. 
 The first reason we believe this happens is the size of the data we use. In other words, 
 because the data is relatively small, there is no need for much I/O for their transfer from 
@@ -130,9 +130,9 @@ number of extra processes/threads given to the system, that is, the more the num
 of processes/threads, the less the execution time. Of course, as we said, this is the 
 theoretical maximum speedup and can never be achieved because there is the communication 
 time between the processes and also parts of the queries that cannot be parallelized. 
-This latter one is also known as Amdahl's law
-% ~\footnote{\url{http://www.cslab.ntua.gr/courses/pps/files/fall2014/pps-notes.pdf}},
-% \footnote{\url{https://en.wikipedia.org/wiki/Amdahl%27s_law}}. 
+This latter one is also known as Amdahl's 
+law~\footnote{\url{http://www.cslab.ntua.gr/courses/pps/files/fall2014/pps-notes.pdf}},
+\footnote{\url{https://en.wikipedia.org/wiki/Amdahl\%27s\_law}}. 
 Amdahl's law states that if 
 $f$ is the proportion of a program that can be made parallel (i.e. benefit from parallelization), 
 and $1-f$ is the proportion that cannot be paralleled (remains serial), then the maximum 
@@ -202,4 +202,53 @@ in performance. We believe this is due to the nature of the query, as it contain
 operation that can be benefited from parallelism. This is because parallel processing 
 allows the join operation to be divided into smaller, independent tasks, which can be 
 executed simultaneously.
+
+
+% * mongodb: 
+%     - 311 distinct -> logically no difference, same 250 to applyUDF -> 
+%     - weblogs, zillow1, zillow2: applyUDF and every time splits data in more partitions 
+%         (-) implementation has no safeguard on how many cores will be utilized
+%     - native mongo much better (i.e. weblogs)
+
+Generally, although MongoDB's functionalities have not be utilized throughout the 
+experiments, there have been noticed some interesting observations in both cache and
+parallelization cases. 
+Firstly, having implemented the zillow1 query using explicitly 
+python filtering, has been proved much faster, but we chose pandas option
+for compliance reasons. Moreover, pandas gave us the choice of the 
+implementation of kernel parallelization~\footnote{Both approaches can be found in our Github repository
+under mongo/src/folder, as well, as the measurements of each approach.}. 
+
+Additionally, in terms of parallelization, generally it is observed
+the performance is scaling (see figures~\ref{fig:Zillow1ParallelismMongo}, 
+\ref{fig:Zillow2ParallelismMongo}, \ref{fig:311ParallelismMongo}). 
+With the exception of weblogs query, in Figure~\ref{fig:WeblogsParallelismMongo}, 
+in which is expected behavior, as the UDF is every time applied on the same 
+set of distinct values (same 250 records every time). Consequently, asking 
+for more computing resources will not benefit the time of execution~\footnote{Again two approaches
+have been tried, one applying the UDF, before finding the distinct values, and one 
+afterwards.}
+However, keep in mind that implementing the parallelization in such way, has no safeguard on checking 
+how many cores will be utilized, which can result in corrupting the OS. 
+
+In both dimensions, cache memory and parallelization, which all DBSs have been 
+benchmarked, MongoDB seems to perform mainly worse than the rest. This is 
+shown that MongoDB as a relationally-treated database seems to be inferior, 
+when compared to other traditional relation databases, despite its widespread
+popularity. Hence, it seems that when it comes to more
+traditional relational databases tasks, such as complex joins and transaction, 
+MongoDB is struggling or not compared to PostgreSQL, Vertica and MonetDB. 
+This contradiction raises questions about the suitability of MongoDB for certain use cases, 
+and highlights the need for further research and evaluation of its performance in comparison 
+to other databases. 
+
+For that reason, weblogs query was selected and implemented in native Mongo, using its 
+embedded query language~\footnote{Check the new query for MongoDB, in the Github repository}.
+Its performance for x32 dataset was 2.4s compared to 22s
+with current implementation. Implementing in MongoDB's query language, meant to transform 
+all UDFs as part of aggregation pipeline, save the output of that pipeline, in a new
+collection and then join the new collection with collection, contained all bad IPs. 
+Despite it can be heard difficult, MongoDB documentation and community, are 
+extremely fine-grained and the implemention will be straightforward. 
+
 
