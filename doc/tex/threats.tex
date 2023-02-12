@@ -1,11 +1,75 @@
 \section{Threats to validity }
 \label{sec:threats}
 
-%TODO
-% Single node running
-% * data: 
-%     - small datasets
-%     - uniform distribution of data
-% * hardware specifications
-% * we do not utilize mongoDB no-schema architecture and we handle it as Relational db, 
-%     + add reference to discussion section
+\par{\textbf{Hardware Specifications}}
+The performance of a database system is highly dependent on the underlying hardware, 
+including the CPU, memory, storage, and network. In order to obtain meaningful results, 
+it is important to ensure that the hardware used for benchmarking is representative 
+of the hardware that will be used in production. 
+If the benchmarking hardware is not powerful enough, 
+it may not be able to fully stress the system, leading to an overestimation of its performance. 
+When benchmarking database systems on a machine with 8GB of RAM~\ref{subsec:systemspecs},
+it is important to consider the memory constraints that this hardware specification imposes. 
+8GB of RAM is a relatively modest amount of memory, especially when compared to the memory 
+requirements of modern databases. This can result in the system being unable to cache large amounts 
+of data in memory, leading to increased disk I/O and decreased performance. 
+Furthermore, the limited memory can also impact the system's ability to handle complex queries.
+It is also important to consider that different database systems have different memory 
+requirements and optimizations, 
+and the performance of a database system on a machine with 8GB of RAM may not be representative 
+of its performance on a machine with more memory. 
+
+On the other hand, if the hardware is too powerful, it may not be representative of the hardware 
+used in production, leading to an underestimation of the performance.
+The use of an \textbf{SSD} can mask the difficulties of running queries on an HDD in a database system. 
+SSDs are much faster than HDDs in terms of read and write speeds, and can greatly improve 
+the performance of a database system, hiding the caching mechanisms. 
+% todo: During the execution of warm/cold cache experiments, 
+% % add reference
+
+\par{\textbf{Data used for the experiments}}
+When benchmarking database systems, it is common to encounter small datasets with a uniform distribution. 
+This scenario can pose a challenge for the performance evaluation of the systems, 
+as small datasets may not fully reflect the characteristics and behaviors of larger datasets 
+in real-world applications. Moreover, uniform distribution, 
+where the data is evenly distributed across the range of values, can lead to an underestimation of 
+the system's ability to handle skewed or imbalanced data distribution. 
+In these cases, it is important to keep in mind that the results obtained 
+from such small datasets may not accurately reflect the performance 
+of the database system in more complex and realistic scenarios, 
+and that larger and diverse datasets should be used for more comprehensive evaluation.
+
+\par{\textbf{Unused MongoDB capabilities}}
+Treating MongoDB collections as dataframes and transforming MongoDB into a relational database can limit 
+the capabilities of MongoDB and negatively impact its performance. 
+MongoDB is designed as a NoSQL database, which means it has a flexible schema and can handle unstructured 
+and semi-structured data, as we mentioned in section~\ref{sec:mongo}. 
+By treating the collections as dataframes, MongoDB is forced to conform to a relational model, 
+which was not proved the best fit for any data one is working with, 
+as Weblogs execution in native mongo showcased in section~\ref{sec:discussion}.
+This resulted in decreased performance and scalability, 
+as MongoDB may have to perform complex and time-consuming transformations 
+to fit the data into the relational model. 
+Additionally, MongoDB is optimized for document-based operations, 
+which are more efficient and scalable than 
+the traditional table-based operations of relational databases. 
+Finally, there is also the ability of scaling (run in parallel) inserts and updates 
+via sharding~\cite{MongoDBSHarding}, 
+where the write operations are spread across many servers.
+By transforming MongoDB into a relational database, 
+one may be losing some of these optimizations and sacrificing performance. 
+
+
+
+% Eventually, in our experiments, while 8GB of RAM were sufficient for small or simple database workloads, 
+% it may not be adequate for more demanding scenarios and larger datasets, 
+% making our results 
+% inadequate for applying the proposed techniques on a potential production environment. 
+% In conclusion, hardware limitations should be carefully considered and taken into account when 
+% benchmarking database systems, in order to obtain accurate and meaningful results.
+% In conclusion, while treating MongoDB collections as dataframes and transforming MongoDB 
+% into a relational database may be convenient, it can limit the capabilities of MongoDB and negatively impact its performance, and should be used with caution.
+% Limitations and challenges of both SSDs and HDDs should be considered when benchmarking a DBS, 
+% as the performance of the system can be greatly impacted by the storage medium used. 
+%In conclusion, while the use of an SSD can improve the performance of a database system, 
+%it can also mask the difficulties and limitations of running queries on an HDD, and should be used with caution when benchmarking a database system.
