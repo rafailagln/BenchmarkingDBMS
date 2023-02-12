@@ -34,21 +34,22 @@ row-based databases, this is not necessary, as it is done automatically by the r
 
 
 \subsubsection{Vertica}
-Python UDFs in Vertica were implemented by following the steps below. 
+Python scalar UDFs in Vertica were implemented by following the steps below. 
 \begin{enumerate}
-	\item Install \emph{vertica\_sdk} library in the .py file
+	\item Install \emph{vertica\_sdk} library in the .py file.
 	\item Write your Python function: The Python function should take 
 	one or more inputs and return a single value, using two classes, namely
-	function's class, fuction's factory class
+	function's class, fuction's factory class.
 	\item Compile the Python function: The \emph{vertica\_sdk} library provides 
-	a udf decorator that you can use to compile your Python function into a shared library
+	a udf decorator that you can use to compile your Python function into a shared library.
 	\item Load the shared library into Vertica: You can use the 
-	\emph{CREATE OR REPLACE LIBRARY} statement  to load the shared library into Vertica, 
-	specifying at the end the programming language (i.e \emph{LANGUAGE Python})
-	The function name and return type must be specified as part of this statement.
+	\emph{CREATE OR REPLACE LIBRARY} statement to load the shared library into Vertica, 
+	specifying at the end the programming language (i.e \emph{LANGUAGE Python}).
+	The Library name and the path of the .py file must be specified as part of this statement.
 	\item Create all python functions by using the command \emph{CREATE OR REPLACE FUNCTION}
-	followed by UDF's name, programming language, name of factory class and library~\ref{lst:verticaUDF} 
+	followed by UDF's name, programming language, name of factory class and library~\ref{lst:verticaUDF} .
 \end{enumerate}
+An example of a library can be found \href{https://www.vertica.com/docs/9.2.x/HTML/Content/Authoring/ExtendingVertica/UDx/ScalarFunctions/Python/PythonExampleAdd2Ints.htm}{here}.
 \begin{lstlisting}[language=sh, caption={Example of UDF in Vertica},label={lst:verticaUDF}] 
 	CREATE OR REPLACE FUNCTION extract_ip 
 	AS LANGUAGE 'Python' NAME 'extract_ip_factory' 
@@ -77,7 +78,7 @@ creating and managing collections, and running aggregation pipelines.
 \subsection{Results}
 
 In this section, we will present the experiments we conducted for each DBMS and analyze them. 
-We chose to examine the behavior of systems with hot and cold cache memory and with the use of parallelism. 
+We chose to examine the behavior of systems with warm and cold cache memory and with the use of parallelism. 
 Particularly in MongoDB, we deemed it worth comparing the performance of the Database in running UDFs using 
 Pandas in Python and natively in MongoEngine (using regular expressions).
 
@@ -134,10 +135,10 @@ warm and cold cache differences are almost insignificant.
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.3136) (x16, 4.1932) (x32, 8.2184)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.3408) (x16, 2.5616) (x32, 4.8236)};
 \addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 0.3514) (x16, 2.5368) (x32, 4.8488)};
-\legend{Monet cold, Monet hot, Mongo cold, Mongo hot, PostgreSQL cold, PostgreSQL hot, Vertica cold, Vertica hot}
+\legend{Monet cold, Monet warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
 \end{axis}
 \end{tikzpicture}
-	\caption{311 (Cold/Hot cache)}
+	\caption{311 (Cold/Warm cache)}
 	\label{fig:311Cache}
 
 \begin{tikzpicture}
@@ -154,10 +155,10 @@ warm and cold cache differences are almost insignificant.
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.2516) (x16, 3.532) (x32, 7.0788)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.4508) (x16, 3.7988) (x32, 6.0396)};
 \addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 1.4228) (x16, 3.7426) (x32, 6.3762)};
-\legend{Monet cold, Monet hot, Mongo cold, Mongo hot, PostgreSQL cold, PostgreSQL hot, Vertica cold, Vertica hot}
+\legend{Monet cold, Monet warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
 \end{axis}
 \end{tikzpicture}
-	\caption{Weblogs (Cold/Hot cache)}
+	\caption{Weblogs (Cold/Warm cache)}
 	\label{fig:WeblogsCache}
 \end{figure}
 
@@ -176,10 +177,10 @@ warm and cold cache differences are almost insignificant.
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.1228) (x16, 16.4402) (x32, 32.262)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.6754) (x16, 0.7314) (x32, 0.7644)};
 \addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 0.6742) (x16, 0.7704) (x32, 0.765)};
-\legend{Monet cold, Monet hot, Mongo cold, Mongo hot, PostgreSQL cold, PostgreSQL hot, Vertica cold, Vertica hot}
+\legend{Monet cold, Monet warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
 \end{axis}
 \end{tikzpicture}
-	\caption{Zillow 1 (Cold/Hot cache)}
+	\caption{Zillow 1 (Cold/Warm cache)}
 	\label{fig:Zillow1Cache}
 
 \begin{tikzpicture}
@@ -196,10 +197,10 @@ warm and cold cache differences are almost insignificant.
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.6854) (x16, 25.5984) (x32, 50.4318)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 2.419) (x16, 14.8176) (x32, 28.8634)};
 \addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 2.4372) (x16, 14.9642) (x32, 28.7596)};
-\legend{Monet cold, Monet hot, Mongo cold, Mongo hot, PostgreSQL cold, PostgreSQL hot, Vertica cold, Vertica hot}
+\legend{Monet cold, Monet warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
 \end{axis}
 \end{tikzpicture}
-	\caption{Zillow 2 (Cold/Hot cache)}
+	\caption{Zillow 2 (Cold/Warm cache)}
 	\label{fig:Zillow2Cache}
 \end{figure}
 
@@ -311,9 +312,9 @@ on 1, 2, and 4 cores.
 		width = 7cm,
 		height = 7cm
 	]
-	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 2.0954) (x32, 41.0024) (x128, 161.8368) };
-	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 2.257) (x32, 28.473) (x128, 111.4684) };
-	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 2.048) (x32, 28.8494) (x128, 115.4764) };
+	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 1.7136) (x32, 51.5364) (x128, 202.3072) };
+	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 1.6276) (x32, 49.7454) (x128, 206.8864) };
+	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 1.6186) (x32, 49.3152) (x128, 200.7306) };
 	\legend{PostgreSQL 1 process, PostgreSQL 1 process, PostgreSQL 1 process}
 	\end{axis}
 	\end{tikzpicture}
@@ -426,6 +427,49 @@ which is the default option of MonetDB.
 	\end{figure}
 
 \paragraph{Vertica}
+
+Unlike PostgreSQL and Monet, which do not employ parallelism in the queries tested, Vertica adopts a different 
+approach utilizing parallelism at both the node and cluster levels~\cite{Lamb2012-ch}.\par
+The Vertica Execution Engine (EE) is responsible for executing all processes for the query plan. 
+A query plan is represented as a tree of operations, where each operator performs a specific algorithm. 
+The EE uses a multi-threaded and pipelined architecture, allowing for multiple operators to run 
+concurrently and multiple threads to execute code for a single operator. Additionally, the EE is 
+vectorized and requests blocks of rows instead of individual rows, similar to the C-Store database.\par
+At the single node level, Vertica employs parallelism on a smaller scale by dividing the data locally 
+and processing it in parallel to keep all cores fully utilized. For instance, multiple GroupBy operators 
+run in parallel and request data from the StorageUnion~\footnote{StorageUnion is a feature in the Vertica database management system that provides support for data storage and retrieval across different storage media.}.\par
+At the cluster level, Vertica divides the data across multiple nodes and executes the query in parallel 
+on each node. The nodes exchange intermediate results and aggregate the final results to produce the 
+final answer, resulting in a "massively parallel processing" (MPP) architecture. This architecture enables 
+Vertica to efficiently handle large data volumes and complex queries in a scalable manner. In the experiments 
+conducted, we created three resource pools as depicted in table~\ref{tab:vertBenchProfiles}. 
+Further information regarding the resource pools can be found in Vertica documentation~\footnote{\url{https://www.vertica.com/docs/12.0.x/HTML/Content/Authoring/SQLReferenceManual/SystemTables/CATALOG/RESOURCE_POOLS.htm}}\par
+In most queries, we did not observe a significant improvement to assert that parallelism aided in performance. 
+Queries containing multiple nested SELECT statements without aggregation functions and JOINS(Figure~\ref{fig:Zillow1ParallelismVertica}) 
+appear to remain unaffected to the data volume, and queries containing JOINS (Figure~\ref{fig:WeblogsParallelismVertica}) do not seem to benefit as well.
+However, in (Figure~\ref{fig:Zillow2ParallelismVertica}) , we see a significant improvement due to the multiple aggregation functions that are executed in parallel.\par
+There is a possibility that we could see differences in all queries with larger data. As we see in Figure~\ref{fig:Zillow1ParallelismVertica}, the difference increases when we increase the volume. 
+It should be noted that parallelism does not always bring better results. This is most evident in Figure~\ref{fig:Zillow1ParallelismVertica} at x128 where Profile 4 takes longer than 2.
+
+\begin{table}[!ht]
+    \caption{Vertica Benchmark Profiles}
+    \label{tab:vertBenchProfiles}
+    \centering
+    \resizebox{\textwidth}{!}{
+		\begin{tabular}{|l|c|c|c|}
+			\hline
+			Property & Profile 1 & Profile 2 & Profile 4 \\ \hline
+			EXECUTIONPARALLELISM & 1 & 2 & 4 \\ \hline
+			MAXCONCURRENCY & 1 & 2 & 4 \\ \hline
+			MAXMEMORYSIZE & 100\% & 100\% & 100\% \\ \hline
+			MAXQUERYMEMORYSIZE & 100\% & 100\% & 100\% \\ \hline
+			PRIORITY & 100 & 100 & 100 \\ \hline
+			RUNTIMEPRIORITY & HIGH & HIGH & HIGH \\ \hline
+			RUNTIMEPRIORITYTHRESHOLD & 0 & 0 & 0 \\ \hline
+			QUEUETIMEOUT & NONE & NONE & NONE \\ \hline
+			RUNTIMECAP & NONE & NONE & NONE \\ \hline
+		\end{tabular}}
+\end{table}
 
 \begin{figure}[!ht]
 	\begin{minipage}{.5\textwidth}
