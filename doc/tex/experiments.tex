@@ -2,6 +2,7 @@
 \label{sec:experiments}
 
 \subsection{Experimental Setup}
+\subsubsection{System specifications}
 \label{subsec:systemspecs}
 For our experiments, we used a server with Intel i5-3470 with 3.20GHz speed. It has 4 sockets with 1 thread per socket. 
 It has also 128 KiB L1d, 128 KiB L1i, 1MiB L2 and 6MiB L3 cache. Due to the CPU architecture, 
@@ -10,6 +11,17 @@ to test parallelization, because it does not support more threads per CPU.
 
 Regarding the memory, it has 8GB DDR3 RAM. Specifically, it has 2 dims of 4 GB each with a speed of 1333 MHz and a width of 64 bits. 
 About storage, it has an SSD drive with 120 GB capacity.
+
+\subsubsection{Query characteristics}
+For benchmarking our DBS, all DBS will be evaluated in terms of performance execution of 
+four queries. 
+The query \textbf{311} consists of a \emph{DISTINCT} aggregate function and a 
+Python UDF applied to the data. The \textbf{Weblogs} query consists mainly of a complex SELECT which 
+applies most of the UDFs and a JOIN of the two datasets of the query. 
+Lastly, \textbf{Zillow1} and \textbf{Zillow2} are two different queries for the same dataset. 
+Zillow1 consists of nested SELECTs where the respective UDFs are applied,
+and the Zillow2 query consists of many aggregate 
+functions (SUM, COUNT, and GROUP BY).
 
 \subsection{Setup DBS for experiments}
 \subsubsection{PostgreSQL}
@@ -91,6 +103,7 @@ In the following charts to better present the results and more clearly, we chose
 (however, all measurements are available for checking). Finally, each measurement is the average of 5 reputations.
 
 \subsubsection{Cache}
+\label{subsec:cache}
 Reading data from disk is still much slower than reading from memories. In
 order to maintain the overall speed of the system, memory is used to cache the most
 recent read data, so next time when the same data is requested; the system will read
@@ -103,7 +116,7 @@ never been executed.
 Second, warm cache is an environment where data and indexes
 reside in the memory by executing the same query prior to conducting the experiment. 
 For cold cache we dropped the file systems caches using
-\begin{lstlisting}[language=bash, caption= {UNIX Commands for clean cache}, label={lst:paralDF}]
+\begin{lstlisting}[language=bash, caption= {UNIX Command for clean cache}, label={lst:paralDF}]
 	echo 3 > sudo /proc/sys/vm/drop_caches
 \end{lstlisting} 
 before each query is performed on OS level. 
@@ -135,7 +148,7 @@ warm and cold cache differences are almost insignificant.
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.3136) (x16, 4.1932) (x32, 8.2184)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.3408) (x16, 2.5616) (x32, 4.8236)};
 \addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 0.3514) (x16, 2.5368) (x32, 4.8488)};
-\legend{Monet cold, Monet warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
+\legend{MonetDB cold, MonetDB warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
 \end{axis}
 \end{tikzpicture}
 	\caption{311 (Cold/Warm cache)}
@@ -155,7 +168,7 @@ warm and cold cache differences are almost insignificant.
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 0.2516) (x16, 3.532) (x32, 7.0788)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 1.4508) (x16, 3.7988) (x32, 6.0396)};
 \addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 1.4228) (x16, 3.7426) (x32, 6.3762)};
-\legend{Monet cold, Monet warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
+\legend{MonetDB cold, MonetDB warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
 \end{axis}
 \end{tikzpicture}
 	\caption{Weblogs (Cold/Warm cache)}
@@ -177,7 +190,7 @@ warm and cold cache differences are almost insignificant.
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.1228) (x16, 16.4402) (x32, 32.262)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 0.6754) (x16, 0.7314) (x32, 0.7644)};
 \addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 0.6742) (x16, 0.7704) (x32, 0.765)};
-\legend{Monet cold, Monet warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
+\legend{MonetDB cold, MonetDB warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
 \end{axis}
 \end{tikzpicture}
 	\caption{Zillow 1 (Cold/Warm cache)}
@@ -197,7 +210,7 @@ warm and cold cache differences are almost insignificant.
 \addplot+ [bar width=0.3cm, ybar, color6!80!black, fill=color6, text=black] coordinates {(x1, 1.6854) (x16, 25.5984) (x32, 50.4318)};
 \addplot+ [bar width=0.3cm, ybar, color7!80!black, fill=color7, text=black] coordinates {(x1, 2.419) (x16, 14.8176) (x32, 28.8634)};
 \addplot+ [bar width=0.3cm, ybar, color8!80!black, fill=color8, text=black] coordinates {(x1, 2.4372) (x16, 14.9642) (x32, 28.7596)};
-\legend{Monet cold, Monet warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
+\legend{MonetDB cold, MonetDB warm, Mongo cold, Mongo warm, PostgreSQL cold, PostgreSQL warm, Vertica cold, Vertica warm}
 \end{axis}
 \end{tikzpicture}
 	\caption{Zillow 2 (Cold/Warm cache)}
@@ -316,7 +329,7 @@ on 1, 2, and 4 cores.
 	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 1.1708) (x32, 33.6204) (x128, 132.1814) };
 	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 1.1578) (x32, 33.4664) (x128, 132.8554) };
 	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 1.1584) (x32, 32.577) (x128, 133.2398) };
-	\legend{PostgreSQL 1 process, PostgreSQL 1 process, PostgreSQL 1 process}
+	\legend{PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 	\end{axis}
 	\end{tikzpicture}
 		\caption{PostgreSQL - Zillow1 (Parallelism)}
@@ -334,7 +347,7 @@ on 1, 2, and 4 cores.
 	\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x1, 1.7136) (x32, 51.5364) (x128, 202.3072) };
 	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 1.6276) (x32, 49.7454) (x128, 206.8864) };
 	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 1.6186) (x32, 49.3152) (x128, 200.7306) };
-	\legend{PostgreSQL 1 process, PostgreSQL 1 process, PostgreSQL 1 process}
+	\legend{PostgreSQL 1 process, PostgreSQL 2 process, PostgreSQL 4 process}
 	\end{axis}
 	\end{tikzpicture}
 		\caption{PostgreSQL - Zillow2 (Parallelism)}
@@ -342,7 +355,9 @@ on 1, 2, and 4 cores.
 	\end{minipage}
 	\end{figure}	
 
-\paragraph{MonetDB}, on the other hand, implements parallelism at thread 
+\paragraph{MonetDB}
+\label{par:MonetFBPar}
+on the other hand, implements parallelism at thread 
 level. 
 That is, for the same process, it generates many threads that operate on 
 the same memory, having common global variables, heap, and code. 
@@ -358,13 +373,13 @@ nthreads through the database configuration, using the
 As for the pipeline method mentioned earlier, MonetDB internally implements
 a type of pipeline to give a speedup in processing the data. 
 The user has the option to disable it with the 
-\emph{monetdb set optpipe=sequential\_pipe <dbname>} command. 
+\emph{monetdb set \linebreak optpipe=sequential\_pipe <dbname>} command. 
 We thought it would be interesting to see how such an option affects the 
 speed of our results. 
 In the following charts, in the sequential pipeline, we used 4 threads 
 which is the default option of MonetDB.
 
-\begin{figure}[!ht]
+\begin{figure}[t]
 	\begin{minipage}{.5\textwidth}
 	\begin{tikzpicture}
 	\begin{axis}[
@@ -378,10 +393,10 @@ which is the default option of MonetDB.
 	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1622) (x32, 1.8896) (x128, 7.3956) };
 	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.163) (x32, 1.8902) (x128, 7.417) };
 	\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1608) (x32, 1.8808) (x128, 7.3984) };
-	\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Seq Pipe}
+	\legend{MonetDB 1 thread, MonetDB 2 thread, MonetDB 4 thread, MonetDB Seq Pipe}
 	\end{axis}
 	\end{tikzpicture}
-		\caption{Monet - 311 (Parallelism)}
+		\caption{MonetDB - 311 (Parallelism)}
 		\label{fig:311ParallelismMonet}
 	\end{minipage}%
 	\begin{minipage}{.5\textwidth}
@@ -397,14 +412,14 @@ which is the default option of MonetDB.
 	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.1464) (x32, 2.2208) (x128, 9.6558) };
 	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.1456) (x32, 2.2192) (x128, 9.4814) };
 	\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.1464) (x32, 2.1796) (x128, 9.1778) };
-	\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Seq Pipe}
+	\legend{MonetDB 1 thread, MonetDB 2 thread, MonetDB 4 thread, MonetDB Seq Pipe}
 	\end{axis}
 	\end{tikzpicture}
-		\caption{Monet - Weblogs (Parallelism)}
+		\caption{MonetDB - Weblogs (Parallelism)}
 		\label{fig:WeblogsParallelismMonet}
 	\end{minipage}
 	\end{figure}
-	\begin{figure}[!ht]
+	\begin{figure}[t]
 	\begin{minipage}{.5\textwidth}
 	\begin{tikzpicture}
 	\begin{axis}[
@@ -418,10 +433,10 @@ which is the default option of MonetDB.
 	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.3622) (x32, 7.6228) (x128, 30.8102) };
 	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.3582) (x32, 7.6168) (x128, 30.754) };
 	\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.339) (x32, 7.6994) (x128, 30.8414) };
-	\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Seq Pipe}
+	\legend{MonetDB 1 thread, MonetDB 2 thread, MonetDB 4 thread, MonetDB Seq Pipe}
 	\end{axis}
 	\end{tikzpicture}
-		\caption{Monet - Zillow1 (Parallelism)}
+		\caption{MonetDB - Zillow1 (Parallelism)}
 		\label{fig:Zillow1ParallelismMonet}
 	\end{minipage}%
 	\begin{minipage}{.5\textwidth}
@@ -437,17 +452,16 @@ which is the default option of MonetDB.
 	\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x1, 0.5506) (x32, 15.2562) (x128, 62.6158) };
 	\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x1, 0.5362) (x32, 15.167) (x128, 63.015) };
 	\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x1, 0.539) (x32, 15.1864) (x128, 62.7628) };
-	\legend{Monet 1 thread, Monet 2 thread, Monet 4 thread, Monet Seq Pipe}
+	\legend{MonetDB 1 thread, MonetDB 2 thread, MonetDB 4 thread, MonetDB Seq Pipe}
 	\end{axis}
 	\end{tikzpicture}
-		\caption{Monet - Zillow2 (Parallelism)}
+		\caption{MonetDB - Zillow2 (Parallelism)}
 		\label{fig:Zillow2ParallelismMonet}
 	\end{minipage}
 	\end{figure}
 
 \paragraph{Vertica}
-
-Unlike PostgreSQL and Monet, which do not employ parallelism in the queries tested, Vertica adopts a different 
+unlike PostgreSQL and Monet, which do not employ parallelism in the queries tested, Vertica adopts a different 
 approach utilizing parallelism at both the node and cluster levels~\cite{LFVT12}.
 
 The Vertica Execution Engine (EE) is responsible for executing all processes for the query plan. 
@@ -617,7 +631,7 @@ library was used.
 \end{lstlisting}
 
 	
-\begin{figure}[!ht]
+\begin{figure}[t]
 \begin{minipage}{.5\textwidth}
 \begin{tikzpicture}
 \begin{axis}[
@@ -655,7 +669,7 @@ library was used.
 	\label{fig:WeblogsParallelismMongo}
 \end{minipage}
 \end{figure}
-\begin{figure}[!ht]
+\begin{figure}[t]
 \begin{minipage}{.5\textwidth}
 \begin{tikzpicture}
 \begin{axis}[
