@@ -236,11 +236,19 @@
     captionpos=t,                    
     keepspaces=true,                 
     numbers=left,                    
-    numbersep=5pt,                  
+    numbersep=-5pt,                  
     showspaces=false,                
     showstringspaces=false,
     showtabs=false,                  
-    tabsize=2
+    tabsize=2, 
+	framexleftmargin=-10pt,
+	framexrightmargin=-10pt,
+	basicstyle=\ttfamily\footnotesize,
+    frame=single, % adds a frame around the code
+    xleftmargin=3.4pt,
+    xrightmargin=3.4pt
 }
 % -- Setting up the custom style:
 \lstset{style=mystyle}
+
+\usepackage[capitalize]{cleveref}
