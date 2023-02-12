@@ -108,6 +108,18 @@ small difference, but we believe not as much as having an HDD disk. In most data
 and data-centers, due to cost, there are still many HDD disks, so there the disk I/O is a 
 significant parameter for the performance of the systems and DBMSs.
 
+To prove our above claim, we conducted another experiment. We installed PostgreSQL on an HDD 
+disk and ran the cache memory experiments again for datasets 8 to 128 times larger than the 
+original data~\footnote{The experiments have been conducted for sizes from 1 to 128 times 
+larger than the original data, but for better presentation these were selected so that the 
+diagram is more understandable and legible.}. The figure~\ref{PostgresHDDCache}, for each 
+dataset shows the execution times for each iteration . As can easily be noticed, the initial 
+iteration for each dataset is with a clean cache, using the command described in the cache 
+section. We see that the first iteration is always slower as the database needs to communicate 
+for the first time with the slower HDD disk. After this iteration, the times stabilize as the 
+data is now cached in the RAM and doesn't need to communicate with the disk. This phenomenon 
+was not observed when using an SSD disk as its speeds are high enough not to show the difference.
+
 
 % Parallelization
 

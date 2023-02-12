@@ -204,6 +204,25 @@ warm and cold cache differences are almost insignificant.
 	\label{fig:Zillow2Cache}
 \end{figure}
 
+\begin{figure}[!ht]
+	\begin{tikzpicture}
+		\begin{axis}[
+			symbolic x coords={x8, x16, x32, x128},
+			enlarge x limits=0.25,
+			legend style={at={(0.17,0.96)}, anchor=north east}
+		]
+		\addplot+ [bar width=0.3cm, ybar, color1!80!black, fill=color1, text=black] coordinates {(x8, 15.162) (x16, 28.787) (x32, 54.982) (x128, 210.854)};
+		\addplot+ [bar width=0.3cm, ybar, color2!80!black, fill=color2, text=black] coordinates {(x8, 12.666) (x16, 26.030) (x32, 51.167) (x128, 202.331)};
+		\addplot+ [bar width=0.3cm, ybar, color3!80!black, fill=color3, text=black] coordinates {(x8, 12.656) (x16, 26.012) (x32, 51.311) (x128, 201.930)};
+		\addplot+ [bar width=0.3cm, ybar, color4!80!black, fill=color4, text=black] coordinates {(x8, 12.650) (x16, 25.995) (x32, 51.141) (x128, 202.150)};
+		\addplot+ [bar width=0.3cm, ybar, color5!80!black, fill=color5, text=black] coordinates {(x8, 12.631) (x16, 25.939) (x32, 51.236) (x128, 202.274)};
+		\legend{1st run, 2nd run, 3rd run, 4th run, 5th run}
+		\end{axis}
+		\end{tikzpicture}
+			\caption{PostgreSQL - Zillow 1 (HDD Cache)}
+			\label{fig:PostgresHDDCache}
+\end{figure}
+
 
 \subsubsection{Parallelization}
 
