@@ -2,6 +2,7 @@
 \label{sec:experiments}
 
 \subsection{Experimental Setup}
+\label{subsec:systemspecs}
 For our experiments, we used a server with Intel i5-3470 with 3.20GHz speed. It has 4 sockets with 1 thread per socket. 
 It has also 128 KiB L1d, 128 KiB L1i, 1MiB L2 and 6MiB L3 cache. Due to the CPU architecture, 
 we decided in our experiments to use 1-2-4 cores/threads, 
@@ -49,7 +50,8 @@ Python scalar UDFs in Vertica were implemented by following the steps below.
 	\item Create all python functions by using the command \emph{CREATE OR REPLACE FUNCTION}
 	followed by UDF's name, programming language, name of factory class and library~\ref{lst:verticaUDF} .
 \end{enumerate}
-An example of a library can be found \href{https://www.vertica.com/docs/9.2.x/HTML/Content/Authoring/ExtendingVertica/UDx/ScalarFunctions/Python/PythonExampleAdd2Ints.htm}{here}.
+An example of a library can be found 
+\href{https://www.vertica.com/docs/9.2.x/HTML/Content/Authoring/ExtendingVertica/UDx/ScalarFunctions/Python/PythonExampleAdd2Ints.htm}{here}.
 \begin{lstlisting}[language=sh, caption={Example of UDF in Vertica},label={lst:verticaUDF}] 
 	CREATE OR REPLACE FUNCTION extract_ip 
 	AS LANGUAGE 'Python' NAME 'extract_ip_factory' 
@@ -59,19 +61,19 @@ An example of a library can be found \href{https://www.vertica.com/docs/9.2.x/HT
 \subsubsection{MongoDB}
 MongoDB is a NoSQL database and does not support executing Python functions
 natively. 
-However, you can execute JavaScript functions within MongoDB using the 
+However, one can execute JavaScript functions within MongoDB using the 
 \emph {function} 
-method, which allows you to run JavaScript code directly on the database server.
+method, which allows one to run JavaScript code directly on the database server.
 So our first alternative to run a Python function in MongoDB was to
 translate it into JavaScript and then run it using \emph{function}. 
 Nevertheless, that way has some limitations and is generally discouraged in production environments, 
 as it can have security implications and can block the server for other operations while it's running. 
-If you need to run complex logic in MongoDB, 
+If one need to run complex logic in MongoDB, 
 it's usually better to implement it outside of the database and interact with MongoDB 
 using the appropriate drivers and APIs.
 We used PyMongo, the Python driver for MongoDB~\footnote{\url{https://api.mongodb.com/python/current/}},
-to interact with a MongoDB database from your Python code. 
-With PyMongo, you can execute operations like reading, writing, and updating documents, 
+to interact with a MongoDB database from one's Python code. 
+With PyMongo, one can execute operations like reading, writing, and updating documents, 
 creating and managing collections, and running aggregation pipelines.
 
 
@@ -101,9 +103,7 @@ never been executed.
 Second, warm cache is an environment where data and indexes
 reside in the memory by executing the same query prior to conducting the experiment. 
 For cold cache we dropped the file systems caches using
-\begin{lstlisting}[language=bash]
-	echo 1 > sudo /proc/sys/vm/drop_caches
-	echo 2 > sudo /proc/sys/vm/drop_caches
+\begin{lstlisting}[language=bash, caption= {UNIX Commands for clean cache}, label={lst:paralDF}]
 	echo 3 > sudo /proc/sys/vm/drop_caches
 \end{lstlisting} 
 before each query is performed on OS level. 
@@ -448,45 +448,56 @@ which is the default option of MonetDB.
 \paragraph{Vertica}
 
 Unlike PostgreSQL and Monet, which do not employ parallelism in the queries tested, Vertica adopts a different 
-approach utilizing parallelism at both the node and cluster levels~\cite{Lamb2012-ch}.\par
+approach utilizing parallelism at both the node and cluster levels~\cite{LFVT12}.
+
 The Vertica Execution Engine (EE) is responsible for executing all processes for the query plan. 
 A query plan is represented as a tree of operations, where each operator performs a specific algorithm. 
 The EE uses a multi-threaded and pipelined architecture, allowing for multiple operators to run 
 concurrently and multiple threads to execute code for a single operator. Additionally, the EE is 
-vectorized and requests blocks of rows instead of individual rows, similar to the C-Store database.\par
+vectorized and requests blocks of rows instead of individual rows, similar to the C-Store database.
+
 At the single node level, Vertica employs parallelism on a smaller scale by dividing the data locally 
 and processing it in parallel to keep all cores fully utilized. For instance, multiple GroupBy operators 
-run in parallel and request data from the StorageUnion~\footnote{StorageUnion is a feature in the Vertica database management system that provides support for data storage and retrieval across different storage media.}.\par
+run in parallel and request data from the StorageUnion~\footnote{StorageUnion is a feature in the Vertica 
+database management system that provides support for data storage and retrieval across different storage media.}.
+
 At the cluster level, Vertica divides the data across multiple nodes and executes the query in parallel 
 on each node. The nodes exchange intermediate results and aggregate the final results to produce the 
 final answer, resulting in a "massively parallel processing" (MPP) architecture. This architecture enables 
 Vertica to efficiently handle large data volumes and complex queries in a scalable manner. In the experiments 
 conducted, we created three resource pools as depicted in table~\ref{tab:vertBenchProfiles}. 
-Further information regarding the resource pools can be found in Vertica documentation~\footnote{\url{https://www.vertica.com/docs/12.0.x/HTML/Content/Authoring/SQLReferenceManual/SystemTables/CATALOG/RESOURCE_POOLS.htm}}\par
+Further information regarding the resource pools can be found in Vertica 
+documentation~\footnote{\url{https://www.vertica.com/docs/12.0.x/HTML/Content/Authoring/SQLReferenceManual/SystemTables/CATALOG/RESOURCE_POOLS.htm}}
+
 In most queries, we did not observe a significant improvement to assert that parallelism aided in performance. 
 Queries containing multiple nested SELECT statements without aggregation functions and JOINS(Figure~\ref{fig:Zillow1ParallelismVertica}) 
-appear to remain unaffected to the data volume, and queries containing JOINS (Figure~\ref{fig:WeblogsParallelismVertica}) do not seem to benefit as well.
-However, in (Figure~\ref{fig:Zillow2ParallelismVertica}) , we see a significant improvement due to the multiple aggregation functions that are executed in parallel.\par
-There is a possibility that we could see differences in all queries with larger data. As we see in Figure~\ref{fig:Zillow1ParallelismVertica}, the difference increases when we increase the volume. 
-It should be noted that parallelism does not always bring better results. This is most evident in Figure~\ref{fig:Zillow1ParallelismVertica} at x128 where Profile 4 takes longer than 2.
+appear to remain unaffected to the data volume, and queries containing JOINS (Figure~\ref{fig:WeblogsParallelismVertica}) 
+do not seem to benefit as well.
+However, in (Figure~\ref{fig:Zillow2ParallelismVertica}), 
+we see a significant improvement due to the multiple aggregation functions that are executed in parallel.
+
+There is a possibility that we could see differences in all queries with larger data. 
+As we see in Figure~\ref{fig:Zillow1ParallelismVertica}, the difference increases when we increase the volume. 
+It should be noted that parallelism does not always bring better results. 
+This is most evident in Figure~\ref{fig:Zillow1ParallelismVertica} at x128 where Profile 4 takes longer than 2.
 
 \begin{table}[!ht]
     \caption{Vertica Benchmark Profiles}
     \label{tab:vertBenchProfiles}
     \centering
-    \resizebox{\textwidth}{!}{
+	\scalebox{0.7}{
 		\begin{tabular}{|l|c|c|c|}
 			\hline
-			Property & Profile 1 & Profile 2 & Profile 4 \\ \hline
-			EXECUTIONPARALLELISM & 1 & 2 & 4 \\ \hline
-			MAXCONCURRENCY & 1 & 2 & 4 \\ \hline
-			MAXMEMORYSIZE & 100\% & 100\% & 100\% \\ \hline
-			MAXQUERYMEMORYSIZE & 100\% & 100\% & 100\% \\ \hline
-			PRIORITY & 100 & 100 & 100 \\ \hline
-			RUNTIMEPRIORITY & HIGH & HIGH & HIGH \\ \hline
-			RUNTIMEPRIORITYTHRESHOLD & 0 & 0 & 0 \\ \hline
-			QUEUETIMEOUT & NONE & NONE & NONE \\ \hline
-			RUNTIMECAP & NONE & NONE & NONE \\ \hline
+			\textbf{Property} & \textbf{Profile 1} & \textbf{Profile 2} & \textbf{Profile 4} \\ \hline
+			\emph{EXECUTIONPARALLELISM} & 1 & 2 & 4 \\ \hline
+			\emph{MAXCONCURRENCY} & 1 & 2 & 4 \\ \hline
+			\emph{MAXMEMORYSIZE} & 100\% & 100\% & 100\% \\ \hline
+			\emph{MAXQUERYMEMORYSIZE} & 100\% & 100\% & 100\% \\ \hline
+			\emph{PRIORITY} & 100 & 100 & 100 \\ \hline
+			\emph{RUNTIMEPRIORITY} & HIGH & HIGH & HIGH \\ \hline
+			\emph{RUNTIMEPRIORITYTHRESHOLD} & 0 & 0 & 0 \\ \hline
+			\emph{QUEUETIMEOUT} & NONE & NONE & NONE \\ \hline
+			\emph{RUNTIMECAP} & NONE & NONE & NONE \\ \hline
 		\end{tabular}}
 \end{table}
 
@@ -569,7 +580,42 @@ It should be noted that parallelism does not always bring better results. This i
 	\end{minipage}
 	\end{figure}
 
-\paragraph{MongoDB}
+\paragraph{MongoDB} in its native implementation, is capable 
+of carrying query execution in parallel. 
+Based on its original documentation~\cite{MogoDBConc}, mongod process uses a modified 
+reader/writer lock with dynamic yielding on page faults
+and long operations. Any number of concurrent 
+read operations are allowed, but a write operation can block all 
+other operation. 
+
+
+can be the right choice for concurrency, 
+as multi-granularity locking is used, which allows
+operations to lock at the global, database or collection level. 
+Additionally, for individual storage engines, it is allowed
+to implement their own concurrency control below the collection level. 
+In terms of compliance, pandas library was used, and the parallelism was done
+on python level. In other words, we solve the problem of having 
+a big dataframe, and one wants to apply a complex function to every 
+record of this dataframe, which takes a lot of time. 
+More specifically, we use a function~\ref{lst:paralDF} 
+as proposed in this article~\cite{ParallelDF}, 
+which breaks the dataframe into \emph{n\_cores} parts, 
+and spawns \emph{n\_cores} processes which apply 
+the function to all the pieces. Once 
+Pool from multiprocessing 
+library was used.
+\begin{lstlisting}[language=Python, caption= {Kernel Parallelization in Python}, 
+	label={lst:paralDF}]
+	def parallelize_dataframe(df, func, n_cores=4):
+		df_split = np.array_split(df, n_cores)
+		pool = Pool(n_cores)
+		df = pd.concat(pool.map(func, df_split))
+		pool.close()
+		pool.join()
+		return df
+\end{lstlisting}
+
 	
 \begin{figure}[!ht]
 \begin{minipage}{.5\textwidth}
