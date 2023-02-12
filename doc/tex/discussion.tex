@@ -3,16 +3,16 @@
 
 %TODO
 % Figures 1-4: 
-% * column based faster (+Vertica and monetdb measurements outperforms others)
-% * no significant improvements in hot and cold as expected (+citation)
-% * queries: 
-%     - zillow1: many nested calls
-%     - Weblogs: join 
-%     - zillow2, 311 aggregated
-% * size of data differences: linear increase
-% * postgres parallelism: no difference independently the query 
-%     + reasons: query plan execution, #data, hardware
-% * monetdb: same
+% OK * column based faster (+Vertica and monetdb measurements outperforms others)
+% OK * size of data differences: linear increase
+% OK * queries: 
+%      - zillow1: many nested calls
+%      - Weblogs: join 
+%      - zillow2, 311 aggregated
+% OK * no significant improvements in hot and cold as expected (+citation)
+% OK * postgres parallelism: no difference independently the query 
+%      + reasons: query plan execution, #data, hardware
+% OK * monetdb: same
 % * vertica, only zillow2 (many aggregations), followed by weblogs which has join
 %     - no difference on nested queries
 % * mongodb: 
@@ -20,4 +20,173 @@
 %     - weblogs, zillow1, zillow2: applyUDF and every time splits data in more partitions 
 %         (-) implementation has no safeguard on how many cores will be utilized
 %     - native mongo much better (i.e. weblogs)
+
+
+% OK * column based faster (+Vertica and monetdb measurements outperforms others)
+In this section, we will discuss the results of the Evaluation and attempt to interpret and 
+understand them. Initially, as shown in figures~\ref{fig:311Cache},\ref{fig:WeblogsCache}
+,\ref{fig:Zillow1Cache},\ref{fig:Zillow2Cache}, column-based databases such as MonetDB and 
+Vertica, provide much better results compared to the row-based PostgreSQL and the NoSQL 
+database MongoDB. This is quite logical as a result of the Vectorization of column-based 
+databases, as they perform fewer function calls. That is, they make fewer calls to Python UDFs, 
+which as can easily be seen are slower than the embedded functions of the databases as they 
+are executed on the PythonEngine.
+
+Specifically, Vectorization in column-based databases refers to the process of processing 
+multiple data values in a single operation, as opposed to processing them one at a time. 
+In a column-based database, data is stored in columns rather than rows, so vectorized 
+operations can take advantage of this layout to perform faster processing on large data 
+sets. For example, if a database contains a column of numbers, a vectorized operation 
+can process the entire column of numbers in a single operation, rather than processing each 
+number individually. This can result in significant performance improvements, because the 
+processor can work on large amounts of data in parallel, rather than having to switch between 
+individual operations. Vectorization is a key feature of column-based databases and is one of 
+the reasons why they can provide fast and efficient processing of big data sets.
+
+
+% * size of data differences: linear increase
+We should also note that observing the graphs, especially those related to parallelism 
+(figure~\ref{fig:311ParallelismPostgreSQL} to figure~\ref{fig:Zillow2ParallelismMongo}), 
+the execution times of the queries are almost linearly related to the amount of 
+data. Of course, the relationship between the size of the data and the execution time 
+of a query in a database is determined by many factors, such as the complexity of the 
+query, the performance of the hardware, the efficiency of the database management system, 
+and the design of the database schema. However, in general, as the size of the data doubles, 
+the execution time of a query can be expected to increase approximately by the same factor.
+
+This happens because the amount of work required to retrieve and process the data in a 
+query increases as the size of the data increases. For example, if a query requires 
+scanning through all of the data in a table, then as the size of the table doubles, 
+the amount of time required to scan the table will also double. Similarly, if a query 
+involves performing calculations or processing on each individual record, then as the 
+number of records increases, the amount of time required to perform the calculation or 
+processing will also increase.
+
+It's worth noting that this relationship may not hold true in all cases, as there are 
+many factors that can impact the performance of a query, such as the choice of DBMS. 
+As we can see from figures ~\ref{fig:Zillow1Cache} and ~\ref{fig:Zillow1ParallelismVertica}, 
+Vertica performs much better for the Zillow1 query that has many nested selects, 
+regardless of the volume of data, making almost the same time for each amount of data, 
+compared to other databases.
+
+
+% * queries: 
+%     - zillow1: many nested calls
+%     - Weblogs: join 
+%     - zillow2, 311: aggregated
+Before we proceed with the further analysis of the results, it is necessary to analyze and 
+examine the nature of the queries we are studying, in order to have a better understanding 
+of the results. Initially, we have 4 queries and the corresponding dataset for each of them. 
+The query 311 is relatively simple as it consists of a DISTINCT aggregate function and a 
+Python UDF applied to the data. The Weblogs query consists mainly of a complex SELECT which 
+applies most of the UDFs and a JOIN of the two datasets of the query. Finally, Zillow1 and 
+Zillow2 are two different queries for the same dataset. Zillow1 consists of many complex SELECTs 
+where the respective UDFs are applied, and the Zillow2 query consists of many aggregate 
+functions (SUM, COUNT, and GROUP BY).
+
+
+% * no significant improvements in hot and cold as expected (+citation)
+Starting with the experiments, we concluded that a basic parameter that needed to be examined 
+in the DBMSs we compare is the cache memory, as the reading of data and disk speed play an 
+important role in modern systems. As we see in figures~\ref{fig:311Cache},\ref{fig:WeblogsCache},
+\ref{fig:Zillow1Cache},\ref{fig:Zillow2Cache}, the difference between cold and warm 
+cache memory is not significant and we cannot extract reliable conclusions about its efficiency. 
+The first reason we believe this happens is the size of the data we use. In other words, 
+because the data is relatively small, there is no need for much I/O for their transfer from 
+the disk. Also, in most queries the results are also small, so writing them to the disk is 
+not a major factor of performance. A small exception to this is query Zillow1, where we 
+can say that the ratio of data produced by the query compared to the initial data is 
+significant, so we observe a slight increase in performance in the warm cache in PostgreSQL.
+
+We also consider that another reason we don't see significant differences between cold and 
+warm cache is the disk we use. Nowadays, due to the high speed of SSD disks and their internal 
+cache to respond to data requests, their access is fast enough and therefore no significant 
+difference is seen when having the data in memory or in disk. Furthermore, as we said before, 
+because the size of data is small, there is no need for many disk accesses to have access to 
+them. In the opposite case, if we had to go to the disk many times, it would again show a 
+small difference, but we believe not as much as having an HDD disk. In most data-warehouses 
+and data-centers, due to cost, there are still many HDD disks, so there the disk I/O is a 
+significant parameter for the performance of the systems and DBMSs.
+
+
+% Parallelization
+
+The second factor we compared the DBMSs with is parallelism. By executing a query in parallel, 
+we can see a significant improvement in time. The ideal improvement factor is equal to the 
+number of extra processes/threads given to the system, that is, the more the number 
+of processes/threads, the less the execution time. Of course, as we said, this is the 
+theoretical maximum speedup and can never be achieved because there is the communication 
+time between the processes and also parts of the queries that cannot be parallelized. 
+This latter one is also known as Amdahl's law
+% ~\footnote{\url{http://www.cslab.ntua.gr/courses/pps/files/fall2014/pps-notes.pdf}},
+% \footnote{\url{https://en.wikipedia.org/wiki/Amdahl%27s_law}}. 
+Amdahl's law states that if 
+$f$ is the proportion of a program that can be made parallel (i.e. benefit from parallelization), 
+and $1-f$ is the proportion that cannot be paralleled (remains serial), then the maximum 
+speedup that can be achieved by using $p$ processors is: 
+\begin{equation}
+    S_{max} = \frac{1}{\left ( 1-f \right ) + \frac{f}{p}}
+\end{equation}
+Although simple in its essence, Amdahl's law provides the initial and most significant 
+guide to parallelization and in general to code optimization: any optimization approach 
+should focus on the part of the algorithm that dominates the execution time.
+
+
+% * postgres parallelism: no difference independently the query 
+%     + reasons: query plan execution, #data, hardware
+
+We will start by examining how each database is affected by parallelism. First, we will 
+examine PostgreSQL. We see from figures~\ref{fig:311ParallelismPostgreSQL},\ref{fig:WeblogsParallelismPostgreSQL}
+,\ref{fig:Zillow1ParallelismPostgreSQL},\ref{fig:Zillow2ParallelismPostgreSQL} that 
+PostgreSQL is not affected at all by the addition of extra cores, and the differences 
+seen in the diagrams are so small that we cannot draw any reliable conclusions. 
+This is in contrast to what we expected, as Python uses parallelism at the process level too, 
+so we thought we would see improvements in performance. Observing the execution of queries 
+in PostgreSQL (using the "explain" and "analyze" commands), we saw that the database's 
+query planner did not choose to add more workers (as they are called in the PostgreSQL language) 
+during query execution, effectively ignoring the settings in the configuration file. 
+We believe this is because the planner has a better overview of the system and deemed 
+that adding more workers would not benefit system performance. The amount and nature of data 
+we believe played a significant role in this. Our data consists of multiple iterations of the 
+original data, so they have a relatively uniform distribution and are relatively predictable, 
+so that the query planner can keep statistics that help him make decisions. We also consider 
+that with the use of different hardware, that is, more powerful and modern, with more cores and 
+more memory, we could have a greater difference in the results, as far as parallel performance 
+in PostgreSQL is concerned.
+
+% * monetdb: same
+As in the PostgreSQL we analyzed before, so in MonetDB we observe from figures~\ref{fig:311ParallelismMonet},
+\ref{fig:WeblogsParallelismMonet},\ref{fig:Zillow1ParallelismMonet},\ref{fig:Zillow2ParallelismMonet} 
+that there is no difference in performance by adding additional threads. That is, 
+we see that MonetDB does not benefit at all with regards to parallelism, at least 
+for these specific queries. As we said in section 6.3.2.2, Python does not use threads for 
+parallelism but processes, so we could say that this is a reason why we do not see a difference. 
+Also, MonetDB has its own form of parallelism in which it internally creates a pipeline to 
+pass data to the next processing stage more quickly. Disabling this feature (setting the 
+value to $sequential\_pipe$) and again we do not see any difference in the performance of 
+the queries. We consider that we do not see differences for three main reasons. The first 
+is, as mentioned in PostgreSQL, the amount and nature of the data. We believe that the data 
+is not enough in quantity and heterogeneous to show the capabilities of parallelism in MonetDB. 
+The second is the nature of the queries as they cannot fully exploit parallelism. Least but not 
+last, we believe that the hardware is not enough to give us significant differences, as we can 
+have only 1 thread per core. Finally, we consider that the differences observed in 
+figure~\ref{fig:WeblogsParallelismMonet} are some anomaly of the system.
+
+% * vertica, only zillow2 (many aggregations), followed by weblogs which has join
+%     - no difference on nested queries
+Compared to the two previous DBMSs (PostgreSQL and MonetDB), we can say that we see a 
+difference in terms of parallelization in Vertica. Specifically, in the Zillow2 query 
+(figure~\ref{fig:Zillow2ParallelismVertica}), which consists of many aggregated functions 
+(SUM, COUNT, and GROUP BY), we observe that the difference mainly from one to two cores 
+is quite significant. From there, we can draw the safe conclusion that aggregate functions 
+and aggregated data can be exploited to a large extent in parallelism. Aggregate functions 
+in SQL are helped by parallelization because they are designed to perform operations on a 
+large amount of data. When these operations are executed in parallel, they can be completed 
+much faster than if they were executed sequentially. Parallel processing divides the data into 
+smaller parts, allowing each part to be processed simultaneously. Additionally, we observe 
+from the Weblogs query (figure~\ref{fig:WeblogsParallelismVertica}) a slight improvement 
+in performance. We believe this is due to the nature of the query, as it contains a JOIN 
+operation that can be benefited from parallelism. This is because parallel processing 
+allows the join operation to be divided into smaller, independent tasks, which can be 
+executed simultaneously.
 
