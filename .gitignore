@@ -71,3 +71,6 @@ mongo/**/myvenv
 
 # hidden dirs
 .idea/*
+
+# ignore examples folder for dask and spark
+examples/
